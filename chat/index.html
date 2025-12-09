@@ -1,17 +1,17 @@
-<!DOCTYPE html><html lang="pt-BR"><head>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
 
   <meta charset="UTF-8">
-   
   
-<!-- Pixel Utmify -->
-
-<script type="text/javascript">
+  <!-- Pixel Utmify / Clarity -->
+  <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "swxyif3oa6");
-</script>
+  </script>
   <script type="text/javascript">
     (function (c, l, a, r, i, t, y) {
       c[a] =
@@ -26,28 +26,28 @@
       y.parentNode.insertBefore(t, y);
     })(window, document, "clarity", "script", "sgok0woyb3");
   </script>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pré-Análise</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              shopee: {
-                light: "#ffdc00",
-                DEFAULT: "#1a5e9c",
-                dark: "#1a5e9c",
-                laranja: "#f7941c",
-                
-              },
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            shopee: {
+              light: "#ffdc00",
+              DEFAULT: "#1a5e9c",
+              dark: "#1a5e9c",
+              laranja: "#f7941c",
             },
           },
         },
-      };
-    </script>
+      },
+    };
+  </script>
   <style>
     body {
       font-family: "Poppins", sans-serif;
@@ -76,29 +76,20 @@
       left: -50%;
       width: 200%;
       height: 200%;
-      background: linear-gradient(to right,
-          rgba(255, 255, 255, 0) 0%,
-          rgba(255, 255, 255, 0.3) 50%,
-          rgba(255, 255, 255, 0) 100%);
+      background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
       transform: rotate(30deg);
       animation: shine 4s infinite;
     }
 
     @keyframes shine {
-      0% {
-        left: -100%;
-        opacity: 0;
-      }
-
-      10% {
-        left: 100%;
-        opacity: 0.6;
-      }
-
-      100% {
-        left: 100%;
-        opacity: 0;
-      }
+      0% { left: -100%; opacity: 0; }
+      10% { left: 100%; opacity: 0.6; }
+      100% { left: 100%; opacity: 0; }
     }
 
     .floating {
@@ -106,17 +97,9 @@
     }
 
     @keyframes float {
-      0% {
-        transform: translateY(0px);
-      }
-
-      50% {
-        transform: translateY(-10px);
-      }
-
-      100% {
-        transform: translateY(0px);
-      }
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
     }
 
     .progress-container {
@@ -171,27 +154,37 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    /* 🔥 Animação customizada pro círculo girar, independente do Tailwind */
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .custom-spin {
+      animation: spin 1s linear infinite;
+    }
   </style>
 </head>
 
 <body class="bg-gray-50">
-    
-<script>
-  window.pixelId = "692cedccf1d8644d9b7bb3bc";
-  var a = document.createElement("script");
-  a.setAttribute("async", "");
-  a.setAttribute("defer", "");
-  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
-  document.head.appendChild(a);
-</script>
-<script
-  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
-  data-utmify-prevent-xcod-sck
-  data-utmify-prevent-subids
-  async
-  defer
-></script>
-    
+  
+  <script>
+    window.pixelId = "692cedccf1d8644d9b7bb3bc";
+    var a = document.createElement("script");
+    a.setAttribute("async", "");
+    a.setAttribute("defer", "");
+    a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+    document.head.appendChild(a);
+  </script>
+  <script
+    src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+    data-utmify-prevent-xcod-sck
+    data-utmify-prevent-subids
+    async
+    defer
+  ></script>
+  
   <div id="quizPage" class="max-w-md mx-auto min-h-screen flex flex-col relative bg-white page-transition">
     <!-- Header com voltar -->
     <div class="flex items-center p-4 border-b">
@@ -275,7 +268,7 @@
           </div>
         </div>
 
-        <!-- Pergunta 2 (oculta inicialmente) -->
+        <!-- Pergunta 2 -->
         <div id="question2" class="quiz-question hidden">
           <h2 class="text-xl font-bold text-gray-800 mb-4">
             Possui renda fixa atualmente?
@@ -325,7 +318,7 @@
           </div>
         </div>
 
-        <!-- Pergunta 3 (oculta inicialmente) -->
+        <!-- Pergunta 3 -->
         <div id="question3" class="quiz-question hidden">
           <h2 class="text-xl font-bold text-gray-800 mb-4">
             Seu nome está negativado atualmente?
@@ -370,7 +363,7 @@
           </div>
         </div>
 
-        <!-- Pergunta 4 (oculta inicialmente) -->
+        <!-- Pergunta 4 -->
         <div id="question4" class="quiz-question hidden">
           <h2 class="text-xl font-bold text-gray-800 mb-4">
             Já tentou solicitar algum tipo de crédito online nos últimos 6
@@ -417,7 +410,7 @@
           </div>
         </div>
 
-        <!-- Pergunta 5 (Vencimento do empréstimo) -->
+        <!-- Pergunta 5 -->
         <div id="question5" class="quiz-question hidden">
           <h2 class="text-xl font-bold text-gray-800 mb-4">
             Qual o melhor dia pra vencimento do seu empréstimo?
@@ -474,7 +467,7 @@
           </div>
         </div>
 
-        <!-- Pergunta 6 (Finalidade do crédito) -->
+        <!-- Pergunta 6 -->
         <div id="question6" class="quiz-question hidden">
           <h2 class="text-xl font-bold text-gray-800 mb-4">
             Pra qual finalidade você precisa desse crédito?
@@ -535,7 +528,7 @@
           </div>
         </div>
 
-        <!-- Pergunta 7 (Cartão de Crédito) -->
+        <!-- Pergunta 7 -->
         <div id="question7" class="quiz-question hidden">
           <h2 class="text-xl font-bold text-gray-800 mb-4">
             Você já possui cartão de crédito ativo?
@@ -593,12 +586,13 @@
           </button>
         </div>
 
-        <!-- Tela de análise (oculta inicialmente) -->
+        <!-- Tela de análise -->
         <div id="analysisScreen" class="quiz-question hidden">
           <div class="text-center py-6 md:py-12">
             <div class="relative w-32 h-32 mx-auto mb-8">
               <div class="absolute inset-0 rounded-full border-4 border-gray-200"></div>
-              <div class="absolute inset-0 rounded-full border-4 border-transparent border-t-shopee animate-spin"></div>
+              <!-- 🔥 AQUI: adicionei .custom-spin pra garantir o giro -->
+              <div class="absolute inset-0 rounded-full border-4 border-transparent border-t-shopee custom-spin"></div>
               <div class="absolute inset-0 flex items-center justify-center">
                 <i class="fas fa-shield-alt text-shopee text-3xl"></i>
               </div>
@@ -641,7 +635,7 @@
           </div>
         </div>
 
-        <!-- Resultado (oculto inicialmente) -->
+        <!-- Resultado -->
         <div id="quizResult" class="quiz-question hidden">
           <div class="text-center py-6">
             <div class="bg-green-100 p-4 rounded-full inline-flex items-center justify-center mb-4">
@@ -694,7 +688,6 @@
         return;
       }
 
-      // Tentar analisar os dados JSON
       try {
         const dadosUsuario = JSON.parse(dadosUsuarioJSON);
         if (!dadosUsuario.nome || !dadosUsuario.cpf) {
@@ -709,8 +702,6 @@
           dadosUsuario.cpf
         );
 
-        // Limpar quaisquer outros valores salvos no localStorage que possam interferir
-        // Remover valores antigos para evitar conflitos
         localStorage.removeItem("nomeCompleto");
         localStorage.removeItem("cpfUsuario");
       } catch (error) {
@@ -732,64 +723,57 @@
         "btnConfirmarTelefone"
       );
 
-      // Estado do quiz
       let currentQuestion = 1;
       const totalQuestions = 8;
       const userAnswers = {};
       let telefone = "";
-      let nomeCompleto = "";
-      let cpfUsuario = "";
-      let analysisStarted = false; // Flag para controlar o início da análise
+      let analysisStarted = false;
 
-      // Atualizar progresso
       function updateProgress() {
         const progress = (currentQuestion / totalQuestions) * 100;
         progressBar.style.width = `${progress}%`;
         progressText.textContent = `${currentQuestion}/${totalQuestions}`;
       }
 
-      // Iniciar sequência de análise
       function startAnalysis() {
-        // Evitar que a análise inicie mais de uma vez
         if (analysisStarted) return;
         analysisStarted = true;
 
-        const loadingBar = document.getElementById("loadingProgressBar");
+        console.log("Iniciando animação de análise...");
 
-        // Inicializar barra de progresso
+        const loadingBar = document.getElementById("loadingProgressBar");
+        if (!loadingBar) {
+          console.error("Elemento loadingProgressBar não encontrado");
+          return;
+        }
+
         loadingBar.style.width = "0%";
 
-        // Etapa 1: Verificar score (0-20%)
         setTimeout(() => {
           document.getElementById("statusScore").innerHTML =
             '<i class="fas fa-check-circle text-green-500"></i>';
           loadingBar.style.width = "20%";
 
-          // Etapa 2: Consultar limite (20-40%)
           setTimeout(() => {
             document.getElementById("statusLimite").innerHTML =
               '<i class="fas fa-check-circle text-green-500"></i>';
             loadingBar.style.width = "40%";
 
-            // Etapa 3: Analisar benefícios (40-60%)
             setTimeout(() => {
               document.getElementById("statusBeneficios").innerHTML =
                 '<i class="fas fa-check-circle text-green-500"></i>';
               loadingBar.style.width = "60%";
 
-              // Etapa 4: Calcular rendimentos (60-80%)
               setTimeout(() => {
                 document.getElementById("statusRendimentos").innerHTML =
                   '<i class="fas fa-check-circle text-green-500"></i>';
                 loadingBar.style.width = "80%";
 
-                // Etapa 5: Processar aprovação (80-100%)
                 setTimeout(() => {
                   document.getElementById("statusAprovacao").innerHTML =
                     '<i class="fas fa-check-circle text-green-500"></i>';
                   loadingBar.style.width = "100%";
 
-                  // Após terminar todas as etapas, mostrar resultado
                   setTimeout(() => {
                     document
                       .getElementById("analysisScreen")
@@ -798,8 +782,6 @@
                       .getElementById("quizResult")
                       .classList.remove("hidden");
                     progressText.textContent = "Concluído";
-
-                    // Mostrar botão de solicitar
                     btnSolicitar.classList.remove("hidden");
                   }, 700);
                 }, 1200);
@@ -809,35 +791,30 @@
         }, 1000);
       }
 
-      // Avançar para a próxima pergunta
       function goToNextQuestion() {
-        // Ocultar pergunta atual
         const currentQuestionEl = document.getElementById(
           `question${currentQuestion}`
         );
-        currentQuestionEl.classList.add("hidden");
+        if (currentQuestionEl) {
+          currentQuestionEl.classList.add("hidden");
+        }
 
         if (currentQuestion < totalQuestions) {
-          // Mostrar próxima pergunta
           currentQuestion++;
-          document
-            .getElementById(`question${currentQuestion}`)
-            .classList.remove("hidden");
+          const nextEl = document.getElementById(`question${currentQuestion}`);
+          if (nextEl) nextEl.classList.remove("hidden");
           updateProgress();
         } else {
-          // Mostrar tela de análise
           document
             .getElementById("analysisScreen")
             .classList.remove("hidden");
           progressBar.style.width = "100%";
           progressText.textContent = "Analisando";
 
-          // Iniciar análise com um pequeno delay para garantir que a tela seja renderizada primeiro
           setTimeout(startAnalysis, 300);
         }
       }
 
-      // Selecionar opção (agora avança automaticamente)
       document.querySelectorAll(".quiz-option").forEach((option) => {
         option.addEventListener("click", function () {
           const questionNumber = this.getAttribute("data-question");
@@ -845,28 +822,27 @@
             `question${questionNumber}`
           );
 
-          // Desselecionar outras opções da mesma pergunta
-          questionEl.querySelectorAll(".quiz-option").forEach((opt) => {
-            opt.classList.remove("selected");
-            opt.querySelector(".option-selected").classList.add("hidden");
-          });
+          if (questionEl) {
+            questionEl.querySelectorAll(".quiz-option").forEach((opt) => {
+              opt.classList.remove("selected");
+              const indicator = opt.querySelector(".option-selected");
+              if (indicator) indicator.classList.add("hidden");
+            });
+          }
 
-          // Selecionar esta opção
           this.classList.add("selected");
-          this.querySelector(".option-selected").classList.remove("hidden");
+          const selectedIndicator = this.querySelector(".option-selected");
+          if (selectedIndicator) selectedIndicator.classList.remove("hidden");
 
-          // Armazenar resposta
           const answerValue = this.getAttribute("data-value");
           userAnswers[questionNumber] = answerValue;
 
-          // Pequeno delay antes de avançar para dar feedback visual
           setTimeout(() => {
             goToNextQuestion();
           }, 300);
         });
       });
 
-      // Botão de confirmar telefone
       btnConfirmarTelefone.addEventListener("click", function () {
         const telefoneInput = document.getElementById("telefoneInput");
         if (!telefoneInput.value) {
@@ -879,163 +855,141 @@
       });
 
       // Botão Solicitar Liberação
-btnSolicitar.addEventListener("click", function () {
-  console.clear(); // Limpar console para facilitar o diagnóstico
+      btnSolicitar.addEventListener("click", function () {
+        console.clear();
 
-  // Obter telefone do formulário
-  const telefoneFormatado = telefone.replace(/\D/g, "");
-  if (!telefoneFormatado || telefoneFormatado.length < 10) {
-    alert("Por favor, informe um telefone válido.");
-    return;
-  }
-
-  // Obter dados diretamente do localStorage
-  const dadosUsuarioJSON = localStorage.getItem("dadosUsuario");
-  if (!dadosUsuarioJSON) {
-    console.error("Dados do usuário não encontrados no localStorage");
-    alert("Dados do usuário não encontrados. Por favor, reinicie o processo.");
-    window.location.href = "./index.html";
-    return;
-  }
-
-  try {
-    // Parse do JSON para objeto
-    const dadosUsuario = JSON.parse(dadosUsuarioJSON);
-    console.log("Dados do usuário objeto:", dadosUsuario);
-
-    if (!dadosUsuario.cpf || !dadosUsuario.nome) {
-      console.error("Dados de CPF ou nome não encontrados:", dadosUsuario);
-      alert("Dados incompletos. Por favor, reinicie o processo.");
-      window.location.href = "./index.html";
-      return;
-    }
-
-    // 🔹 NORMALIZAR NOME AQUI (remove + e espaços extras)
-    dadosUsuario.nome = dadosUsuario.nome.replace(/\+/g, " ").trim();
-
-    // Formato limpo do CPF (apenas números)
-    const cpfLimpo = dadosUsuario.cpf.replace(/\D/g, "");
-    console.log("CPF (apenas números):", cpfLimpo);
-    console.log("Nome completo normalizado:", dadosUsuario.nome);
-    console.log("Telefone:", telefoneFormatado);
-
-    // Mapear valores das respostas para valores mais legíveis
-    const mapearValorEmprestimo = {
-      "500-1000": "R$500 - R$1.000",
-      "1001-3000": "R$1.001 - R$3.000",
-      "3001-5000": "R$3.001 - R$5.000",
-      acima5000: "Acima de R$5.000",
-    };
-
-    const mapearRendaFixa = {
-      "carteira-assinada": "Sim, carteira assinada",
-      autonomo: "Sim, autônomo",
-      "sem-renda": "Não tenho renda fixa",
-    };
-
-    const mapearSolicitouCredito = {
-      aprovado: "Sim, foi aprovado",
-      negado: "Sim, foi negado",
-      nao: "Não",
-    };
-
-    const mapearFinalidadeCredito = {
-      "pagar-contas": "Pagar contas",
-      "investir-negocio": "Investir no próprio negócio",
-      "comprar-algo": "Comprar algo importante",
-      "uso-pessoal": "Uso pessoal",
-    };
-
-    // Preparar dados para enviar ao servidor
-    const dadosParaSalvar = {
-      nome: dadosUsuario.nome,
-      cpf: cpfLimpo,
-      telefone: telefoneFormatado,
-      valor_emprestimo: mapearValorEmprestimo[userAnswers["1"]] || "",
-      renda_fixa: mapearRendaFixa[userAnswers["2"]] || "",
-      negativado:
-        userAnswers["3"] === "sim"
-          ? "Sim"
-          : userAnswers["3"] === "nao"
-          ? "Não"
-          : "Não sei",
-      solicitou_credito: mapearSolicitouCredito[userAnswers["4"]] || "",
-      dia_vencimento: userAnswers["5"] ? "Dia " + userAnswers["5"] : "",
-      finalidade_credito: mapearFinalidadeCredito[userAnswers["6"]] || "",
-      cartao_credito: userAnswers["7"] === "sim" ? "Sim" : "Não",
-    };
-
-    console.log("Dados para salvar:", dadosParaSalvar);
-
-    // Função auxiliar para montar a URL de redirecionamento SEM colocar + no nome
-    function redirecionarSimulacao(cpfLimpo, nomeLimpo, telefoneLimpo) {
-      // Pega todos os parâmetros atuais
-      const urlAtual = new URLSearchParams(window.location.search);
-      const novaUrl = new URLSearchParams();
-
-      // Copia tudo, menos nome/numero antigos
-      for (const [chave, valor] of urlAtual.entries()) {
-        if (chave !== "nome" && chave !== "numero") {
-          novaUrl.append(chave, valor);
+        const telefoneFormatado = telefone.replace(/\D/g, "");
+        if (!telefoneFormatado || telefoneFormatado.length < 10) {
+          alert("Por favor, informe um telefone válido.");
+          return;
         }
-      }
 
-      // Garante CPF limpo
-      novaUrl.set("cpf", cpfLimpo);
-
-      // Query base (sem nome/numero)
-      const queryBase = novaUrl.toString();
-
-      // Codifica nome e telefone de forma segura
-      const nomeEncoded = encodeURIComponent(nomeLimpo);
-      const numeroEncoded = encodeURIComponent(telefoneLimpo);
-
-      const queryFinal = queryBase
-        ? `${queryBase}&nome=${nomeEncoded}&numero=${numeroEncoded}`
-        : `nome=${nomeEncoded}&numero=${numeroEncoded}`;
-
-      window.location.href = `./simulacao?${queryFinal}`;
-    }
-
-    // Enviar dados para o servidor
-    fetch("./salvar_dados.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dadosParaSalvar),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Resposta do servidor:", data);
-        if (data.status === "error") {
-          console.error("Erro ao salvar dados:", data.message);
+        const dadosUsuarioJSON = localStorage.getItem("dadosUsuario");
+        if (!dadosUsuarioJSON) {
+          console.error("Dados do usuário não encontrados no localStorage");
+          alert("Dados do usuário não encontrados. Por favor, reinicie o processo.");
+          window.location.href = "./index.html";
+          return;
         }
-        // Redireciona mesmo assim
-        redirecionarSimulacao(cpfLimpo, dadosUsuario.nome, telefoneFormatado);
-      })
-      .catch((error) => {
-        console.error("Erro na requisição:", error);
-        // Em caso de erro, também redireciona
-        redirecionarSimulacao(cpfLimpo, dadosUsuario.nome, telefoneFormatado);
+
+        try {
+          const dadosUsuario = JSON.parse(dadosUsuarioJSON);
+          console.log("Dados do usuário objeto:", dadosUsuario);
+
+          if (!dadosUsuario.cpf || !dadosUsuario.nome) {
+            console.error("Dados de CPF ou nome não encontrados:", dadosUsuario);
+            alert("Dados incompletos. Por favor, reinicie o processo.");
+            window.location.href = "./index.html";
+            return;
+          }
+
+          dadosUsuario.nome = dadosUsuario.nome.replace(/\+/g, " ").trim();
+          const cpfLimpo = dadosUsuario.cpf.replace(/\D/g, "");
+          console.log("CPF (apenas números):", cpfLimpo);
+          console.log("Nome completo normalizado:", dadosUsuario.nome);
+          console.log("Telefone:", telefoneFormatado);
+
+          const mapearValorEmprestimo = {
+            "500-1000": "R$500 - R$1.000",
+            "1001-3000": "R$1.001 - R$3.000",
+            "3001-5000": "R$3.001 - R$5.000",
+            acima5000: "Acima de R$5.000",
+          };
+
+          const mapearRendaFixa = {
+            "carteira-assinada": "Sim, carteira assinada",
+            autonomo: "Sim, autônomo",
+            "sem-renda": "Não tenho renda fixa",
+          };
+
+          const mapearSolicitouCredito = {
+            aprovado: "Sim, foi aprovado",
+            negado: "Sim, foi negado",
+            nao: "Não",
+          };
+
+          const mapearFinalidadeCredito = {
+            "pagar-contas": "Pagar contas",
+            "investir-negocio": "Investir no próprio negócio",
+            "comprar-algo": "Comprar algo importante",
+            "uso-pessoal": "Uso pessoal",
+          };
+
+          const dadosParaSalvar = {
+            nome: dadosUsuario.nome,
+            cpf: cpfLimpo,
+            telefone: telefoneFormatado,
+            valor_emprestimo: mapearValorEmprestimo[userAnswers["1"]] || "",
+            renda_fixa: mapearRendaFixa[userAnswers["2"]] || "",
+            negativado:
+              userAnswers["3"] === "sim"
+                ? "Sim"
+                : userAnswers["3"] === "nao"
+                ? "Não"
+                : "Não sei",
+            solicitou_credito: mapearSolicitouCredito[userAnswers["4"]] || "",
+            dia_vencimento: userAnswers["5"] ? "Dia " + userAnswers["5"] : "",
+            finalidade_credito: mapearFinalidadeCredito[userAnswers["6"]] || "",
+            cartao_credito: userAnswers["7"] === "sim" ? "Sim" : "Não",
+          };
+
+          console.log("Dados para salvar:", dadosParaSalvar);
+
+          function redirecionarSimulacao(cpfLimpo, nomeLimpo, telefoneLimpo) {
+            const urlAtual = new URLSearchParams(window.location.search);
+            const novaUrl = new URLSearchParams();
+
+            for (const [chave, valor] of urlAtual.entries()) {
+              if (chave !== "nome" && chave !== "numero") {
+                novaUrl.append(chave, valor);
+              }
+            }
+
+            novaUrl.set("cpf", cpfLimpo);
+
+            const queryBase = novaUrl.toString();
+            const nomeEncoded = encodeURIComponent(nomeLimpo);
+            const numeroEncoded = encodeURIComponent(telefoneLimpo);
+
+            const queryFinal = queryBase
+              ? `${queryBase}&nome=${nomeEncoded}&numero=${numeroEncoded}`
+              : `nome=${nomeEncoded}&numero=${numeroEncoded}`;
+
+            window.location.href = `./simulacao?${queryFinal}`;
+          }
+
+          fetch("./salvar_dados.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(dadosParaSalvar),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("Resposta do servidor:", data);
+              if (data.status === "error") {
+                console.error("Erro ao salvar dados:", data.message);
+              }
+              redirecionarSimulacao(cpfLimpo, dadosUsuario.nome, telefoneFormatado);
+            })
+            .catch((error) => {
+              console.error("Erro na requisição:", error);
+              redirecionarSimulacao(cpfLimpo, dadosUsuario.nome, telefoneFormatado);
+            });
+        } catch (error) {
+          console.error("Erro ao processar dados:", error);
+          alert("Erro ao processar dados. Por favor, reinicie o processo.");
+          window.location.href = "./index.html";
+        }
       });
-  } catch (error) {
-    console.error("Erro ao processar dados:", error);
-    alert("Erro ao processar dados. Por favor, reinicie o processo.");
-    window.location.href = "./index.html";
-  }
-});
 
-
-      // Botão Voltar
       btnVoltar.addEventListener("click", function () {
         window.history.back();
       });
 
-      // Inicializar progresso
       updateProgress();
 
-      // Mascara para o telefone
       const telefoneInput = document.getElementById("telefoneInput");
       if (telefoneInput) {
         telefoneInput.addEventListener("input", function (e) {
@@ -1057,6 +1011,7 @@ btnSolicitar.addEventListener("click", function () {
     });
   </script>
 
-<script src="js/latest.js" data-utmify-prevent-xcod-sck="" data-utmify-prevent-subids="" async="" defer=""></script>
+  <script src="js/latest.js" data-utmify-prevent-xcod-sck="" data-utmify-prevent-subids="" async defer></script>
 
-</body></html>
+</body>
+</html>
