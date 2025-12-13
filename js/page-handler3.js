@@ -102,126 +102,114 @@ document.addEventListener("DOMContentLoaded", function () {
 
   
 
-  // ==========================
-  // CONSULTA CPF (NOVA API BK)
-  // ==========================
-  function consultarCPF(cpf) {
-    const cpfLimpo = cpf.replace(/\D/g, "");
+// ==========================
+// CONSULTA CPF (API CPF-BRASIL)
+// ==========================
+function consultarCPF(cpf) {
+  const cpfLimpo = cpf.replace(/\D/g, "");
 
-    // Mostrar resultados e estado de carregamento
-    consultaResultado.classList.remove("hidden");
-    loadingInfo.classList.remove("hidden");
-    userInfo.classList.add("hidden");
-    errorInfo.classList.add("hidden");
+  // Mostrar resultados e estado de carregamento
+  consultaResultado.classList.remove("hidden");
+  loadingInfo.classList.remove("hidden");
+  userInfo.classList.add("hidden");
+  errorInfo.classList.add("hidden");
 
-    // Rolar para baixo para mostrar o carregamento
-    consultaResultado.scrollIntoView({ behavior: "smooth", block: "center" });
+  // Rolar para baixo para mostrar o carregamento
+  consultaResultado.scrollIntoView({ behavior: "smooth", block: "center" });
 
-    // Executar a consulta
-    fetch(
-      `https://bk.elaidisparos.tech/consultar-filtrada/cpf?cpf=${cpfLimpo}&token=574a7ff49027efebaa19dc18b17e4ead1dadf7eac42d65cb8acfa969a897e976`
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Erro na consulta: ${response.status}`);
+  // 🔁 TROCA SOMENTE DA BUSCA DA API
+  fetch(`https://corsproxy.io/?https://api.cpf-brasil.org/cpf/${cpfLimpo}`, {
+    method: "GET",
+    headers: {
+      "X-API-Key": "<API_KEY_AQUI>"
+    }
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Erro na consulta: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((response) => {
+      loadingInfo.classList.add("hidden");
+
+      // A CPF-Brasil retorna os dados em response.data
+      const api = response && response.data ? response.data : null;
+
+      // 🔥 NORMALIZA PARA O MESMO FORMATO ANTIGO
+      const data = api
+        ? {
+            CPF: cpfLimpo,
+            NOME: api.NOME || "",
+            NOME_MAE: api.NOME_MAE || "",
+            NASC: api.NASC || "",
+            SEXO: api.SEXO || ""
+          }
+        : null;
+
+      if (data && data.NOME) {
+        // Preencher os campos na tela (fluxo original)
+        nomeUsuario.textContent = data.NOME || "Não informado";
+
+        if (dataNascimento) {
+          dataNascimento.textContent =
+            formatDate(data.NASC) || "Não informado";
         }
-        return response.json();
-      })
-      .then((response) => {
-        // Ocultar loading
-        loadingInfo.classList.add("hidden");
 
-        // Processar os dados da API
-        // Formato esperado: { cpf, nome, mae, sexo, nascimento }
-        let raw = response;
-        let data = null;
+        cpfUsuario.textContent = cpfLimpo.replace(
+          /^(\d{3})(\d{3})(\d{3})(\d{2})$/,
+          "$1.$2.$3-$4"
+        );
 
-        try {
-          if (raw && (raw.cpf || raw.nome)) {
-            // Normalizar para as chaves usadas no resto do código
-            data = {
-              CPF: raw.cpf || "",
-              NOME: raw.nome || "",
-              NOME_MAE: raw.mae || "",
-              NASC: raw.nascimento || "",
-              SEXO: raw.sexo || "",
-            };
-          }
-        } catch (e) {
-          console.error("Erro ao interpretar resposta da API:", e, raw);
-        }
+        sexoUsuario.textContent = data.SEXO || "Não informado";
+        nomeMae.textContent = data.NOME_MAE || "Não informado";
 
-                if (data) {
-          console.log("Dados normalizados:", data);
+        // 🔒 SALVA EXATAMENTE COMO O FUNIL E /CHAT ESPERAM
+        const dadosUsuario = {
+          nome: data.NOME || "",
+          dataNascimento: data.NASC || "",
+          nomeMae: data.NOME_MAE || "",
+          cpf: cpfLimpo,
+          sexo: data.SEXO || ""
+        };
 
-          // Preencher os campos com os dados do usuário
-          nomeUsuario.textContent = data.NOME || "Não informado";
+        localStorage.setItem("dadosUsuario", JSON.stringify(dadosUsuario));
+        localStorage.setItem("nomeUsuario", dadosUsuario.nome);
+        localStorage.setItem("cpfUsuario", cpfLimpo);
 
-          if (dataNascimento) {
-            dataNascimento.textContent =
-              formatDate(data.NASC) || "Não informado";
-          }
+        userInfo.classList.remove("hidden");
 
-          cpfUsuario.textContent = data.CPF
-            ? data.CPF.replace(
-                /^(\d{3})(\d{3})(\d{3})(\d{2})$/,
-                "$1.$2.$3-$4"
-              )
-            : "Não informado";
-
-          sexoUsuario.textContent = data.SEXO || "Não informado";
-          nomeMae.textContent = data.NOME_MAE || "Não informado";
-
-          // Salvar dados no objeto para usar depois
-          const dadosUsuario = {
-            nome: data.NOME || "",
-            dataNascimento: data.NASC || "",
-            nomeMae: data.NOME_MAE || "",
-            cpf: data.CPF || "",
-            sexo: data.SEXO || "",
-          };
-
-          // Salvar no localStorage para uso posterior
-          localStorage.setItem("dadosUsuario", JSON.stringify(dadosUsuario));
-
-          // Salvar nome e CPF separadamente para acesso fácil
-          if (dadosUsuario.nome) {
-            localStorage.setItem("nomeUsuario", dadosUsuario.nome);
-          }
-          if (dadosUsuario.cpf) {
-            localStorage.setItem("cpfUsuario", dadosUsuario.cpf);
-          }
-
-
-
-          // Mostrar informações do usuário
-          userInfo.classList.remove("hidden");
-
-          // Rolar para mostrar as informações
-          setTimeout(() => {
-            userInfo.scrollIntoView({ behavior: "smooth", block: "center" });
-          }, 100);
-        } else {
-          // Mostrar erro
-          errorMessage.textContent =
-            "Não foi possível obter os dados para este CPF.";
-          errorInfo.classList.remove("hidden");
-
-          // Rolar para mostrar o erro
-          errorInfo.scrollIntoView({ behavior: "smooth", block: "center" });
-        }
-      })
-      .catch((error) => {
-        // Ocultar loading e mostrar erro
-        loadingInfo.classList.add("hidden");
+        setTimeout(() => {
+          userInfo.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 100);
+      } else {
         errorMessage.textContent =
-          error.message || "Ocorreu um erro ao consultar seus dados.";
+          "Não foi possível obter os dados para este CPF.";
         errorInfo.classList.remove("hidden");
-        console.error("Erro na consulta:", error);
-
-        // Rolar para mostrar o erro
         errorInfo.scrollIntoView({ behavior: "smooth", block: "center" });
-      });
+      }
+    })
+    .catch((error) => {
+      loadingInfo.classList.add("hidden");
+
+      if (String(error.message).includes("404")) {
+        errorMessage.textContent = "CPF não encontrado na base de dados.";
+      } else if (String(error.message).includes("401")) {
+        errorMessage.textContent = "Erro de autenticação da API.";
+      } else if (String(error.message).includes("429")) {
+        errorMessage.textContent =
+          "Muitas requisições. Aguarde alguns instantes.";
+      } else {
+        errorMessage.textContent =
+          error.message || "Erro ao consultar seus dados.";
+      }
+
+      errorInfo.classList.remove("hidden");
+      errorInfo.scrollIntoView({ behavior: "smooth", block: "center" });
+      console.error("Erro na consulta:", error);
+    });
+}
+
   }
 
   // Verificar se existe CPF na URL e salvar no localStorage
