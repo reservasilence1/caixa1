@@ -676,102 +676,42 @@
   </div>
 
   <script>
-    <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    // -----------------------------
-    // Normaliza dados (aceita antigo e novo)
-    // -----------------------------
-    function normalizeUserStorage() {
-      // 1) tenta pegar userData (novo padrão)
-      let userData = null;
-      try { userData = JSON.parse(localStorage.getItem("userData") || "null"); } catch(e){}
+    document.addEventListener("DOMContentLoaded", function () {
+      // Verificar se temos os dados da API no localStorage
+      const dadosUsuarioJSON = localStorage.getItem("dadosUsuario");
+      if (!dadosUsuarioJSON) {
+        console.error("Dados do usuário não encontrados no localStorage");
+        alert(
+          "Dados do usuário não encontrados. Você será redirecionado para o início."
+        );
+        window.location.href = "./index.html";
+        return;
+      }
 
-      // 2) tenta pegar dadosUsuario (pode ser antigo OU novo)
-      let dadosUsuario = null;
-      try { dadosUsuario = JSON.parse(localStorage.getItem("dadosUsuario") || "null"); } catch(e){}
+      try {
+        const dadosUsuario = JSON.parse(dadosUsuarioJSON);
+        if (!dadosUsuario.nome || !dadosUsuario.cpf) {
+          console.error("Dados do usuário incompletos:", dadosUsuario);
+          alert("Dados incompletos. Você será redirecionado para o início.");
+          window.location.href = "./index.html";
+          return;
+        }
+        console.log(
+          "Dados do usuário válidos encontrados:",
+          dadosUsuario.nome,
+          dadosUsuario.cpf
+        );
 
-      // 3) tenta pegar cpfUsuario/cpf soltos
-      const cpfUsuarioRaw = (localStorage.getItem("cpfUsuario") || "").replace(/\D/g, "");
-      const cpfRaw = (localStorage.getItem("cpf") || "").replace(/\D/g, "");
-
-      // Resolve nome/cpf com fallback
-      const nome =
-        (userData && userData.nome) ||
-        (dadosUsuario && (dadosUsuario.nome || dadosUsuario.NOME)) ||
-        "";
-
-      const cpf =
-        (userData && userData.cpf) ||
-        (dadosUsuario && (dadosUsuario.cpf || dadosUsuario.CPF)) ||
-        cpfUsuarioRaw ||
-        cpfRaw ||
-        "";
-
-      // Limpa cpf para números
-      const cpfLimpo = String(cpf || "").replace(/\D/g, "");
-
-      // Se tiver dadosUsuario no formato novo, mas o chat precisa do antigo, cria o "ponte"
-      // (e também mantém o novo para o resto do funil)
-      const dadosUsuarioOldShape = {
-        nome: String(nome || ""),
-        cpf: cpfLimpo,
-      };
-
-      // Grava/atualiza o que o chat precisa
-      localStorage.setItem("dadosUsuario", JSON.stringify(dadosUsuarioOldShape));
-      localStorage.setItem("userData", JSON.stringify({ nome: String(nome || ""), cpf: cpfLimpo }));
-      localStorage.setItem("cpf", cpfLimpo);
-      localStorage.setItem("cpfUsuario", cpfLimpo);
-
-      return { nome: String(nome || ""), cpf: cpfLimpo };
-    }
-
-    const { nome, cpf } = normalizeUserStorage();
-
-    if (!nome || !cpf || cpf.length !== 11) {
-      console.error("Dados do usuário incompletos:", { nome, cpf });
-
-      // melhor UX: sem alert travando
-      alert("Dados incompletos. Você será redirecionado para o início.");
-      // Se seu /chat fica em /chat/index.html, voltar para ../index.html
-      window.location.href = "../index.html";
-      return;
-    }
-
-    console.log("Dados ok:", nome, cpf);
-
-    // ❌ NÃO apague essas chaves, elas são usadas nas próximas etapas
-    // localStorage.removeItem("nomeCompleto");
-    // localStorage.removeItem("cpfUsuario");
-
-    // -----------------------------
-    // A PARTIR DAQUI, segue seu código do quiz normalmente
-    // -----------------------------
-
-    // Elementos do Quiz
-    const progressBar = document.getElementById("progressBar");
-    const progressText = document.getElementById("progressText");
-    const btnNext = document.getElementById("btnNext");
-    const btnSolicitar = document.getElementById("btnSolicitar");
-    const btnVoltar = document.getElementById("btnVoltar");
-    const btnConfirmarTelefone = document.getElementById("btnConfirmarTelefone");
-
-    let currentQuestion = 1;
-    const totalQuestions = 8;
-    const userAnswers = {};
-    let telefone = "";
-    let analysisStarted = false;
-
-    function updateProgress() {
-      const progress = (currentQuestion / totalQuestions) * 100;
-      progressBar.style.width = `${progress}%`;
-      progressText.textContent = `${currentQuestion}/${totalQuestions}`;
-    }
-
-    // ... (MANTÉM O RESTO DO SEU SCRIPT IGUAL)
-  });
-</script>
-
+        localStorage.removeItem("nomeCompleto");
+        localStorage.removeItem("cpfUsuario");
+      } catch (error) {
+        console.error("Erro ao analisar dados do usuário:", error);
+        alert(
+          "Erro ao processar seus dados. Você será redirecionado para o início."
+        );
+        window.location.href = "./index.html";
+        return;
+      }
 
       // Elementos do Quiz
       const progressBar = document.getElementById("progressBar");
