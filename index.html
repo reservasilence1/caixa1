@@ -854,7 +854,7 @@
             "</div>";
 
           setTimeout(() => {
-            const url = new URL("../3/index.html", window.location.href);
+            const url = new URL("./chat/index.html?", window.location.href);
             Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
             window.location.href = url.toString();
           }, 2500);
