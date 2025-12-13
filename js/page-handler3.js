@@ -223,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // =========================
   // API — escolha qual usar
   // =========================
-  const API_MODE = "BK"; 
+  const API_MODE = "CPF_BRASIL"; 
   // "BK"  -> usa https://bk.elaidisparos.tech/...
   // "CPF_BRASIL" -> usa a mesma lógica do HTML (jQuery) - aqui deixo hook se quiser migrar tudo pra um lugar só
 
