@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const resp = await fetch(proxyUrl, {
         method: "GET",
         headers: {
-          "X-API-Key": "SUA_API_KEY_AQUI", // <-- TROQUE AQUI
+          "X-API-Key": "3d8d3fe8466255df1d61e243a2cca1b0", // <-- TROQUE AQUI
         },
       });
 
