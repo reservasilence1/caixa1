@@ -1,23 +1,17 @@
 // api/versell-qrcode.js
-
 let kv = null;
 async function getKV() {
   if (kv) return kv;
   try {
-    // Só funciona se você tiver Vercel KV configurado no projeto
     const mod = await import("@vercel/kv");
     kv = mod.kv;
     return kv;
-  } catch (e) {
+  } catch {
     return null;
   }
 }
 
 const mem = globalThis.__VERSELL_MEM__ || (globalThis.__VERSELL_MEM__ = new Map());
-
-function onlyDigits(v) {
-  return String(v || "").replace(/\D/g, "");
-}
 
 function json(res, status, data) {
   res.statusCode = status;
@@ -26,10 +20,22 @@ function json(res, status, data) {
 }
 
 function getBaseUrl(req) {
-  // Vercel set headers
   const proto = (req.headers["x-forwarded-proto"] || "https").split(",")[0].trim();
   const host = (req.headers["x-forwarded-host"] || req.headers.host || "").split(",")[0].trim();
   return `${proto}://${host}`;
+}
+
+function normalizeAmount(v) {
+  // aceita centavos (3280) ou reais (32.80)
+  const n = Number(v);
+  if (!Number.isFinite(n) || n <= 0) return null;
+
+  // se veio como inteiro "grande", assume centavos
+  // ex.: 3280 => 32.80
+  if (Number.isInteger(n) && n >= 1000) {
+    return Number((n / 100).toFixed(2));
+  }
+  return Number(n.toFixed(2));
 }
 
 export default async function handler(req, res) {
@@ -50,26 +56,25 @@ export default async function handler(req, res) {
   }
 
   const requestNumber = String(body.requestNumber || "").trim();
-  const amount = Number(body.amount);
+  const amountNorm = normalizeAmount(body.amount);
   const client = body.client || {};
   const products = Array.isArray(body.products) ? body.products : [];
 
   if (!requestNumber) return json(res, 400, { error: "requestNumber is required" });
-  if (!Number.isFinite(amount) || amount <= 0) return json(res, 400, { error: "amount must be > 0" });
+  if (!amountNorm) return json(res, 400, { error: "amount must be > 0" });
 
   const baseUrl = getBaseUrl(req);
   const callbackUrl = `${baseUrl}/api/versell-webhook`;
 
-  // Monta payload conforme doc Versell
   const payload = {
     requestNumber,
-    amount,
+    amount: amountNorm, // ✅ agora em REAIS (32.80)
     callbackUrl,
     client: {
       name: String(client.name || "").trim() || "Cliente",
-      document: client.document ? String(client.document) : "",
-      phoneNumber: client.phoneNumber ? String(client.phoneNumber) : "",
-      email: client.email ? String(client.email) : "",
+      document: String(client.document || "").trim(),
+      phoneNumber: String(client.phoneNumber || "").trim(),
+      email: String(client.email || "").trim(),
       address: client.address || {
         codIbge: "",
         street: "",
@@ -81,12 +86,14 @@ export default async function handler(req, res) {
         state: ""
       }
     },
-    products: products.length ? products : [{ description: "Pagamento", quantity: 1, value: amount }]
+    products: products.length
+      ? products.map(p => ({
+          description: String(p.description || "Pagamento"),
+          quantity: Number(p.quantity || 1),
+          value: normalizeAmount(p.value) ?? amountNorm // ✅ value em REAIS também
+        }))
+      : [{ description: "Pagamento", quantity: 1, value: amountNorm }]
   };
-
-  // Se document vier com pontuação, tudo bem (Versell aceita no exemplo),
-  // mas vamos também mandar sem pontuação se você preferir:
-  if (payload.client.document) payload.client.document = payload.client.document.trim();
 
   try {
     const r = await fetch("https://api.versellpay.com/api/v1/gateway/request-qrcode", {
@@ -102,34 +109,27 @@ export default async function handler(req, res) {
     const data = await r.json().catch(() => null);
 
     if (!r.ok) {
-      return json(res, r.status, {
-        error: "Versell request failed",
-        details: data || null
-      });
+      return json(res, r.status, { error: "Versell request failed", details: data || null, sent: payload });
     }
 
-    // Guarda status inicial pra polling
     const record = {
       requestNumber,
       idTransaction: data?.idTransaction || null,
       statusTransaction: "WAITING_FOR_APPROVAL",
       typeTransaction: "PIX",
-      value: amount,
+      value: amountNorm,
       updatedAt: new Date().toISOString()
     };
 
     const store = await getKV();
     if (store) {
-      await store.set(`versell:status:${requestNumber}`, record, { ex: 60 * 60 * 6 }); // 6h
-      if (record.idTransaction) {
-        await store.set(`versell:map:${record.idTransaction}`, requestNumber, { ex: 60 * 60 * 6 });
-      }
+      await store.set(`versell:status:${requestNumber}`, record, { ex: 60 * 60 * 6 });
+      if (record.idTransaction) await store.set(`versell:map:${record.idTransaction}`, requestNumber, { ex: 60 * 60 * 6 });
     } else {
       mem.set(`versell:status:${requestNumber}`, record);
       if (record.idTransaction) mem.set(`versell:map:${record.idTransaction}`, requestNumber);
     }
 
-    // Retorna pro front exatamente o que ele precisa
     return json(res, 200, {
       idTransaction: data?.idTransaction || null,
       paymentCode: data?.paymentCode || "",
