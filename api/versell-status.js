@@ -1,5 +1,4 @@
 // api/versell-status.js
-
 let kv = null;
 async function getKV() {
   if (kv) return kv;
@@ -7,11 +6,10 @@ async function getKV() {
     const mod = await import("@vercel/kv");
     kv = mod.kv;
     return kv;
-  } catch (e) {
+  } catch {
     return null;
   }
 }
-
 const mem = globalThis.__VERSELL_MEM__ || (globalThis.__VERSELL_MEM__ = new Map());
 
 function json(res, status, data) {
@@ -21,32 +19,29 @@ function json(res, status, data) {
 }
 
 export default async function handler(req, res) {
-  if (req.method !== "GET") {
-    res.setHeader("Allow", "GET");
-    return json(res, 405, { error: "Method not allowed" });
+  const id = String(req.query?.id || "").trim();           // idTransaction (preferido)
+  const requestNumber = String(req.query?.r || "").trim(); // fallback por requestNumber
+
+  if (!id && !requestNumber) {
+    return json(res, 400, { error: "Missing id (idTransaction) or r (requestNumber)" });
   }
-
-  const url = new URL(req.url, `http://${req.headers.host}`);
-  const requestNumber = (url.searchParams.get("requestNumber") || "").trim();
-
-  if (!requestNumber) return json(res, 400, { error: "requestNumber is required" });
 
   const store = await getKV();
 
-  let record = null;
-  if (store) {
-    record = await store.get(`versell:status:${requestNumber}`);
-  } else {
-    record = mem.get(`versell:status:${requestNumber}`) || null;
+  // 1) se vier idTransaction, mapeia -> requestNumber
+  let rn = requestNumber;
+  if (!rn && id) {
+    const keyMap = `versell:map:${id}`;
+    rn = store ? await store.get(keyMap) : mem.get(keyMap);
   }
 
-  if (!record) {
-    return json(res, 200, {
-      requestNumber,
-      statusTransaction: "WAITING_FOR_APPROVAL",
-      note: "no webhook yet"
-    });
-  }
+  if (!rn) return json(res, 404, { error: "Not found" });
+
+  // 2) pega status pelo requestNumber
+  const keyStatus = `versell:status:${rn}`;
+  const record = store ? await store.get(keyStatus) : mem.get(keyStatus);
+
+  if (!record) return json(res, 404, { error: "Not found" });
 
   return json(res, 200, record);
 }
