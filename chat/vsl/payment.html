@@ -35,11 +35,18 @@
     .headerWrap{max-width:880px;margin:0 auto;padding:0 16px;display:flex;justify-content:space-between;align-items:center}
     .headerLogo{height:35px}
     .btnMinhas{padding:10px 22px;border-radius:999px;border:2px solid #1d4ed8;background:#fff;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;color:#1d4ed8}
+    .loader{
+      width:18px;height:18px;border-radius:999px;border:3px solid rgba(66,118,29,.25);
+      border-top-color: var(--verde); animation: spin 1s linear infinite; display:inline-block; vertical-align:middle;
+      margin-right:8px;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
   </style>
 </head>
 
 <body>
 
+<!-- Pixel Utmify -->
 <script>
   window.pixelId = "693cab59f3b93a26dfc078ad";
   var a = document.createElement("script");
@@ -56,187 +63,92 @@
   async
   defer
 ></script>
-  
-  <div class="wrapper">
-    <header class="headerTopo">
-      <div class="headerWrap">
-        <img src="images/logo.png" class="headerLogo" alt="Logo">
-        <button id="btnMinhas" class="btnMinhas" type="button">Minhas compras</button>
-      </div>
-    </header>
 
-    <div class="card">
-      <div class="titulo">Pagamento via Pix</div>
-      <div id="nomeLinha" class="sub"></div>
-
-      <div class="qrWrap">
-        <img id="qrImg" class="qr" alt="QR Code Pix">
-        <div id="valorLinha" class="valor"></div>
-        <div id="pixCode" class="pixBox"></div>
-
-        <div class="btns">
-          <button id="copiar" class="btn copy" type="button">Copiar código</button>
-          <button id="paguei" class="btn ok" type="button">Já paguei</button>
-        </div>
-
-        <div class="info">
-          Abra o app do seu banco, escolha <b>Pix</b>, selecione <b>Pix Copia e Cola</b>
-          e cole o código acima ou escaneie o QR Code.
-        </div>
-
-        <div id="refLinha" class="ref"></div>
-        <div id="statusLinha" class="status"></div>
-      </div>
+<div class="wrapper">
+  <header class="headerTopo">
+    <div class="headerWrap">
+      <!-- Se seu payment.html está em /chat/vsl/payment.html, mantenha images/ dentro de /chat/vsl/images/ -->
+      <img src="images/logo.png" class="headerLogo" alt="Logo">
+      <button id="btnMinhas" class="btnMinhas" type="button">Minhas compras</button>
     </div>
+  </header>
 
-    <div class="rodape"><img src="/vsl/images/logo.png" alt="Logo"></div>
+  <div class="card">
+    <div class="titulo">Pagamento via Pix</div>
+    <div id="nomeLinha" class="sub"></div>
+
+    <div class="qrWrap">
+      <img id="qrImg" class="qr" alt="QR Code Pix">
+      <div id="valorLinha" class="valor"></div>
+      <div id="pixCode" class="pixBox"></div>
+
+      <div class="btns">
+        <button id="copiar" class="btn copy" type="button">Copiar código</button>
+        <button id="paguei" class="btn ok" type="button">Já paguei</button>
+      </div>
+
+      <div class="info">
+        Abra o app do seu banco, escolha <b>Pix</b>, selecione <b>Pix Copia e Cola</b>
+        e cole o código acima ou escaneie o QR Code.
+      </div>
+
+      <div id="refLinha" class="ref"></div>
+      <div id="statusLinha" class="status"></div>
+    </div>
   </div>
 
-  <script>
-    function brl(v){ return "R$ " + Number(v).toFixed(2).replace(".", ","); }
-    function maskCpf(c){
-      const d = String(c || "").replace(/\D/g,"");
-      if (d.length < 5) return c || "";
-      return d.slice(0,3) + ".***.***-" + d.slice(-2);
-    }
+  <div class="rodape"><img src="images/logo.png" alt="Logo"></div>
+</div>
 
-    function ensureDataUriBase64(maybeBase64){
-      if (!maybeBase64) return "";
-      if (/^data:image\//i.test(maybeBase64)) return maybeBase64;
-      // base64 “puro”
-      if (/^[A-Za-z0-9+/=]+$/.test(maybeBase64)) return "data:image/png;base64," + maybeBase64;
-      // pode ser URL
-      return maybeBase64;
-    }
+<script>
+  function brl(v){
+    const n = Number(v || 0);
+    return "R$ " + n.toFixed(2).replace(".", ",");
+  }
+  function toCentsFromValor(valorStr){
+    const raw = String(valorStr || "").replace(",", ".").replace(/[^0-9.]/g, "");
+    const v = Number(raw || 0);
+    return Math.round(v * 100);
+  }
+  function maskCpf(c){
+    const d = String(c || "").replace(/\D/g,"");
+    if (d.length < 5) return c || "";
+    return d.slice(0,3) + ".***.***-" + d.slice(-2);
+  }
+  function ensureDataUriBase64(maybeBase64){
+    if (!maybeBase64) return "";
+    if (/^data:image\//i.test(maybeBase64)) return maybeBase64;
+    if (/^[A-Za-z0-9+/=]+$/.test(maybeBase64)) return "data:image/png;base64," + maybeBase64;
+    return maybeBase64;
+  }
+  function setQrFromPixCode(pixCode){
+    const url = "https://api.qrserver.com/v1/create-qr-code/?size=420x420&data=" + encodeURIComponent(pixCode);
+    document.getElementById("qrImg").src = url;
+  }
 
-    function setQrFromPixCode(pixCode){
-      // gera QR a partir do texto copia-e-cola (mais confiável)
-      // (quickchart às vezes falha/limita; qrserver costuma ser mais estável)
-      const url = "https://api.qrserver.com/v1/create-qr-code/?size=420x420&data=" + encodeURIComponent(pixCode);
-      document.getElementById("qrImg").src = url;
-    }
+  // --------- PEGAR DADOS DO FUNIL ----------
+  const dadosUsuarioRaw = localStorage.getItem("dadosUsuario");
+  if (!dadosUsuarioRaw) {
+    // volta para o index da pasta atual
+    window.location.href = "index.html";
+  }
 
-    const clienteRaw = localStorage.getItem("cliente");
-    const pixRaw = localStorage.getItem("pix");
+  let dadosUsuario = {};
+  try { dadosUsuario = JSON.parse(dadosUsuarioRaw || "{}"); } catch(e) {}
 
-    if (!clienteRaw || !pixRaw) window.location.href = "index.html";
+  const nome = (dadosUsuario?.nome || "").toString().replace(/\+/g," ").trim();
+  const cpf  = (dadosUsuario?.cpf  || "").toString().replace(/\D/g,"");
 
-    const cliente = JSON.parse(clienteRaw || "{}");
-    const pixObj = JSON.parse(pixRaw || "{}");
+  const nomeCurto = nome ? nome.split(" ").slice(0,2).join(" ") : "";
+  document.getElementById("nomeLinha").textContent =
+    (nomeCurto && cpf) ? (nomeCurto + " • CPF " + maskCpf(cpf)) : (nomeCurto || "");
 
-    // Pega o “copia e cola”
-    const qrcode =
-      pixObj?.pix?.qrcode ||
-      pixObj?.pixCode ||
-      pixObj?.pixcode ||
-      pixObj?.qrcode ||
-      "";
+  // --------- PARAMS / VALOR ----------
+  const urlParams = new URLSearchParams(window.location.search);
 
-    // Se existir imagem pronta (caso a API mande)
-    const qrImgApi =
-      pixObj?.pix?.qrcode_image ||
-      pixObj?.pix?.qrCodeImage ||
-      pixObj?.qrCodeImage ||
-      pixObj?.qrCodeUrl ||
-      pixObj?.pix?.qrCodeUrl ||
-      "";
+  // Pode vir "valor=32.80" e/ou "amount=3280"
+  const valorParam = urlParams.get("valor");
+  const amountParam = urlParams.get("amount"); // centavos
 
-    const transactionId =
-      pixObj?.pix?.transactionId ||
-      pixObj?.transactionId ||
-      pixObj?.transactionID ||
-      null;
-
-    const nomeCurto = cliente?.nome ? cliente.nome.split(" ").slice(0,2).join(" ") : "";
-    document.getElementById("nomeLinha").textContent =
-      nomeCurto ? (nomeCurto + " • CPF " + maskCpf(cliente.cpf)) : "";
-
-    document.getElementById("valorLinha").textContent = brl(cliente.valor || 0);
-    document.getElementById("pixCode").textContent = qrcode || "PIX não encontrado. Volte e gere novamente.";
-
-    // QR: tenta imagem da API; se não tiver, gera a partir do copia e cola
-    const qrFixed = ensureDataUriBase64(qrImgApi);
-    if (qrFixed) {
-      document.getElementById("qrImg").src = qrFixed;
-    } else if (qrcode) {
-      setQrFromPixCode(qrcode);
-    } else {
-      // evita ícone de imagem quebrada
-      document.getElementById("qrImg").removeAttribute("src");
-    }
-
-    // Referência
-    if (transactionId) {
-      document.getElementById("refLinha").textContent = "Referência: " + transactionId;
-    } else {
-      document.getElementById("refLinha").textContent = "";
-    }
-
-    // Botões
-    document.getElementById("copiar").addEventListener("click", async () => {
-      if (!qrcode) { alert("Código Pix não encontrado."); return; }
-      try {
-        await navigator.clipboard.writeText(qrcode);
-        alert("Código Pix copiado!");
-      } catch (e) {
-        const ta = document.createElement("textarea");
-        ta.value = qrcode;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand("copy");
-        ta.remove();
-        alert("Código Pix copiado!");
-      }
-    });
-
-    document.getElementById("btnMinhas").addEventListener("click", () => {
-      // se quiser, aponte para sua “sucesso.html” (minhas compras)
-      window.location.href = "sucesso.html";
-    });
-
-    const statusEl = document.getElementById("statusLinha");
-
-    let checking = false;
-    async function checarStatus() {
-      if (checking) return;
-
-      if (!transactionId) {
-        statusEl.textContent = "Status: aguardando referência da transação...";
-        return;
-      }
-
-      checking = true;
-      try {
-        const r = await fetch("/api/pix-status?id=" + encodeURIComponent(transactionId), {
-          cache: "no-store"
-        });
-
-        const s = await r.json().catch(() => null);
-
-        if (s?.status) {
-          statusEl.textContent = "Status: " + s.status;
-        } else if (s?.error) {
-          statusEl.textContent = "Status: " + s.error;
-        } else {
-          statusEl.textContent = "Status: aguardando confirmação...";
-        }
-
-        // Duttyfy: PENDING | COMPLETED
-        if (String(s?.status || "").toUpperCase() === "COMPLETED") {
-          window.location.href = "sucesso.html";
-        }
-      } catch (e) {
-        // silencioso
-      } finally {
-        checking = false;
-      }
-    }
-
-    document.getElementById("paguei").addEventListener("click", checarStatus);
-
-    // auto-check
-    checarStatus();
-    setInterval(checarStatus, 4000);
-  </script>
-</body>
-</html>
+  let amountCents = 0;
+  if (amountParam && /^\d+$/.
