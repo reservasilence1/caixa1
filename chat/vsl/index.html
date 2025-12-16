@@ -819,7 +819,7 @@
             urlParams.set("origem", "vsl_step4");
 
             const query = urlParams.toString();
-            const paymentPage = "./payment.html";
+            const paymentPage = "/vsl/payment.html";
 
             window.location.href = query ? `${paymentPage}?${query}` : paymentPage;
           });
