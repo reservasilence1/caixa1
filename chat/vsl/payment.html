@@ -35,6 +35,22 @@
     .headerWrap{max-width:880px;margin:0 auto;padding:0 16px;display:flex;justify-content:space-between;align-items:center}
     .headerLogo{height:35px}
     .btnMinhas{padding:10px 22px;border-radius:999px;border:2px solid #1d4ed8;background:#fff;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;color:#1d4ed8}
+
+    .debugBox{
+      margin-top:12px;
+      width:100%;
+      border-radius:12px;
+      border:1px solid #eee;
+      background:#0b1220;
+      color:#e5e7eb;
+      padding:12px;
+      font-family:ui-monospace, Menlo, Consolas, monospace;
+      font-size:12px;
+      white-space:pre-wrap;
+      word-break:break-word;
+      display:none;
+    }
+
     .loader{
       width:18px;height:18px;border-radius:999px;border:3px solid rgba(66,118,29,.25);
       border-top-color: var(--verde); animation: spin 1s linear infinite; display:inline-block; vertical-align:middle;
@@ -55,7 +71,6 @@
   a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
   document.head.appendChild(a);
 </script>
-
 <script
   src="https://cdn.utmify.com.br/scripts/utms/latest.js"
   data-utmify-prevent-xcod-sck
@@ -67,7 +82,7 @@
 <div class="wrapper">
   <header class="headerTopo">
     <div class="headerWrap">
-      <!-- Se seu payment.html está em /chat/vsl/payment.html, mantenha images/ dentro de /chat/vsl/images/ -->
+      <!-- ⚠️ Se a logo 404, é porque o arquivo NÃO existe nesse caminho/ nome -->
       <img src="images/logo.png" class="headerLogo" alt="Logo">
       <button id="btnMinhas" class="btnMinhas" type="button">Minhas compras</button>
     </div>
@@ -94,6 +109,7 @@
 
       <div id="refLinha" class="ref"></div>
       <div id="statusLinha" class="status"></div>
+      <div id="debugBox" class="debugBox"></div>
     </div>
   </div>
 
@@ -126,15 +142,35 @@
     document.getElementById("qrImg").src = url;
   }
 
-  // --------- PEGAR DADOS DO FUNIL ----------
-  const dadosUsuarioRaw = localStorage.getItem("dadosUsuario");
-  if (!dadosUsuarioRaw) {
-    // volta para o index da pasta atual
-    window.location.href = "index.html";
+  const qrImgEl = document.getElementById("qrImg");
+  const pixCodeEl = document.getElementById("pixCode");
+  const refEl = document.getElementById("refLinha");
+  const statusEl = document.getElementById("statusLinha");
+  const debugBox = document.getElementById("debugBox");
+
+  function showDebug(obj){
+    debugBox.style.display = "block";
+    try { debugBox.textContent = typeof obj === "string" ? obj : JSON.stringify(obj, null, 2); }
+    catch(e){ debugBox.textContent = String(obj); }
+  }
+  function hideDebug(){
+    debugBox.style.display = "none";
+    debugBox.textContent = "";
   }
 
+  function setLoading(msg){
+    statusEl.innerHTML = '<span class="loader"></span>' + (msg || "Gerando Pix...");
+  }
+  function setStatus(msg){
+    statusEl.textContent = msg || "";
+  }
+
+  // ---------- DADOS DO FUNIL ----------
+  const dadosUsuarioRaw = localStorage.getItem("dadosUsuario");
+  if (!dadosUsuarioRaw) window.location.href = "index.html";
+
   let dadosUsuario = {};
-  try { dadosUsuario = JSON.parse(dadosUsuarioRaw || "{}"); } catch(e) {}
+  try { dadosUsuario = JSON.parse(dadosUsuarioRaw || "{}"); } catch(e){}
 
   const nome = (dadosUsuario?.nome || "").toString().replace(/\+/g," ").trim();
   const cpf  = (dadosUsuario?.cpf  || "").toString().replace(/\D/g,"");
@@ -143,58 +179,74 @@
   document.getElementById("nomeLinha").textContent =
     (nomeCurto && cpf) ? (nomeCurto + " • CPF " + maskCpf(cpf)) : (nomeCurto || "");
 
-  // --------- PARAMS / VALOR ----------
+  // ---------- PARAMS / VALOR ----------
   const urlParams = new URLSearchParams(window.location.search);
 
-  // Pode vir "valor=32.80" e/ou "amount=3280"
-  const valorParam = urlParams.get("valor");
-  const amountParam = urlParams.get("amount"); // centavos
+  const valorParam = urlParams.get("valor");     // ex: 32.80
+  const amountParam = urlParams.get("amount");   // ex: 3280 (centavos)
 
   let amountCents = 0;
-  if (amountParam && /^\d+$/.test(amountParam)) {
-    amountCents = Number(amountParam);
-  } else if (valorParam) {
-    amountCents = toCentsFromValor(valorParam);
-  } else {
-    // fallback (se não vier na url)
-    amountCents = 3280;
-  }
+  if (amountParam && /^\d+$/.test(amountParam)) amountCents = Number(amountParam);
+  else if (valorParam) amountCents = toCentsFromValor(valorParam);
+  else amountCents = 3280;
 
   const valorReais = (amountCents / 100);
   document.getElementById("valorLinha").textContent = brl(valorReais);
 
-  // requestNumber
   let requestNumber = urlParams.get("requestNumber");
   if (!requestNumber) {
     requestNumber = (crypto?.randomUUID ? crypto.randomUUID() : ("req_" + Date.now() + "_" + Math.floor(Math.random()*1e6)));
     urlParams.set("requestNumber", requestNumber);
-    // mantém a URL bonitinha sem recarregar
     history.replaceState(null, "", window.location.pathname + "?" + urlParams.toString());
   }
 
-  // --------- ELEMENTOS UI ----------
-  const qrImgEl = document.getElementById("qrImg");
-  const pixCodeEl = document.getElementById("pixCode");
-  const refEl = document.getElementById("refLinha");
-  const statusEl = document.getElementById("statusLinha");
+  // ---------- RENDER ----------
+  function renderPix({ idTransaction, paymentCode, paymentCodeBase64 }){
+    pixCodeEl.textContent = paymentCode || "Código Pix indisponível.";
 
-  function setLoading(msg){
-    statusEl.innerHTML = '<span class="loader"></span>' + (msg || "Gerando Pix...");
+    const qrFixed = ensureDataUriBase64(paymentCodeBase64);
+    if (qrFixed) {
+      qrImgEl.src = qrFixed;
+    } else if (paymentCode) {
+      setQrFromPixCode(paymentCode);
+    } else {
+      qrImgEl.removeAttribute("src");
+    }
+
+    if (idTransaction) {
+      refEl.textContent = "Referência: " + idTransaction;
+      localStorage.setItem("versell_tx", idTransaction);
+    } else {
+      refEl.textContent = "";
+    }
   }
 
-  function setStatus(msg){
-    statusEl.textContent = msg || "";
+  // ---------- GERAR PIX (SERVERLESS) ----------
+  function pickFirst(obj, paths){
+    for (const p of paths){
+      const parts = p.split(".");
+      let cur = obj;
+      let ok = true;
+      for (const k of parts){
+        if (cur && Object.prototype.hasOwnProperty.call(cur, k)) cur = cur[k];
+        else { ok = false; break; }
+      }
+      if (ok && cur) return cur;
+    }
+    return "";
   }
 
-  // --------- GERAR PIX NA VERSELL (via sua API serverless) ----------
   async function gerarPixVersell(){
+    hideDebug();
     setLoading("Gerando Pix...");
 
-    // Monta payload no padrão Versell (o serverless /api/versell-qrcode deve completar/validar)
+    // Versell costuma aceitar amount em centavos, mas alguns setups usam reais.
+    // Enviamos OS DOIS (se sua API não quiser, ela ignora um).
     const payload = {
-      requestNumber: requestNumber,
-      amount: amountCents, // centavos (recomendado)
-      callbackUrl: (window.location.origin + "/api/versell-webhook"), // ajuste se quiser outro
+      requestNumber,
+      amount: amountCents,                  // centavos (3280)
+      amountReais: Number(valorReais.toFixed(2)), // reais (32.80)
+      callbackUrl: window.location.origin + "/api/versell-webhook",
       client: {
         name: nome || "Cliente",
         document: cpf || "00000000000",
@@ -211,9 +263,7 @@
           state: "SP"
         }
       },
-      products: [
-        { description: "Taxa de ativação", quantity: 1, value: amountCents }
-      ]
+      products: [{ description: "Taxa de ativação", quantity: 1, value: amountCents }]
     };
 
     try {
@@ -226,69 +276,56 @@
 
       const data = await r.json().catch(() => null);
 
+      // ✅ se der erro, mostra na tela
       if (!r.ok) {
-        const errMsg = (data && (data.error || data.message)) ? (data.error || data.message) : ("Erro ao gerar Pix (" + r.status + ")");
-        setStatus(errMsg);
+        setStatus("Erro ao gerar Pix (" + r.status + ")");
+        showDebug({ httpStatus: r.status, response: data, sentPayload: payload });
         return null;
       }
 
-      // Esperado (Versell):
-      // { idTransaction, paymentCode, paymentCodeBase64, response }
-      const idTransaction = data?.idTransaction || data?.data?.idTransaction || null;
-      const paymentCode = data?.paymentCode || data?.data?.paymentCode || "";
-      const paymentCodeBase64 = data?.paymentCodeBase64 || data?.data?.paymentCodeBase64 || "";
+      // ✅ tenta achar os campos em várias chaves possíveis
+      const idTransaction =
+        pickFirst(data, ["idTransaction","data.idTransaction","pix.idTransaction","response.idTransaction"]) || null;
+
+      const paymentCode =
+        pickFirst(data, [
+          "paymentCode","data.paymentCode","pix.paymentCode","response.paymentCode",
+          "payment_code","data.payment_code",
+          "qrcode","data.qrcode","pix.qrcode",
+          "pixCode","data.pixCode","pix.pixCode"
+        ]) || "";
+
+      const paymentCodeBase64 =
+        pickFirst(data, [
+          "paymentCodeBase64","data.paymentCodeBase64","pix.paymentCodeBase64","response.paymentCodeBase64",
+          "qrcodeBase64","data.qrcodeBase64","pix.qrcodeBase64"
+        ]) || "";
 
       if (!paymentCode && !paymentCodeBase64) {
-        setStatus("Pix não retornou código. Tente novamente.");
+        setStatus("API respondeu, mas não veio Pix (código/QR).");
+        showDebug({ response: data, hint: "Confere o retorno do /api/versell-qrcode (chaves) e o amount enviado." });
         return null;
       }
 
-      // Salva para reabrir a página sem perder
       localStorage.setItem("versell_pix", JSON.stringify({
-        idTransaction,
-        paymentCode,
-        paymentCodeBase64,
-        requestNumber,
-        amountCents
+        idTransaction, paymentCode, paymentCodeBase64, requestNumber, amountCents
       }));
 
       renderPix({ idTransaction, paymentCode, paymentCodeBase64 });
       setStatus("Status: aguardando pagamento...");
       return { idTransaction, paymentCode, paymentCodeBase64 };
     } catch (e) {
-      setStatus("Falha ao gerar Pix. Verifique sua API /api/versell-qrcode.");
+      setStatus("Falha ao chamar /api/versell-qrcode");
+      showDebug({ error: String(e), sentPayload: payload });
       return null;
     }
   }
 
-  function renderPix({ idTransaction, paymentCode, paymentCodeBase64 }){
-    // Copia e cola
-    pixCodeEl.textContent = paymentCode || "Código Pix indisponível.";
-
-    // QR
-    const qrFixed = ensureDataUriBase64(paymentCodeBase64);
-    if (qrFixed) {
-      qrImgEl.src = qrFixed;
-    } else if (paymentCode) {
-      setQrFromPixCode(paymentCode);
-    } else {
-      qrImgEl.removeAttribute("src");
-    }
-
-    // Referência
-    if (idTransaction) {
-      refEl.textContent = "Referência: " + idTransaction;
-      localStorage.setItem("versell_tx", idTransaction);
-    } else {
-      refEl.textContent = "";
-    }
-  }
-
-  // --------- STATUS (via sua API serverless) ----------
+  // ---------- STATUS ----------
   let checking = false;
-
   async function checarStatus(){
     if (checking) return;
+
     const tx = localStorage.getItem("versell_tx");
     if (!tx) {
       setStatus("Status: aguardando referência da transação...");
@@ -296,41 +333,35 @@
     }
 
     checking = true;
-    try {
-      const r = await fetch("/api/versell-status?id=" + encodeURIComponent(tx), { cache: "no-store" });
+    try{
+      const r = await fetch("/api/versell-status?id=" + encodeURIComponent(tx), { cache:"no-store" });
       const s = await r.json().catch(() => null);
 
-      // Esperado: { statusTransaction: "PAID_OUT" | ... } ou { status: ... }
       const st = String(s?.statusTransaction || s?.status || "").toUpperCase();
 
       if (st) setStatus("Status: " + st);
       else if (s?.error) setStatus("Status: " + s.error);
       else setStatus("Status: aguardando confirmação...");
 
-      // ✅ Pago na Versell normalmente: PAID_OUT
       if (st === "PAID_OUT" || st === "LIQUIDATED") {
         window.location.href = "sucesso.html";
       }
-    } catch(e){
-      // silencioso (não trava UX)
-    } finally {
+    }catch(e){
+      // silencioso
+    }finally{
       checking = false;
     }
   }
 
-  // --------- BOTÕES ----------
+  // ---------- BOTÕES ----------
   document.getElementById("copiar").addEventListener("click", async () => {
-    const pixSaved = localStorage.getItem("versell_pix");
-    let paymentCode = "";
-    try { paymentCode = JSON.parse(pixSaved || "{}")?.paymentCode || ""; } catch(e){}
-    paymentCode = paymentCode || pixCodeEl.textContent || "";
-
-    if (!paymentCode) { alert("Código Pix não encontrado."); return; }
+    let paymentCode = pixCodeEl.textContent || "";
+    if (!paymentCode || /indisponível/i.test(paymentCode)) { alert("Código Pix não encontrado."); return; }
 
     try {
       await navigator.clipboard.writeText(paymentCode);
       alert("Código Pix copiado!");
-    } catch (e) {
+    } catch {
       const ta = document.createElement("textarea");
       ta.value = paymentCode;
       document.body.appendChild(ta);
@@ -342,41 +373,31 @@
   });
 
   document.getElementById("paguei").addEventListener("click", checarStatus);
+  document.getElementById("btnMinhas").addEventListener("click", () => window.location.href = "sucesso.html");
 
-  document.getElementById("btnMinhas").addEventListener("click", () => {
-    window.location.href = "sucesso.html";
-  });
-
-  // --------- BOOT: tenta carregar do localStorage, senão gera ----------
+  // ---------- INIT ----------
   (async function init(){
-    // Se já existe pix salvo, reaproveita (evita gerar outro)
+    // reaproveita se já existe
     const cached = localStorage.getItem("versell_pix");
     if (cached) {
-      try {
+      try{
         const obj = JSON.parse(cached);
         if (obj?.paymentCode || obj?.paymentCodeBase64) {
-          // garante consistência com o requestNumber atual
-          renderPix({
-            idTransaction: obj.idTransaction,
-            paymentCode: obj.paymentCode,
-            paymentCodeBase64: obj.paymentCodeBase64
-          });
+          renderPix({ idTransaction: obj.idTransaction, paymentCode: obj.paymentCode, paymentCodeBase64: obj.paymentCodeBase64 });
           setStatus("Status: aguardando pagamento...");
         } else {
           await gerarPixVersell();
         }
-      } catch(e){
+      }catch{
         await gerarPixVersell();
       }
     } else {
       await gerarPixVersell();
     }
 
-    // auto-check
     checarStatus();
     setInterval(checarStatus, 4000);
   })();
 </script>
-
 </body>
 </html>
