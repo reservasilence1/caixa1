@@ -1,5 +1,4 @@
 // api/versell-webhook.js
-
 let kv = null;
 async function getKV() {
   if (kv) return kv;
@@ -7,11 +6,10 @@ async function getKV() {
     const mod = await import("@vercel/kv");
     kv = mod.kv;
     return kv;
-  } catch (e) {
+  } catch {
     return null;
   }
 }
-
 const mem = globalThis.__VERSELL_MEM__ || (globalThis.__VERSELL_MEM__ = new Map());
 
 function json(res, status, data) {
@@ -31,51 +29,35 @@ export default async function handler(req, res) {
     try { body = JSON.parse(body || "{}"); } catch { body = {}; }
   }
 
-  // Versell pode mandar:
-  // Cash-in: requestNumber, statusTransaction, idTransaction, typeTransaction, value, debtorName, debtorDocument, date, endToEnd
-  // Cash-out: idTransaction, statusTransaction, date, message, value, endToEnd
-  // MED: requestNumber, statusTransaction, idTransaction, typeTransaction=PIX_REFUND...
+  const requestNumber = String(body.requestNumber || "").trim();
+  const idTransaction = body.idTransaction || null;
 
-  const requestNumber = body.requestNumber ? String(body.requestNumber).trim() : null;
-  const idTransaction = body.idTransaction ? String(body.idTransaction).trim() : null;
-
-  // Se não vier requestNumber (ex cash-out), tentamos mapear via idTransaction
-  const store = await getKV();
-
-  let rn = requestNumber;
-  if (!rn && idTransaction) {
-    if (store) {
-      rn = await store.get(`versell:map:${idTransaction}`);
-    } else {
-      rn = mem.get(`versell:map:${idTransaction}`) || null;
-    }
-  }
-
-  // Se ainda não achou, devolve OK mesmo assim (não quebrar webhook)
-  if (!rn) {
-    return json(res, 200, { ok: true, note: "No requestNumber mapping found" });
+  if (!requestNumber) {
+    // aceita mesmo assim, mas devolve ok pra Versell não reenviar infinitamente
+    return json(res, 200, { ok: true, note: "no requestNumber" });
   }
 
   const record = {
-    requestNumber: rn,
-    idTransaction: idTransaction || null,
-    statusTransaction: body.statusTransaction || body.status || "UNKNOWN",
-    typeTransaction: body.typeTransaction || null,
+    requestNumber,
+    idTransaction: idTransaction,
+    statusTransaction: body.statusTransaction || body.status || "WAITING_FOR_APPROVAL",
+    typeTransaction: body.typeTransaction || "PIX",
     value: body.value ?? null,
-    endToEnd: body.endToEnd || null,
-    message: body.message || null,
-    updatedAt: new Date().toISOString(),
-    raw: body
+    debtorName: body.debtorName ?? null,
+    debtorDocument: body.debtorDocument ?? null,
+    date: body.date ?? null,
+    endToEnd: body.endToEnd ?? null,
+    updatedAt: new Date().toISOString()
   };
 
-  try {
-    if (store) {
-      await store.set(`versell:status:${rn}`, record, { ex: 60 * 60 * 6 });
-    } else {
-      mem.set(`versell:status:${rn}`, record);
-    }
-    return json(res, 200, { ok: true });
-  } catch (e) {
-    return json(res, 200, { ok: true, note: "store failed", err: String(e?.message || e) });
+  const store = await getKV();
+  if (store) {
+    await store.set(`versell:status:${requestNumber}`, record, { ex: 60 * 60 * 6 });
+    if (idTransaction) await store.set(`versell:map:${idTransaction}`, requestNumber, { ex: 60 * 60 * 6 });
+  } else {
+    mem.set(`versell:status:${requestNumber}`, record);
+    if (idTransaction) mem.set(`versell:map:${idTransaction}`, requestNumber);
   }
+
+  return json(res, 200, { ok: true });
 }
