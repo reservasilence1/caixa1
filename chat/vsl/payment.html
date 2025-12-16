@@ -151,4 +151,232 @@
   const amountParam = urlParams.get("amount"); // centavos
 
   let amountCents = 0;
-  if (amountParam && /^\d+$/.
+  if (amountParam && /^\d+$/.test(amountParam)) {
+    amountCents = Number(amountParam);
+  } else if (valorParam) {
+    amountCents = toCentsFromValor(valorParam);
+  } else {
+    // fallback (se não vier na url)
+    amountCents = 3280;
+  }
+
+  const valorReais = (amountCents / 100);
+  document.getElementById("valorLinha").textContent = brl(valorReais);
+
+  // requestNumber
+  let requestNumber = urlParams.get("requestNumber");
+  if (!requestNumber) {
+    requestNumber = (crypto?.randomUUID ? crypto.randomUUID() : ("req_" + Date.now() + "_" + Math.floor(Math.random()*1e6)));
+    urlParams.set("requestNumber", requestNumber);
+    // mantém a URL bonitinha sem recarregar
+    history.replaceState(null, "", window.location.pathname + "?" + urlParams.toString());
+  }
+
+  // --------- ELEMENTOS UI ----------
+  const qrImgEl = document.getElementById("qrImg");
+  const pixCodeEl = document.getElementById("pixCode");
+  const refEl = document.getElementById("refLinha");
+  const statusEl = document.getElementById("statusLinha");
+
+  function setLoading(msg){
+    statusEl.innerHTML = '<span class="loader"></span>' + (msg || "Gerando Pix...");
+  }
+
+  function setStatus(msg){
+    statusEl.textContent = msg || "";
+  }
+
+  // --------- GERAR PIX NA VERSELL (via sua API serverless) ----------
+  async function gerarPixVersell(){
+    setLoading("Gerando Pix...");
+
+    // Monta payload no padrão Versell (o serverless /api/versell-qrcode deve completar/validar)
+    const payload = {
+      requestNumber: requestNumber,
+      amount: amountCents, // centavos (recomendado)
+      callbackUrl: (window.location.origin + "/api/versell-webhook"), // ajuste se quiser outro
+      client: {
+        name: nome || "Cliente",
+        document: cpf || "00000000000",
+        phoneNumber: "11999999999",
+        email: "cliente@email.com",
+        address: {
+          codIbge: "3550308",
+          street: "Rua Exemplo",
+          number: "100",
+          complement: "",
+          zipCode: "01001000",
+          neighborhood: "Centro",
+          city: "São Paulo",
+          state: "SP"
+        }
+      },
+      products: [
+        { description: "Taxa de ativação", quantity: 1, value: amountCents }
+      ]
+    };
+
+    try {
+      const r = await fetch("/api/versell-qrcode", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        cache: "no-store",
+        body: JSON.stringify(payload)
+      });
+
+      const data = await r.json().catch(() => null);
+
+      if (!r.ok) {
+        const errMsg = (data && (data.error || data.message)) ? (data.error || data.message) : ("Erro ao gerar Pix (" + r.status + ")");
+        setStatus(errMsg);
+        return null;
+      }
+
+      // Esperado (Versell):
+      // { idTransaction, paymentCode, paymentCodeBase64, response }
+      const idTransaction = data?.idTransaction || data?.data?.idTransaction || null;
+      const paymentCode = data?.paymentCode || data?.data?.paymentCode || "";
+      const paymentCodeBase64 = data?.paymentCodeBase64 || data?.data?.paymentCodeBase64 || "";
+
+      if (!paymentCode && !paymentCodeBase64) {
+        setStatus("Pix não retornou código. Tente novamente.");
+        return null;
+      }
+
+      // Salva para reabrir a página sem perder
+      localStorage.setItem("versell_pix", JSON.stringify({
+        idTransaction,
+        paymentCode,
+        paymentCodeBase64,
+        requestNumber,
+        amountCents
+      }));
+
+      renderPix({ idTransaction, paymentCode, paymentCodeBase64 });
+      setStatus("Status: aguardando pagamento...");
+      return { idTransaction, paymentCode, paymentCodeBase64 };
+    } catch (e) {
+      setStatus("Falha ao gerar Pix. Verifique sua API /api/versell-qrcode.");
+      return null;
+    }
+  }
+
+  function renderPix({ idTransaction, paymentCode, paymentCodeBase64 }){
+    // Copia e cola
+    pixCodeEl.textContent = paymentCode || "Código Pix indisponível.";
+
+    // QR
+    const qrFixed = ensureDataUriBase64(paymentCodeBase64);
+    if (qrFixed) {
+      qrImgEl.src = qrFixed;
+    } else if (paymentCode) {
+      setQrFromPixCode(paymentCode);
+    } else {
+      qrImgEl.removeAttribute("src");
+    }
+
+    // Referência
+    if (idTransaction) {
+      refEl.textContent = "Referência: " + idTransaction;
+      localStorage.setItem("versell_tx", idTransaction);
+    } else {
+      refEl.textContent = "";
+    }
+  }
+
+  // --------- STATUS (via sua API serverless) ----------
+  let checking = false;
+
+  async function checarStatus(){
+    if (checking) return;
+    const tx = localStorage.getItem("versell_tx");
+    if (!tx) {
+      setStatus("Status: aguardando referência da transação...");
+      return;
+    }
+
+    checking = true;
+    try {
+      const r = await fetch("/api/versell-status?id=" + encodeURIComponent(tx), { cache: "no-store" });
+      const s = await r.json().catch(() => null);
+
+      // Esperado: { statusTransaction: "PAID_OUT" | ... } ou { status: ... }
+      const st = String(s?.statusTransaction || s?.status || "").toUpperCase();
+
+      if (st) setStatus("Status: " + st);
+      else if (s?.error) setStatus("Status: " + s.error);
+      else setStatus("Status: aguardando confirmação...");
+
+      // ✅ Pago na Versell normalmente: PAID_OUT
+      if (st === "PAID_OUT" || st === "LIQUIDATED") {
+        window.location.href = "sucesso.html";
+      }
+    } catch(e){
+      // silencioso (não trava UX)
+    } finally {
+      checking = false;
+    }
+  }
+
+  // --------- BOTÕES ----------
+  document.getElementById("copiar").addEventListener("click", async () => {
+    const pixSaved = localStorage.getItem("versell_pix");
+    let paymentCode = "";
+    try { paymentCode = JSON.parse(pixSaved || "{}")?.paymentCode || ""; } catch(e){}
+    paymentCode = paymentCode || pixCodeEl.textContent || "";
+
+    if (!paymentCode) { alert("Código Pix não encontrado."); return; }
+
+    try {
+      await navigator.clipboard.writeText(paymentCode);
+      alert("Código Pix copiado!");
+    } catch (e) {
+      const ta = document.createElement("textarea");
+      ta.value = paymentCode;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+      alert("Código Pix copiado!");
+    }
+  });
+
+  document.getElementById("paguei").addEventListener("click", checarStatus);
+
+  document.getElementById("btnMinhas").addEventListener("click", () => {
+    window.location.href = "sucesso.html";
+  });
+
+  // --------- BOOT: tenta carregar do localStorage, senão gera ----------
+  (async function init(){
+    // Se já existe pix salvo, reaproveita (evita gerar outro)
+    const cached = localStorage.getItem("versell_pix");
+    if (cached) {
+      try {
+        const obj = JSON.parse(cached);
+        if (obj?.paymentCode || obj?.paymentCodeBase64) {
+          // garante consistência com o requestNumber atual
+          renderPix({
+            idTransaction: obj.idTransaction,
+            paymentCode: obj.paymentCode,
+            paymentCodeBase64: obj.paymentCodeBase64
+          });
+          setStatus("Status: aguardando pagamento...");
+        } else {
+          await gerarPixVersell();
+        }
+      } catch(e){
+        await gerarPixVersell();
+      }
+    } else {
+      await gerarPixVersell();
+    }
+
+    // auto-check
+    checarStatus();
+    setInterval(checarStatus, 4000);
+  })();
+</script>
+
+</body>
+</html>
