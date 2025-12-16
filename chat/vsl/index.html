@@ -794,37 +794,32 @@
           }
         }, 1000);
 
-        // ✅ ALTERAÇÃO AQUI: agora redireciona para a página payment.html (PIX API)
-        if (btnPayInsurance) {
-          btnPayInsurance.addEventListener("click", () => {
-            const urlParams = new URLSearchParams(window.location.search);
+        // ✅ Redireciona para o payment da pasta /chat/vsl/
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest("#btnPayInsurance");
+  if (!btn) return;
 
-            // valor da taxa (R$ 32,80)
-            const valorReais = "32.80";
-            const valorCentavos = "3280";
+  e.preventDefault();
+  e.stopPropagation();
 
-            // remove nome (igual você fazia)
-            urlParams.delete("nome");
-            urlParams.delete("name");
-            urlParams.delete("first_name");
-            urlParams.delete("full_name");
+  const urlParams = new URLSearchParams(window.location.search);
 
-            // manda dados úteis para o payment.html
-            urlParams.set("valor", valorReais);      // "32.80"
-            urlParams.set("amount", valorCentavos);  // 3280 (centavos)
-            urlParams.set(
-              "requestNumber",
-              (crypto?.randomUUID
-                ? crypto.randomUUID()
-                : "req_" + Date.now() + "_" + Math.floor(Math.random() * 1e6))
-            );
-            urlParams.set("origem", "vsl_step4");
+  // valores
+  urlParams.set("valor", "32.80");
+  urlParams.set("amount", "3280");
 
-            const query = urlParams.toString();
-            const paymentPage = "/chat/vsl/payment.html";
+  // requestNumber
+  const requestNumber =
+    (crypto?.randomUUID ? crypto.randomUUID() : ("req_" + Date.now() + "_" + Math.floor(Math.random()*1e6)));
+  urlParams.set("requestNumber", requestNumber);
 
-            window.location.href = query ? `${paymentPage}?${query}` : paymentPage;
-          });
+  // contexto
+  urlParams.set("origem", "vsl");
+
+  // 🔥 caminho absoluto correto
+  window.location.href = "/chat/vsl/payment.html?" + urlParams.toString();
+});
+
         }
       }
 
