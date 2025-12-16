@@ -853,32 +853,6 @@
       }
     </script>
 
-// ✅ CAPTURA GLOBAL: funciona mesmo se o botão aparecer depois
-document.addEventListener("click", (e) => {
-  const btn = e.target.closest("#btnPayInsurance");
-  if (!btn) return;
-
-  e.preventDefault();
-  e.stopPropagation();
-
-  const urlParams = new URLSearchParams(window.location.search);
-
-  // mantém UTMs e só define o que precisamos
-  urlParams.set("valor", "32.80");
-  urlParams.set("amount", "3280");
-
-  // requestNumber fixo por clique
-  const requestNumber = (crypto?.randomUUID ? crypto.randomUUID() : ("req_" + Date.now()));
-  urlParams.set("requestNumber", requestNumber);
-  urlParams.set("origem", "vsl");
-
-  // 🔥 IMPORTANTE: use caminho ABSOLUTO do payment.html
-  // Se seu payment estiver em /chat/vsl/payment.html:
-  const paymentPath = "/chat/vsl/payment.html";
-
-  window.location.href = paymentPath + "?" + urlParams.toString();
-});
-
     
   </body>
 </html>
