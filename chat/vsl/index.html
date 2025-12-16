@@ -252,6 +252,20 @@
         z-index: 999999 !important;
         pointer-events: auto !important;
       }
+
+      /* ✅ impede o header de "roubar" cliques fora dos botões */
+      .sticky.top-0{
+        pointer-events: none !important;
+      }
+      .sticky.top-0 *{
+        pointer-events: auto !important;
+      }
+
+      /* ✅ garante que o voltar continue clicável e acima */
+      #btnVoltar{
+        position: relative !important;
+        z-index: 1000000 !important;
+      }
     </style>
   </head>
   <body>
@@ -472,7 +486,7 @@
               Ao concluir a ativação, seu valor será processado automaticamente.
             </p>
 
-            <!-- ✅ BOTÃO COM ONCLICK (REDIRECIONA 100%) -->
+            <!-- ✅ BOTÃO COM ONCLICK (REDIRECIONA PARA /chat/vsl/payment.html) -->
             <button
               id="btnPayInsurance"
               onclick="
@@ -482,7 +496,7 @@
                   p.set('amount','3280');
                   p.set('requestNumber', (crypto?.randomUUID?crypto.randomUUID():('req_'+Date.now()+'_'+Math.floor(Math.random()*1e6))));
                   p.set('origem','vsl');
-                  window.location.href='/chat/vsl/payment.html?'+p.toString();
+                  window.location.assign('/chat/vsl/payment.html?'+p.toString());
                 })();
                 return false;
               "
